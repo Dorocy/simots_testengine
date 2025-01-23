@@ -7,7 +7,7 @@ def get_unique_id_filename(original_file_path: str) -> str:
     """중복되지 않는 ID 파일명을 생성 (_숫자 붙이기)"""
     base, ext = os.path.splitext(original_file_path)
     id_file_path = f"{base}_id.txt"
-    counter = 1
+    counter = 2
     while os.path.exists(id_file_path):
         id_file_path = f"{base}_id_{counter}.txt"
         counter += 1
@@ -40,15 +40,14 @@ def extract_id_from_aasx(file_path: str) -> str:
 
             if xml_file:
                 with zip_ref.open(xml_file) as f:
-                    return extract_id_from_xml(f)  # 파일 객체를 넘김
+                    return extract_id_from_xml(f, file_path)  # ⭕ AASX는 file_path 포함
     except Exception as e:
         return f"Error extracting ID: {str(e)}"
 
-
-def extract_id_from_xml(file) -> str:
-    """XML 파일에서 assetAdministrationShells 내부의 ID 값을 추출"""
+def extract_id_from_xml(file, file_path: str = None) -> str:
+    """XML 파일에서 assetAdministrationShells 내부의 ID 값을 추출하고 저장"""
     try:
-        tree = ET.parse(file)  # ZipExtFile 또는 일반 파일 지원
+        tree = ET.parse(file)  # ⭕ ZipExtFile 또는 일반 파일 객체 지원
         root = tree.getroot()
 
         namespace_uri = root.tag[root.tag.find("{")+1:root.tag.find("}")]
@@ -57,10 +56,17 @@ def extract_id_from_xml(file) -> str:
         id_element = root.find(".//aas:assetAdministrationShell/aas:id", namespace)
         if id_element is not None:
             extracted_id = id_element.text
+
+            # ⭕ file_path가 없는 경우 file이 문자열이면 file_path로 설정
+            if file_path is None and isinstance(file, str):
+                file_path = file  
+
+            if file_path:  # ⭕ file_path가 있을 때만 저장
+                save_id_to_file(file_path, extracted_id)
+
             return extracted_id
     except Exception as e:
         return f"Error extracting ID: {str(e)}"
-
 
 def save_id_to_file(file_path: str, extracted_id: str):
     """ID 값을 원본 파일과 같은 경로에 저장, 중복 방지"""
