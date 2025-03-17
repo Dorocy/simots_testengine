@@ -9,27 +9,25 @@ import os
 
 import save
 import run
-import testsmcheck
+import run_submodel
 
 app = FastAPI()
 
-existing_names = {}  # 파일 이름 중복 관리를 위한 딕셔너리 추가
+existing_names = {}
 
 def remove_ansi_codes(text):
     ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
     return ansi_escape.sub('', text)
 
 def process_verification(file: UploadFile) -> dict:
-    """파일 저장, ID 추출 및 AAS Test Engine 실행 후 결과 반환"""
     _, file_ext = os.path.splitext(file.filename)
     
     if file_ext not in save.SUPPORTED_EXTENSIONS:
         return {"status": "Unknown type", "details": f"지원하지 않는 파일 형식입니다. 허용된 확장자: {save.SUPPORTED_EXTENSIONS}"}
 
     try:
-        file_path = save.save_uploaded_file(file, existing_names)  # 기존 파일명 관리 딕셔너리 전달
+        file_path = save.save_uploaded_file(file, existing_names) 
 
-        # ID 추출 및 저장
         extracted_id = None
         if file_ext == ".json":
             extracted_id = save.extract_id_from_json(file_path)
@@ -38,7 +36,6 @@ def process_verification(file: UploadFile) -> dict:
         elif file_ext == ".aasx":
             extracted_id = save.extract_id_from_aasx(file_path)
 
-        # 검증 실행
         result = run.run_test_engine(file_path, file_ext)
 
         response = {"file": os.path.basename(file_path), "verification": result}
@@ -47,7 +44,8 @@ def process_verification(file: UploadFile) -> dict:
 
         return response
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"처리 중 오류가 발생: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"처리 중 오류 발생: {str(e)}")
+
 
 
 def format_response_as_txt(response: dict) -> str:
@@ -68,19 +66,21 @@ def format_response_as_txt(response: dict) -> str:
 
 @app.post("/verification/")
 async def verification(file: UploadFile = File(...)):
+    """meta model 검사"""
     response = process_verification(file)
     return PlainTextResponse(content=format_response_as_txt(response), media_type="text/plain")
 
 @app.post("/verification_submodel/")
 async def verification_sm(file: UploadFile = File(...)):
+    """submodel 검사"""
     try:
         file_content = await file.read()
-        json_data = json.loads(file_content.decode("utf-8"))  # JSON 파싱
+        json_data = json.loads(file_content.decode("utf-8"))
 
         old_stdout = sys.stdout
-        sys.stdout = io.StringIO()  # 새로운 출력 버퍼 생성
+        sys.stdout = io.StringIO()
  
-        testsmcheck.check_submodel_templates(json_data)
+        run_submodel.check_submodel_templates(json_data)
         output = sys.stdout.getvalue()
         sys.stdout = old_stdout
 
