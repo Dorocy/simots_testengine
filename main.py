@@ -64,13 +64,13 @@ def format_response_as_txt(response: dict) -> str:
     return "\n".join(txt_output)
 
 
-@app.post("/verification/")
+@app.post("/verification/metamodel")
 async def verification(file: UploadFile = File(...)):
     """meta model 검사"""
     response = process_verification(file)
     return PlainTextResponse(content=format_response_as_txt(response), media_type="text/plain")
 
-@app.post("/verification_submodel/")
+@app.post("/verification/instance")
 async def verification_sm(file: UploadFile = File(...)):
     """submodel 검사"""
     try:
