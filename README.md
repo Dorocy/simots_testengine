@@ -7,11 +7,21 @@
 
 ## 🚀 Usage Guide
 
+### Step 0: Requirements
+
+requirements:
+
+```bash
+Python 3.12.6
+pip 25.0.1
+```
+
 ### Step 1: Install Required Libraries
 
 Before running the server, make sure you have the necessary dependencies installed. You can do this by running the following commands:
 
 ```bash
+python -m pip install --upgrade aas_test_engines
 pip install fastapi
 pip install python-multipart
 
