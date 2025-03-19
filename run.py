@@ -2,11 +2,11 @@ import subprocess
 def run_test_engine(file_path: str, file_ext: str) -> dict:
     try:
         if file_ext == ".json":
-            command = ["python", "-m", "aas_test_engines", "check_file", file_path, "--format", "json"]
+            command = ["python", "-m", "aas_test_engines", "check_file", file_path, "--format", "json", "--output", "json"]
         elif file_ext == ".aasx":
-            command = ["python", "-m", "aas_test_engines", "check_file", file_path]
+            command = ["python", "-m", "aas_test_engines", "check_file", file_path, "--output", "json"]
         elif file_ext == ".xml":
-            command = ["python", "-m", "aas_test_engines", "check_file", file_path, "--format", "xml"]
+            command = ["python", "-m", "aas_test_engines", "check_file", file_path, "--format", "xml", "--output", "json"]
         
         result = subprocess.run(command, capture_output=True, text=True)
         
@@ -22,7 +22,7 @@ def run_test_engine(file_path: str, file_ext: str) -> dict:
                 elif "\033[91mCheck" in first_line:
                     return {"status": "Test Failed", "details": result.stdout.strip()}
                 else:
-                    return {"Error"}
+                    return {"status": "json output", "details": result.stdout.strip()}
         return {"status": "Error", "details": "No output received from test engine."}
     except Exception as e:
         return {"status": "Error", "details": f"Unhandled Error: {str(e)}"}
