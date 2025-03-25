@@ -7,7 +7,7 @@ import re
 from enum import Enum
 
 # JSON 파일 로드
-with open('sample_files/schema_sample/IDTA_02004-1-2_Template_Handover_Documentation.json', 'r') as file:
+with open('./sample_files/schema_sample/IDTA_02004-1-2_Template_Handover_Documentation.json', 'r') as file:
     data = json.load(file)
 
 result = []
