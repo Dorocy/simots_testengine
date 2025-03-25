@@ -7,7 +7,7 @@ import re
 from enum import Enum
 
 # JSON 파일 로드
-with open('C:/Users/Lenovo/Desktop/smt/newsmt/IDTA_02006-3-0_Template_Digital_Nameplate.json', 'r') as file:
+with open('sample_files/schema_sample/IDTA_02004-1-2_Template_Handover_Documentation.json', 'r') as file:
     data = json.load(file)
 
 result = []
@@ -24,7 +24,7 @@ def to_snake_case(s: str) -> str:
 def to_pascal_case(s: str) -> str:
     return ''.join(word.capitalize() for word in s.split('_'))
 
-def generate_class(name: str, fields: List[str], semantic_id: str = None):
+def generate_dataclass(name: str, fields: List[str], semantic_id: str = None):
     class_body = "@dataclass\n"
     if semantic_id:
         class_body += f"@template(\"{semantic_id}\")\n"
@@ -46,15 +46,15 @@ def extract_values(value, parent_name=None):
         return ""  
 
     id_short = value.get("idShort")
-    
+
     semantic_id_value = None
     if "semanticId" in value:
-        semantic_id_value = value["semanticId"]["keys"][0].get("value", "")
-    elif "supplementalSemanticIds" in value:
-        semantic_id_value = value["supplementalSemanticIds"]["keys"][0].get("value", "")
+        semantic_id_value = value["semanticId"]["keys"][0].get("value")
+    else:
+        pass
 
-    qualifiers_value = value.get("qualifiers", [{}])[0].get("value", "Optional")
-    model_type = value.get("modelType", "")
+    qualifiers_value = value.get("qualifiers", [{}])[0].get("value")
+    model_type = value.get("modelType")
 
     snake_case_id_short = to_snake_case(id_short)
     pascal_case_id_short = to_pascal_case(snake_case_id_short)
@@ -91,6 +91,8 @@ def extract_values(value, parent_name=None):
         value_type = pascal_case_id_short
     elif model_type == 'Entity':
         value_type = "EntType"
+    elif model_type == 'ReferenceElement':
+        value_type = "RefType"
 
     if qualifiers_value == "One":
         type_annotation = value_type
@@ -106,7 +108,7 @@ def extract_values(value, parent_name=None):
     if model_type == "SubmodelElementList":
         sub_fields = []
         for sub_value in value.get("value", []):
-            if isinstance(sub_value, dict):  # `value`가 dict인지 확인
+            if isinstance(sub_value, dict):  # value가 dict인지 확인
                 # typevaluelistelement 요소만 필터링
                 if sub_value.get("modelType") == "typevaluelistelement":
                     sub_field = extract_values(sub_value)
@@ -114,22 +116,17 @@ def extract_values(value, parent_name=None):
                         sub_fields.append(sub_field)
 
         if pascal_case_id_short not in generated_classes:
-            class_definitions.append(generate_class(value_type, sub_fields))
+            class_definitions.append(generate_dataclass(value_type, sub_fields))
             generated_classes.add(pascal_case_id_short)
 
     if model_type == "SubmodelElementCollection":
         if value.get("value"):
             sub_fields = []
             for sub_value in value.get("value", []):
-                if isinstance(sub_value, dict):  # `value`가 dict인지 확인
+                if isinstance(sub_value, dict):  # value가 dict인지 확인
                     sub_field = extract_values(sub_value)
                     if sub_field:
                         sub_fields.append(sub_field)
-
-        # value가 있으면 하위 클래스 생성
-            if pascal_case_id_short not in generated_classes:
-                class_definitions.append(generate_class(value_type, sub_fields))
-                generated_classes.add(pascal_case_id_short)
         
 
     field_definition = f"{snake_case_id_short}: {type_annotation} = field(metadata={{\n    'semantic_id': '{semantic_id_value}'\n}})"
@@ -150,18 +147,36 @@ def process_submodel_elements(name: str, elements: List[dict], is_top_level: boo
 
         sub_elements = element.get("value", [])
         model_type = element.get("modelType", "")
+        id_short = element.get("idShort", "")
 
-        if "idShort" not in element:
+        if not id_short:
             continue
+
+        pascal_case_id_short = to_pascal_case(to_snake_case(id_short))
+
+        # description에서 enumeration이 있는 경우 enum 생성
+        if "description" in element:
+            for desc in element["description"]:
+                if "text" in desc and "enumeration:" in desc["text"]:
+                    enum_entries = desc["text"].replace("enumeration:", "").strip().split(", ")
+                    enum_values = []
+                    for entry in enum_entries:
+                        match = re.match(r"(.+?) \((.+?)\)", entry)
+                        if match:
+                            enum_values.append((to_snake_case(match.group(2)), match.group(1)))
+
+                    if pascal_case_id_short not in generated_enums:
+                        enum_definitions.append(generate_enum(pascal_case_id_short, enum_values))
+                        generated_enums.add(pascal_case_id_short)
 
         sub_element_field = extract_values(element)
         if sub_element_field:
             fields.append(sub_element_field)
         
+        # 특정 modelType인 경우에만 클래스 생성
         if model_type == "SubmodelElementCollection" and isinstance(sub_elements, list):
             sub_class_name = to_pascal_case(to_snake_case(element["idShort"]))
             
-            # **value가 없으면 하위 클래스 만들지 않음**
             if not sub_elements:
                 continue
 
@@ -171,16 +186,17 @@ def process_submodel_elements(name: str, elements: List[dict], is_top_level: boo
                 generated_classes.add(sub_class_name)
 
     if name not in generated_classes:
-        class_def = generate_class(name, fields, top_level_semantic_id if is_top_level else None)
+        class_def = generate_dataclass(name, fields, top_level_semantic_id if is_top_level else None)
         class_definitions.append(class_def)
         generated_classes.add(name)
 
-
+# 첫 번째 submodel의 semanticId.keys[0].value 값 가져옴
 top_level_semantic_id = ""
 if data.get("submodels"):
     first_submodel = data["submodels"][0]
     top_level_semantic_id = first_submodel.get("semanticId", {}).get("keys", [{}])[0].get("value", "")
 
+# 모든 submodel 처리
 for i, submodel in enumerate(data.get("submodels", [])):
     submodel_id_short = submodel.get("idShort")
     if submodel_id_short:
@@ -188,5 +204,5 @@ for i, submodel in enumerate(data.get("submodels", [])):
         first_level_elements = submodel.get("submodelElements", [])
         process_submodel_elements(pascal_case_id_short, first_level_elements, is_top_level=(i == 0), top_level_semantic_id=top_level_semantic_id)
 
-for class_def in class_definitions:
-    print(class_def)
+print("\n".join(enum_definitions))
+print("\n".join(class_definitions))
