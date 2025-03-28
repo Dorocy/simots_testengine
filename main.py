@@ -1,6 +1,8 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import PlainTextResponse
 from fastapi.responses import JSONResponse
+from export_schema import process_submodel_elements, to_pascal_case, to_snake_case, extract_values, get_schema_result
+from aas_test_engines.test_cases.v3_0.model import Referable
 import io
 import re
 import json
@@ -14,7 +16,10 @@ import run_submodel
 app = FastAPI()
 
 existing_names = {}
-
+# sm_value = export_schema.extract_values.value
+# qualifiers_type = sm_value.value.get("qualifiers", [{}])[0].get("type")
+# qualifiers_kind = sm_value.value.get("qualifiers", [{}])[0].get("kind")
+# id_short = sm_value.get("idShort")
 def remove_ansi_codes(text):
     ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
     return ansi_escape.sub('', text)
@@ -91,3 +96,51 @@ async def verification_sm(file: UploadFile = File(...)):
 
     except Exception as e:
         return JSONResponse(status_code=500, content={"detail": f"처리 중 오류 발생: {str(e)}"})
+    
+def validate_qualifiers(data: dict):
+    """submodels의 submodelElements에서 qualifiers를 검사하는 함수"""
+    # if "submodels" not in data or not isinstance(data["submodels"], list):
+    #     raise HTTPException(status_code=400, detail="Error: 'submodels' field is missing or invalid format")
+    
+    for submodel in data["submodels"]:
+        submodel_elements = submodel.get("submodelElements", [])
+        
+        if not isinstance(submodel_elements, list):
+            continue  
+
+        for element in submodel_elements:
+            element_id = element.get("idShort", "Unknown")
+            qualifiers = element.get("qualifiers", [])
+            
+            for qualifier in qualifiers:
+                kind = qualifier.get("kind")
+                q_type = qualifier.get("type")
+                print(f"DEBUG: Checking {element_id} -> kind: {kind}, type: {q_type}")
+                
+                if kind and kind != "TemplateQualifier":
+                    raise HTTPException(status_code=400, detail=f"Error: Invalid kind '{kind}' in element {element_id}")
+                if q_type and q_type != "SMT_Cardinality":
+                    raise HTTPException(status_code=400, detail=f"Error: Invalid type '{q_type}' in element {element_id}")
+
+@app.post("/submodel_schema/")
+async def export_sm_schema(file: UploadFile = File(...)):
+    try:
+        contents = await file.read()
+        data = json.loads(contents)
+
+        for submodel in data.get("submodels", []):
+            semantic_id_keys = submodel.get("semanticId", {}).get("keys", [])
+            if semantic_id_keys and isinstance(semantic_id_keys, list):
+                first_key_value = semantic_id_keys[0].get("value", "")
+                if first_key_value.startswith("https://admin-shell.io/"):
+                    return get_schema_result(data)
+
+        validate_qualifiers(data)
+
+        result = get_schema_result(data)
+        return result
+
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=400, detail="Invalid JSON format")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

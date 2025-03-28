@@ -204,5 +204,29 @@ for i, submodel in enumerate(data.get("submodels", [])):
         first_level_elements = submodel.get("submodelElements", [])
         process_submodel_elements(pascal_case_id_short, first_level_elements, is_top_level=(i == 0), top_level_semantic_id=top_level_semantic_id)
 
-print("\n".join(enum_definitions))
-print("\n".join(class_definitions))
+# print("\n".join(enum_definitions))
+# print("\n".join(class_definitions))
+
+def get_schema_result(data):
+    result.clear()
+    class_definitions.clear()
+    enum_definitions.clear()
+    generated_classes.clear()
+    generated_enums.clear()
+
+    top_level_semantic_id = ""
+    if data.get("submodels"):
+        first_submodel = data["submodels"][0]
+        top_level_semantic_id = first_submodel.get("semanticId", {}).get("keys", [{}])[0].get("value", "")
+
+    for i, submodel in enumerate(data.get("submodels", [])):
+        submodel_id_short = submodel.get("idShort")
+        if submodel_id_short:
+            pascal_case_id_short = to_pascal_case(to_snake_case(submodel_id_short))
+            first_level_elements = submodel.get("submodelElements", [])
+            process_submodel_elements(pascal_case_id_short, first_level_elements, is_top_level=(i == 0), top_level_semantic_id=top_level_semantic_id)
+
+    # 원래 콘솔 출력 형식 유지 + 줄바꿈 적용
+    schema_output = "\n".join(enum_definitions + class_definitions)
+    
+    return {"schema": schema_output}  # JSON에서 개행 문자 유지
