@@ -63,16 +63,8 @@ def format_response_as_txt(response: dict) -> str:
             txt_output.append(f"{key}: {value}")
     return "\n".join(txt_output)
 
+
 @app.post("/verification/metamodel")
-async def verification(file: UploadFile = File(...)):
-    """meta model 검사"""
-    response = process_verification(file)
-    return PlainTextResponse(content=format_response_as_txt(response), media_type="text/plain")
-
-
-
-
-@app.post("/verification/")
 async def verification(file: UploadFile = File(...)):
     """meta model 검사"""
     response = process_verification(file)
@@ -102,8 +94,6 @@ async def verification_sm(file: UploadFile = File(...)):
     
 def validate_qualifiers(data: dict):
     """submodels의 submodelElements에서 qualifiers를 검사하는 함수"""
-    # if "submodels" not in data or not isinstance(data["submodels"], list):
-    #     raise HTTPException(status_code=400, detail="Error: 'submodels' field is missing or invalid format")
     
     for submodel in data["submodels"]:
         submodel_elements = submodel.get("submodelElements", [])
