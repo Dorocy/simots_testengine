@@ -16,10 +16,7 @@ import run_submodel
 app = FastAPI()
 
 existing_names = {}
-# sm_value = export_schema.extract_values.value
-# qualifiers_type = sm_value.value.get("qualifiers", [{}])[0].get("type")
-# qualifiers_kind = sm_value.value.get("qualifiers", [{}])[0].get("kind")
-# id_short = sm_value.get("idShort")
+
 def remove_ansi_codes(text):
     ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
     return ansi_escape.sub('', text)
@@ -51,8 +48,6 @@ def process_verification(file: UploadFile) -> dict:
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"처리 중 오류 발생: {str(e)}")
 
-
-
 def format_response_as_txt(response: dict) -> str:
     txt_output = []
     for key, value in response.items():
@@ -67,7 +62,6 @@ def format_response_as_txt(response: dict) -> str:
         else:
             txt_output.append(f"{key}: {value}")
     return "\n".join(txt_output)
-
 
 @app.post("/verification/")
 async def verification(file: UploadFile = File(...)):
@@ -124,6 +118,7 @@ def validate_qualifiers(data: dict):
 
 @app.post("/submodel_schema/")
 async def export_sm_schema(file: UploadFile = File(...)):
+    """submodel schema 추출"""
     try:
         contents = await file.read()
         data = json.loads(contents)
