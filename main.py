@@ -63,6 +63,15 @@ def format_response_as_txt(response: dict) -> str:
             txt_output.append(f"{key}: {value}")
     return "\n".join(txt_output)
 
+@app.post("/verification/metamodel")
+async def verification(file: UploadFile = File(...)):
+    """meta model 검사"""
+    response = process_verification(file)
+    return PlainTextResponse(content=format_response_as_txt(response), media_type="text/plain")
+
+
+
+
 @app.post("/verification/")
 async def verification(file: UploadFile = File(...)):
     """meta model 검사"""
