@@ -65,8 +65,8 @@ def format_response_as_txt(response: dict) -> str:
 
 
 
+#SME의 qualifier 검사
 def validate_qualifiers(data: dict):
-    """submodels의 submodelElements에서 qualifiers를 검사하는 함수"""
     
     for submodel in data["submodels"]:
         submodel_elements = submodel.get("submodelElements", [])
@@ -89,15 +89,16 @@ def validate_qualifiers(data: dict):
                     raise HTTPException(status_code=400, detail=f"Error: Invalid type '{q_type}' in element {element_id}")
 
 
+#Metamodel 검사(AAS Instance/Template, Submodel Template)
 @app.post("/verification/metamodel")
 async def verification(file: UploadFile = File(...)):
-    """meta model 검사"""
     response = process_verification(file)
     return PlainTextResponse(content=format_response_as_txt(response), media_type="text/plain")
 
+
+#Submodel Template 검증 스키마에 따른 Instance 부합여부 검증
 @app.post("/verification/instance")
 async def verification_sm(file: UploadFile = File(...)):
-    """submodel 검사"""
     try:
         file_content = await file.read()
         json_data = json.loads(file_content.decode("utf-8"))
@@ -117,9 +118,10 @@ async def verification_sm(file: UploadFile = File(...)):
     except Exception as e:
         return JSONResponse(status_code=500, content={"detail": f"처리 중 오류 발생: {str(e)}"})
 
+
+#Submodel Template 스키마 추출
 @app.post("/submodel_schema/")
 async def export_sm_schema(file: UploadFile = File(...)):
-    """submodel schema 추출"""
     try:
         contents = await file.read()
         data = json.loads(contents)
