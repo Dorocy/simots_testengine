@@ -64,6 +64,31 @@ def format_response_as_txt(response: dict) -> str:
     return "\n".join(txt_output)
 
 
+
+def validate_qualifiers(data: dict):
+    """submodels의 submodelElements에서 qualifiers를 검사하는 함수"""
+    
+    for submodel in data["submodels"]:
+        submodel_elements = submodel.get("submodelElements", [])
+        
+        if not isinstance(submodel_elements, list):
+            continue  
+
+        for element in submodel_elements:
+            element_id = element.get("idShort", "Unknown")
+            qualifiers = element.get("qualifiers", [])
+            
+            for qualifier in qualifiers:
+                kind = qualifier.get("kind")
+                q_type = qualifier.get("type")
+                print(f"DEBUG: Checking {element_id} -> kind: {kind}, type: {q_type}")
+                
+                if kind and kind != "TemplateQualifier":
+                    raise HTTPException(status_code=400, detail=f"Error: Invalid kind '{kind}' in element {element_id}")
+                if q_type and q_type != "SMT_Cardinality":
+                    raise HTTPException(status_code=400, detail=f"Error: Invalid type '{q_type}' in element {element_id}")
+
+
 @app.post("/verification/metamodel")
 async def verification(file: UploadFile = File(...)):
     """meta model 검사"""
@@ -91,29 +116,6 @@ async def verification_sm(file: UploadFile = File(...)):
 
     except Exception as e:
         return JSONResponse(status_code=500, content={"detail": f"처리 중 오류 발생: {str(e)}"})
-    
-def validate_qualifiers(data: dict):
-    """submodels의 submodelElements에서 qualifiers를 검사하는 함수"""
-    
-    for submodel in data["submodels"]:
-        submodel_elements = submodel.get("submodelElements", [])
-        
-        if not isinstance(submodel_elements, list):
-            continue  
-
-        for element in submodel_elements:
-            element_id = element.get("idShort", "Unknown")
-            qualifiers = element.get("qualifiers", [])
-            
-            for qualifier in qualifiers:
-                kind = qualifier.get("kind")
-                q_type = qualifier.get("type")
-                print(f"DEBUG: Checking {element_id} -> kind: {kind}, type: {q_type}")
-                
-                if kind and kind != "TemplateQualifier":
-                    raise HTTPException(status_code=400, detail=f"Error: Invalid kind '{kind}' in element {element_id}")
-                if q_type and q_type != "SMT_Cardinality":
-                    raise HTTPException(status_code=400, detail=f"Error: Invalid type '{q_type}' in element {element_id}")
 
 @app.post("/submodel_schema/")
 async def export_sm_schema(file: UploadFile = File(...)):
