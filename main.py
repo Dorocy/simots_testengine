@@ -120,7 +120,7 @@ async def verification_sm(file: UploadFile = File(...)):
 
 
 #Submodel Template 스키마 추출
-@app.post("/submodel_schema/")
+@app.post("/verification/schema")
 async def export_sm_schema(file: UploadFile = File(...)):
     try:
         contents = await file.read()
