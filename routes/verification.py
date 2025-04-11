@@ -1,7 +1,6 @@
 from fastapi import APIRouter, UploadFile, File
 from services.verification_service import verification_instance, verification_metamodel, verification_schema
 
-
 router = APIRouter()
 
 @router.post("/metamodel")

@@ -16,6 +16,8 @@ class ErrorCode(str, Enum):
     INVALID_QUALIFIER_KIND = "invalid_qualifier_kind"
     INVALID_QUALIFIER_TYPE = "invalid_qualifier_type"
     INVALID_SUBMODEL_KIND = "invalid_submodel_kind"
+    INVALID_JSON_FORMAT = "invalid_json_format"
+    TEST_ENGINE_NO_OUTPUT="test_engine_no_output"
 
 #에러코드에 따라 에러메세지도 동일하게 처리되도록 매핑
 ERROR_MESSAGES = {
@@ -26,33 +28,55 @@ ERROR_MESSAGES = {
     ErrorCode.INVALID_FILE_FORMAT: "지원하지 않는 파일 형식입니다.",
     ErrorCode.INVALID_QUALIFIER_KIND: "Qualifier의 'kind'는 'TemplateQualifier'여야 합니다.",
     ErrorCode.INVALID_QUALIFIER_TYPE: "Qualifier의 'type'은 'SMT_Cardinality'여야 합니다.",
-    ErrorCode.INVALID_SUBMODEL_KIND: "Submodel의 'Kind'는 'Template'여야 합니다."
+    ErrorCode.INVALID_SUBMODEL_KIND: "Submodel의 'Kind'는 'Template'여야 합니다.",
+    ErrorCode.TEST_ENGINE_NO_OUTPUT:"test engine으로 부터 결과를 받지 못했습니다.",
+    ErrorCode.INVALID_JSON_FORMAT: "json 파싱 오류 발생"
 }
 
-#에러 응답시 동일한 구조로 가도록 함수 작성
+#예외 처리시 동일한 구조로 가도록 함수 작성
 def error_response(status_code: int, error_code: ErrorCode, message: Optional[str] = None):
     return JSONResponse(
         status_code=status_code,
         content={
-            "error": error_code,
-            "message": message or ERROR_MESSAGES.get(error_code, "알지 못하는 에러 입니다.")
+            "status": "API error",
+            "error": {
+                "code": error_code.value,
+                "message": message or ERROR_MESSAGES.get(error_code, "알 수 없는 오류입니다.")
+            }
         }
     )
-    
+
+
+def success_response(status: str, verification_status, verification_message ):
+    return JSONResponse(
+        status_code=200,
+        content={
+            "status": status,
+            "verficiation": {
+                "result": verification_status,
+                "message": verification_message
+            }
+        }
+    )
+
 
 #FAST api에서 예외 처리하기 위해 만듬.
 def setup_exception_handlers(app):
     @app.exception_handler(RequestValidationError)
     async def validation_exception_handler(request: Request, exc: RequestValidationError):
-        return JSONResponse(status_code=HTTP_400_BAD_REQUEST, content={"message": "요청 데이터 오류", "details": exc.errors()})
-
+        return error_response(
+            status_code=HTTP_400_BAD_REQUEST,
+            error_code=ErrorCode.INVALID_PARAMETER,
+        )
     @app.exception_handler(Exception)
     async def general_exception_handler(request: Request, exc: Exception):
-        return JSONResponse(status_code=HTTP_500_INTERNAL_SERVER_ERROR, content={"message": "서버 오류", "details": str(exc)})
-
-#직접 예외처리 발생하려고 따로 만듬
-def raise_400(msg: str):
-    raise RequestValidationError([{
-        "msg": message or ERROR_MESSAGES.get(error_code),
-        "type": str(error_code)
-    }])
+        return error_response(
+            status_code=HTTP_500_INTERNAL_SERVER_ERROR,
+            error_code=ErrorCode.INTERNAL_SERVER_ERROR,
+        )
+    @app.exception_handler(UnicodeDecodeError)
+    async def unicode_exception_handler(request: Request, exc: UnicodeDecodeError):
+        return error_response(
+        status_code=400,
+        error_code=ErrorCode.INVALID_FILE_FORMAT,
+    )
