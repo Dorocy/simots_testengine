@@ -1,8 +1,9 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import PlainTextResponse
 from fastapi.responses import JSONResponse
-from export_schema import process_submodel_elements, to_pascal_case, to_snake_case, extract_values, get_schema_result
+from export_schema import get_schema_result#, process_submodel_elements, to_pascal_case, to_snake_case, extract_values, 
 from aas_test_engines.test_cases.v3_0.model import Referable
+from save import save_schema_as_py, extract_submodel_semanticid
 import io
 import re
 import json
@@ -93,7 +94,7 @@ async def verification_sm(file: UploadFile = File(...)):
         return JSONResponse(status_code=500, content={"detail": f"처리 중 오류 발생: {str(e)}"})
     
 def validate_qualifiers(data: dict):
-    """submodels의 submodelElements에서 qualifiers를 검사하는 함수"""
+    #submodels의 submodelElements에서 qualifiers를 검사하는 함수
     
     for submodel in data["submodels"]:
         submodel_elements = submodel.get("submodelElements", [])
@@ -117,7 +118,7 @@ def validate_qualifiers(data: dict):
 
 @app.post("/submodel_schema/")
 async def export_sm_schema(file: UploadFile = File(...)):
-    """submodel schema 추출"""
+    #submodel schema 추출 및 exported_schema에 저장
     try:
         contents = await file.read()
         data = json.loads(contents)
@@ -127,12 +128,28 @@ async def export_sm_schema(file: UploadFile = File(...)):
             if semantic_id_keys and isinstance(semantic_id_keys, list):
                 first_key_value = semantic_id_keys[0].get("value", "")
                 if first_key_value.startswith("https://admin-shell.io/"):
-                    return get_schema_result(data)
+                    result = get_schema_result(data)
+                    
+                    save_path = save_schema_as_py(result, submodel)
+                    return {
+                        "message": "Schema extracted and saved",
+                        "saved_path": save_path,
+                        "result": result
+                    }
 
         validate_qualifiers(data)
-
         result = get_schema_result(data)
-        return result
+
+        saved_files = []
+        for submodel in data.get("submodels", []):
+            save_path = save_schema_as_py(result, submodel)
+            saved_files.append(save_path)
+
+        return {
+            "message": "Schema extracted, validated, and saved",
+            "saved_paths": saved_files,
+            "result": result
+        }
 
     except json.JSONDecodeError:
         raise HTTPException(status_code=400, detail="Invalid JSON format")

@@ -8,7 +8,6 @@ UPLOAD_DIR = "uploaded_files"
 SUPPORTED_EXTENSIONS = {".json", ".xml", ".aasx"}
 
 def get_grouped_filename(directory: str, base_name: str, ext: str, existing_names: dict) -> str:
-    """같은 base_name 그룹 내에서 중복되지 않는 파일명을 생성"""
     if base_name not in existing_names:
         existing_names[base_name] = 1  # 첫 번째 파일은 원래 이름 유지
         new_filename = f"{base_name}{ext}"
@@ -93,3 +92,41 @@ def extract_id_from_xml(file) -> str:
     except Exception as e:
         return f"Error extracting ID: {str(e)}"
     return None
+
+def extract_submodel_semanticid(submodel: dict) -> str:
+    try:
+        semantic_id_keys = submodel.get("semanticId", {}).get("keys", [])
+        if semantic_id_keys and isinstance(semantic_id_keys, list):
+            return semantic_id_keys[0].get("value")
+    except Exception as e:
+        return f"Error extracting semanticId: {str(e)}"
+    return None
+
+
+def save_schema_as_py(result_data, submodel: dict, output_dir="exported_schema") -> str:
+    try:
+        semantic_id_value = extract_submodel_semanticid(submodel)
+        if not semantic_id_value:
+            return "Error: semanticId not found in submodel"
+
+        os.makedirs(output_dir, exist_ok=True)
+        if "/" in semantic_id_value:
+            safe_filename = semantic_id_value.replace("https://", "").replace("/", "_")
+        else:
+            safe_filename = semantic_id_value
+
+        file_path = os.path.join(output_dir, f"{safe_filename}.py")
+
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write("# Auto-generated schema\n")
+            f.write("from enum import Enum\n")
+            f.write("from typing import Optional, List\n")
+            f.write("from dataclasses import dataclass, field\n")
+            f.write("from aas_test_engines.test_cases.v3_0.parse_submodel import LangString\n")
+            f.write("from aas_test_engines.test_cases.v3_0.submodel_templates import template\n\n")
+
+            f.write(result_data["schema"])
+
+        return file_path
+    except Exception as e:
+        return f"Error saving file: {str(e)}"
