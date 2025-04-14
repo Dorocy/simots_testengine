@@ -143,15 +143,13 @@ EXPORT_DIR = "exported_schema"
 
 def semantic_id_to_filename(semantic_id: str) -> str:
     filename = semantic_id.replace("https://", "").replace("/", "_")
-    print(filename)
     return f"{filename}.py"
 
 @app.delete("/delete_submodel_schema/")
 async def delete_schema(semanticId: str = Query(..., description="SemanticId of the schema to delete")):
     safe_filename = semantic_id_to_filename(semanticId)
     file_path = os.path.join(EXPORT_DIR, f"{safe_filename}")
-    print(safe_filename)
-    print(file_path)
+
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="Schema file not found.")
 
