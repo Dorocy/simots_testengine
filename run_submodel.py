@@ -1,15 +1,12 @@
-# TODO : save files in directory, add functions that confirm semanticId of submodel, merge with run.py
+# TODO : save files in directory, merge with run.py
 import sys
 sys.stdout.reconfigure(encoding="utf-8")
-import json
-from enum import Enum
 from typing import Tuple, Optional
 from aas_test_engines.test_cases.v3_0.parse import parse
-from aas_test_engines.test_cases.v3_0.submodel_templates import parse_submodel_templates, supported_templates
+from aas_test_engines.test_cases.v3_0.submodel_templates import parse_submodel_templates
 from aas_test_engines.test_cases.v3_0.adapter import JsonAdapter, AdapterPath
 from aas_test_engines.result import AasTestResult
 from aas_test_engines.test_cases.v3_0.model import Environment
-import schemas
 
 templates = {}
 
