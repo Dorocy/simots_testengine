@@ -7,6 +7,7 @@ from aas_test_engines.test_cases.v3_0.submodel_templates import parse_submodel_t
 from aas_test_engines.test_cases.v3_0.adapter import JsonAdapter, AdapterPath
 from aas_test_engines.result import AasTestResult
 from aas_test_engines.test_cases.v3_0.model import Environment
+import schemas
 
 templates = {}
 
