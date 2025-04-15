@@ -8,10 +8,13 @@ from aas_test_engines.test_cases.v3_0.submodel_templates import template
 class EntityType(Enum):
 	co_managed_entity = "CoManagedEntity"
 	self_managed_entity = "SelfManagedEntity"
-	
+
 class EntityValue:
     entity_type: EntityType
 
+    class_name: LangString = field(metadata={"semantic_id": "0173-1#02-ABJ219#003"})
+    
+    class_name: LangString = field(metadata={'semantic_id': '0173-1#02-ABJ219#004'})
 
 @dataclass
 class DocumentId00:
@@ -112,7 +115,7 @@ class HandoverDocumentation:
     entity: Optional[List[EntityType]] = field(metadata={
     'semantic_id': 'https://admin-shell.io/vdi/2770/1/0/EntityForDocumentation'
 })
-	
+
 
 class RoleOfContactPerson(Enum):
     Administrative = "0173-1#07-AAS927#001"

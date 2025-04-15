@@ -3,6 +3,7 @@ import zipfile
 import xml.etree.ElementTree as ET
 import os
 
+
 def get_unique_id_filename(original_file_path: str) -> str:
     """중복되지 않는 ID 파일명을 생성 (_숫자 붙이기)"""
     base, ext = os.path.splitext(original_file_path)
@@ -13,13 +14,16 @@ def get_unique_id_filename(original_file_path: str) -> str:
         counter += 1
     return id_file_path
 
+
 def extract_id_from_json(file_path: str) -> str:
     """JSON 파일에서 assetAdministrationShells 내부의 id 값을 추출"""
     try:
         with open(file_path, "r", encoding="utf-8") as f:
             data = json.load(f)
 
-        if "assetAdministrationShells" in data and isinstance(data["assetAdministrationShells"], list):
+        if "assetAdministrationShells" in data and isinstance(
+            data["assetAdministrationShells"], list
+        ):
             first_shell = data["assetAdministrationShells"][0]
             extracted_id = first_shell.get("id")
 
@@ -29,10 +33,11 @@ def extract_id_from_json(file_path: str) -> str:
     except Exception as e:
         return f"Error extracting ID: {str(e)}"
 
+
 def extract_id_from_aasx(file_path: str) -> str:
     """AASX (ZIP) 파일에서 XML 내부의 ID 추출"""
     try:
-        with zipfile.ZipFile(file_path, 'r') as zip_ref:
+        with zipfile.ZipFile(file_path, "r") as zip_ref:
             file_list = zip_ref.namelist()
 
             # XML 파일 찾기
@@ -44,13 +49,14 @@ def extract_id_from_aasx(file_path: str) -> str:
     except Exception as e:
         return f"Error extracting ID: {str(e)}"
 
+
 def extract_id_from_xml(file, file_path: str = None) -> str:
     """XML 파일에서 assetAdministrationShells 내부의 ID 값을 추출하고 저장"""
     try:
         tree = ET.parse(file)  # ⭕ ZipExtFile 또는 일반 파일 객체 지원
         root = tree.getroot()
 
-        namespace_uri = root.tag[root.tag.find("{")+1:root.tag.find("}")]
+        namespace_uri = root.tag[root.tag.find("{") + 1 : root.tag.find("}")]
         namespace = {"aas": namespace_uri}
 
         id_element = root.find(".//aas:assetAdministrationShell/aas:id", namespace)
@@ -59,7 +65,7 @@ def extract_id_from_xml(file, file_path: str = None) -> str:
 
             # ⭕ file_path가 없는 경우 file이 문자열이면 file_path로 설정
             if file_path is None and isinstance(file, str):
-                file_path = file  
+                file_path = file
 
             if file_path:  # ⭕ file_path가 있을 때만 저장
                 save_id_to_file(file_path, extracted_id)
@@ -67,6 +73,7 @@ def extract_id_from_xml(file, file_path: str = None) -> str:
             return extracted_id
     except Exception as e:
         return f"Error extracting ID: {str(e)}"
+
 
 def save_id_to_file(file_path: str, extracted_id: str):
     """ID 값을 원본 파일과 같은 경로에 저장, 중복 방지"""
