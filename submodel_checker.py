@@ -33,7 +33,7 @@ def check_submodel_templates(file_path: str):
 
     return result
 
-json_file_path = "c:/Users/Lenovo/Desktop/smt/testsmt/IDTA_02002-1-0_Template_ContactInformation.json"
+json_file_path = "c:/Users/Lenovo/Desktop/smt/URRobotAAS_v3_DN+TD.json"
 
 result = check_submodel_templates(json_file_path)
 

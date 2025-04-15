@@ -1,6 +1,5 @@
-import json
 from enum import Enum
-from typing import Optional, List, Dict
+from typing import Optional, List
 from dataclasses import dataclass, field
 from aas_test_engines.test_cases.v3_0.parse_submodel import LangString
 from aas_test_engines.test_cases.v3_0.submodel_templates import template
