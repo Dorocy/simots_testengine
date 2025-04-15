@@ -26,12 +26,15 @@ async def verification_schema(file):
 
     validate_qualifiers(data)
 
-    result = get_schema_result(data)
-    
+    result = await get_schema_result(data)
+
     #DB저장로직~
-    
-    
+
     return result
+
+
+
+
 
 
 async def verification_instance(file):
