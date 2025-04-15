@@ -1,10 +1,13 @@
+import pickle
 import sys
+
 sys.stdout.reconfigure(encoding="utf-8")
 import json
 from typing import Optional, List
 from dataclasses import dataclass, field
 import re
 from enum import Enum
+
 
 # JSON 파일 로드
 with open('./sample_files/schema_sample/IDTA_02004-1-2_Template_Handover_Documentation.json', 'r') as file:
@@ -228,5 +231,5 @@ def get_schema_result(data):
 
     # 원래 콘솔 출력 형식 유지 + 줄바꿈 적용
     schema_output = "\n".join(enum_definitions + class_definitions)
-    
-    return {"schema": schema_output}  # JSON에서 개행 문자 유지
+
+    return {"schema": schema_data}  # JSON에서 개행 문자 유지
