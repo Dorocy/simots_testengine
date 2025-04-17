@@ -1,7 +1,7 @@
 import sys
-
-sys.stdout.reconfigure(encoding="utf-8")
 import json
+sys.stdout.reconfigure(encoding="utf-8")
+
 from typing import Optional, List
 from dataclasses import dataclass, field
 import re
@@ -277,4 +277,4 @@ def get_schema_result(data):
     # 원래 콘솔 출력 형식 유지 + 줄바꿈 적용
     schema_output = "\n".join(enum_definitions + class_definitions)
 
-    return {"schema": schema_data}  # JSON에서 개행 문자 유지
+    return {"schema": schema_output}  # JSON에서 개행 문자 유지

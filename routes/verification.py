@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, UploadFile, File, Query
 from services.verification_service import (
     verification_instance,
     verification_metamodel,
@@ -23,6 +23,6 @@ async def check_instance(file: UploadFile = File(...)):
     return await verification_instance(file)
 
 
-# @router.post("/checkSchema")
-# async def create_schema(file: UploadFile = File(...)):
-#     return await create_submodel_schema(file)
+@router.delete("/delete_submodel_schema/")
+async def check_and_delete_schema(semanticId: str = Query(..., description="SemanticId of the schema to delete")):
+    return await delete_schema

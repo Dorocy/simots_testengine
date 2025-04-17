@@ -5,10 +5,31 @@ from utils.file_handler import remove_ansi_codes
 from utils.response_handler import ErrorCode, error_response
 import aas_core3.jsonization as aas_jsonization
 from export_schema import get_schema_result
+from utils.db_hadler import connect_and_insert
 
 
 existing_names = {}
 
+# async def verification_schema(file):
+#     contents = await file.read()
+#     data = json.loads(contents)
+
+#     for submodel in data.get("submodels", []):
+#         submodel_type_error = check_submodel_kind(submodel)
+#         if submodel_type_error:
+#             return submodel_type_error
+#         semantic_id_keys = submodel.get("semanticId", {}).get("keys", [])
+#         if semantic_id_keys and isinstance(semantic_id_keys, list):
+#             first_key_value = semantic_id_keys[0].get("value", "")
+#             if first_key_value.startswith("https://admin-shell.io/"):
+#                 return get_schema_result(data)
+
+#     validate_qualifiers(data)
+#     result = await get_schema_result(data)
+#     print(111)
+#     connect_and_insert(result)
+
+#     return result
 
 async def verification_schema(file):
     contents = await file.read()
@@ -21,14 +42,17 @@ async def verification_schema(file):
         semantic_id_keys = submodel.get("semanticId", {}).get("keys", [])
         if semantic_id_keys and isinstance(semantic_id_keys, list):
             first_key_value = semantic_id_keys[0].get("value", "")
+            print("됐다")
             if first_key_value.startswith("https://admin-shell.io/"):
+                print("됐어?")
                 return get_schema_result(data)
-
+                
     validate_qualifiers(data)
-
+    print("2")
     result = await get_schema_result(data)
+    print("STEP 0 - 스키마 추출 완료")
 
-    # DB저장로직~
+    connect_and_insert(data, result)
 
     return result
 
@@ -118,6 +142,7 @@ def validate_qualifiers(data: json):
         for element in submodel_elements:
             element_id = element.get("idShort", "Unknown")
             qualifiers = element.get("qualifiers", [])
+            print("11111")
 
             for qualifier in qualifiers:
                 kind = qualifier.get("kind")
