@@ -1,6 +1,8 @@
-import json
+import json, re
 import subprocess
 from utils.response_handler import ErrorCode, error_response, success_response
+from fastapi import Request
+from fastapi.responses import JSONResponse
 
 
 def run_test_engine(file_path: str, file_ext: str) -> dict:
@@ -34,28 +36,96 @@ def build_command(file_path: str, file_ext: str) -> list:
     elif file_ext == ".xml":
         base_command += ["--format", "xml"]
 
-    base_command += ["--output", "json"]
+    # base_command += ["--output", "json"]
 
     return base_command
 
 
+# def parse_engine_output(output: str) -> dict:
+#     try:
+#         json_output = json.loads(output)
+#     except json.JSONDecodeError:
+#         return error_response(
+#             status_code=400,
+#             error_code=ErrorCode.INVALID_JSON_FORMAT,
+#             message=output.strip(),
+#         )
+
+#     level = json_output.get("l", None)
+
+#     # Json 형태로 응답받는 부분을 바꿨으므로 처리하는 부분도 바꿨습니다.
+#     if level == 0:
+#         return success_response("Model API", "Pass", json_output)
+#     elif level in [1, 2]:
+#         return success_response("Model API", "Fail", json_output)
+#     # 어떤 상황이 올지 한번 확인해봐야하며,, 이럴때는 어떤상황인지 Test 모델 작성이 필요합니다.
+#     else:
+#         return success_response("Model API", "Unknown Error", json_output)
+
+ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
+
 def parse_engine_output(output: str) -> dict:
+    if output.startswith('\u001b[92mCheck'):  # 초록색
+        verification_status = 'Pass'
+    elif output.startswith('\u001b[91mCheck'):  # 빨간색
+        verification_status = 'Fail'
+
     try:
-        json_output = json.loads(output)
-    except json.JSONDecodeError:
-        return error_response(
-            status_code=400,
-            error_code=ErrorCode.INVALID_JSON_FORMAT,
-            message=output.strip(),
-        )
+        lines = output.strip().splitlines()
 
-    level = json_output.get("l", None)
+        check_msg = []
+        asset_info_msgs = []
+        submodel_msgs = []
+        concept_description_msgs = []
+        constraint_msgs = []
+        etc_msgs = []
 
-    # Json 형태로 응답받는 부분을 바꿨으므로 처리하는 부분도 바꿨습니다.
-    if level == 0:
-        return success_response("Model API", "Pass", json_output)
-    elif level in [1, 2]:
-        return success_response("Model API", "Fail", json_output)
-    # 어떤 상황이 올지 한번 확인해봐야하며,, 이럴때는 어떤상황인지 Test 모델 작성이 필요합니다.
-    else:
-        return success_response("Model API", "Unknown Error", json_output)
+        for line in lines:
+            clean_line = ansi_escape.sub('', line.strip())
+
+            if line.startswith("Constraint"):
+                constraint_msgs.append(clean_line)
+            elif "@ /assetAdministrations" in clean_line:
+                asset_info_msgs.append(clean_line)
+            elif "@ /submodels" in clean_line:
+                submodel_msgs.append(clean_line)
+            elif "@ /conceptDescriptions" in clean_line:
+                concept_description_msgs.append(clean_line)
+            elif line.startswith("Check") or ("Skipped") or ("Templates:"):
+                check_msg.append(clean_line)
+            else:
+                etc_msgs.append(clean_line)
+
+        verification_message = {
+            "assetInfo": {
+                "count": len(asset_info_msgs),
+                "message": asset_info_msgs
+            },
+            "submodels": {
+                "count": len(submodel_msgs),
+                "message": submodel_msgs
+            },
+            "conceptDescriptions": {
+                "count": len(concept_description_msgs),
+                "message": concept_description_msgs
+            },
+            "constraints": {
+                "count": len(constraint_msgs),
+                "message": constraint_msgs
+            },
+            "etc": {
+                "count": len(etc_msgs),
+                "message": etc_msgs
+            }
+        }
+
+        if verification_status == 'Pass':
+            return success_response("Model API", "Pass", "PERFECT")
+        elif verification_status == 'Fail':
+            return success_response("Model API", "Fail", verification_message)
+        # 어떤 상황이 올지 한번 확인해봐야하며,, 이럴때는 어떤상황인지 Test 모델 작성이 필요합니다.
+        else:
+            return success_response("Model API", "Unknown Error", verification_message)
+
+    except Exception as e:
+        return error_response(500, ErrorCode.INTERNAL_SERVER_ERROR, {"detail": str(e)})

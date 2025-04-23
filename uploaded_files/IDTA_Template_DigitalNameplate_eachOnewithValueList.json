@@ -1,0 +1,150 @@
+{
+  "assetAdministrationShells": [
+    {
+      "idShort": "DigitalNameplateAAS",
+      "id": "https://admin-shell.io/idta/aas/DigitalNameplate/2/0",
+      "assetInformation": {
+        "assetKind": "Type",
+        "globalAssetId": "https://admin-shell.io/idta/asset/DigitalNameplate/2/0",
+        "assetType": "Type"
+      },
+      "submodels": [
+        {
+          "type": "ModelReference",
+          "keys": [
+            {
+              "type": "Submodel",
+              "value": "https://admin-shell.io/idta/SubmodelTemplate/DigitalNameplate/2/0"
+            }
+          ]
+        }
+      ],
+      "modelType": "AssetAdministrationShell"
+    }
+  ],
+  "submodels": [
+    {
+      "idShort": "DigitalNameplate",
+      "description": [
+        {
+          "language": "en",
+          "text": "Contains the nameplate information attached to the product"
+        }
+      ],
+      "id": "https://admin-shell.io/idta/SubmodelTemplate/DigitalNameplate/2/0",
+      "kind": "Template",
+      "semanticId": {
+        "type": "ModelReference",
+        "keys": [
+          {
+            "type": "Submodel",
+            "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate"
+          }
+        ]
+      },
+      "submodelElements": [
+        {
+          "idShort": "URIOfTheProduct",
+          "description": [
+            {
+              "language": "en",
+              "text": "Note: see also [IRDI] 0112/2///61987#ABN590#001 URI of product instance "
+            }
+          ],
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAY811#001"
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "Multiplicity",
+              "valueType": "xs:string",
+              "value": "One"
+            }
+          ],
+          "valueType": "xs:string",
+          "value": "https://www.domain-abc.com/Model-Nr-1234/Serial-Nr-5678",
+          "modelType": "Property"
+        }
+      ],
+      "modelType": "Submodel"
+    }
+  ],
+  "conceptDescriptions": [
+    {
+      "idShort": "ExplosionSafeties",
+      "id": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/ExplosionSafeties",
+      "embeddedDataSpecifications": [
+        {
+          "dataSpecification": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0"
+              }
+            ]
+          },
+          "dataSpecificationContent": {
+            "preferredName": [
+              {
+                "language": "en",
+                "text": "ExplosionSafeties"
+              }
+            ],
+            "definition": [
+              {
+                "language": "en",
+                "text": "Collection of explosion safety specifications"
+              }
+            ],
+            "valueList": {
+                "valueReferencePairs": [
+                    {
+                    "value": "d",
+                    "valueId": {
+                        "type": "ExternalReference",
+                        "referredSemanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                            {
+                            "type": "GlobalReference",
+                            "value": "exampleKey1"
+                            }
+                        ]
+                        },
+                        "keys": [
+                        {
+                            "type": "GlobalReference",
+                            "value": "exampleKey2"
+                        }
+                        ]
+                    }
+                    },
+                    {
+                    "value": "s",
+                    "valueId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                        {
+                            "type": "GlobalReference",
+                            "value": "exampleKey3"
+                        }
+                        ]
+                    }
+                    }
+                ]
+            },
+            "modelType": "DataSpecificationIec61360"
+          }
+        }
+      ],
+      "modelType": "ConceptDescription"
+    }
+  ]
+}

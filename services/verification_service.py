@@ -3,33 +3,12 @@ from fastapi import HTTPException, Query
 from fastapi.responses import JSONResponse
 from utils.file_handler import remove_ansi_codes
 from utils.response_handler import ErrorCode, error_response
+from utils.db_hadler import delete_schema_by_semantic_id
 import aas_core3.jsonization as aas_jsonization
 from export_schema import get_schema_result
-from utils.db_hadler import connect_and_insert
 
 
 existing_names = {}
-
-# async def verification_schema(file):
-#     contents = await file.read()
-#     data = json.loads(contents)
-
-#     for submodel in data.get("submodels", []):
-#         submodel_type_error = check_submodel_kind(submodel)
-#         if submodel_type_error:
-#             return submodel_type_error
-#         semantic_id_keys = submodel.get("semanticId", {}).get("keys", [])
-#         if semantic_id_keys and isinstance(semantic_id_keys, list):
-#             first_key_value = semantic_id_keys[0].get("value", "")
-#             if first_key_value.startswith("https://admin-shell.io/"):
-#                 return get_schema_result(data)
-
-#     validate_qualifiers(data)
-#     result = await get_schema_result(data)
-#     print(111)
-#     connect_and_insert(result)
-
-#     return result
 
 async def verification_schema(file):
     contents = await file.read()
@@ -42,20 +21,11 @@ async def verification_schema(file):
         semantic_id_keys = submodel.get("semanticId", {}).get("keys", [])
         if semantic_id_keys and isinstance(semantic_id_keys, list):
             first_key_value = semantic_id_keys[0].get("value", "")
-            print("됐다")
             if first_key_value.startswith("https://admin-shell.io/"):
-                print("됐어?")
                 return get_schema_result(data)
-                
     validate_qualifiers(data)
-    print("2")
     result = await get_schema_result(data)
-    print("STEP 0 - 스키마 추출 완료")
-
-    connect_and_insert(data, result)
-
     return result
-
 
 async def verification_instance(file):
     file_content = await file.read()
@@ -71,7 +41,6 @@ async def verification_instance(file):
     sys.stdout = old_stdout
 
     cleaned_output = remove_ansi_codes(output).strip().splitlines()
-    # formatted_output = cleaned_output.splitlines()
 
     return JSONResponse(content=cleaned_output)
 
@@ -142,7 +111,6 @@ def validate_qualifiers(data: json):
         for element in submodel_elements:
             element_id = element.get("idShort", "Unknown")
             qualifiers = element.get("qualifiers", [])
-            print("11111")
 
             for qualifier in qualifiers:
                 kind = qualifier.get("kind")
@@ -164,28 +132,11 @@ def validate_qualifiers(data: json):
                     )
 
 
-def semantic_id_to_filename(semantic_id: str) -> str:
-    filename = semantic_id.replace("https://", "").replace("/", "_")
-    return f"{filename}.py"
+async def delete_schema(semanticId: str = Query(..., description="SemanticId of the schema to delete")):
+    success = delete_schema_by_semantic_id(semanticId)
+    if not success:
+        raise HTTPException(status_code=404, detail="Schema not found in database.")
+    return {"message": f"Schema for semanticId '{semanticId}' has been deleted from DB."}
 
 
-EXPORT_DIR = "exported_schema"
-
-
-async def delete_schema(
-    semanticId: str = Query(..., description="SemanticId of the schema to delete")
-):
-    safe_filename = semantic_id_to_filename(semanticId)
-    file_path = os.path.join(EXPORT_DIR, f"{safe_filename}")
-
-    if not os.path.exists(file_path):
-        raise HTTPException(status_code=404, detail="Schema file not found.")
-
-    try:
-        os.remove(file_path)
-        return {"message": f"Schema for semanticId '{semanticId}' has been deleted."}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error deleting file: {str(e)}")
-
-
-# def create_submodel_schema():
+# async def schema_list()

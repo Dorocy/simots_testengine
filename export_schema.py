@@ -6,6 +6,7 @@ from typing import Optional, List
 from dataclasses import dataclass, field
 import re
 from enum import Enum
+from utils.db_hadler import connect_and_insert
 
 
 # JSON 파일 로드
@@ -261,7 +262,6 @@ def get_schema_result(data):
         top_level_semantic_id = (
             first_submodel.get("semanticId", {}).get("keys", [{}])[0].get("value", "")
         )
-
     for i, submodel in enumerate(data.get("submodels", [])):
         submodel_id_short = submodel.get("idShort")
         if submodel_id_short:
@@ -276,5 +276,5 @@ def get_schema_result(data):
 
     # 원래 콘솔 출력 형식 유지 + 줄바꿈 적용
     schema_output = "\n".join(enum_definitions + class_definitions)
-
-    return {"schema": schema_output}  # JSON에서 개행 문자 유지
+    connect_and_insert(data, schema_output)
+    return {"schema": schema_output} # JSON에서 개행 문자 유지
