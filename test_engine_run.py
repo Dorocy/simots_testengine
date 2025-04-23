@@ -84,7 +84,6 @@ def parse_engine_output(output: str) -> dict:
 
         for line in lines:
             clean_line = ansi_escape.sub('', line.strip())
-            print('한줄한줄체크해볼까?',line)
             if clean_line.startswith("Constraint "):
                 constraint_msgs.append(clean_line)
             elif "@ /assetAdministrationShells" in clean_line:
