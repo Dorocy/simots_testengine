@@ -94,7 +94,6 @@ def parse_engine_output(output: str) -> dict:
                 concept_description_msgs.append(clean_line)
             elif clean_line.startswith("Check") or clean_line.startswith("Skipped") or clean_line.startswith("Template:"):
                 check_msg.append(clean_line)
-                
             else:
                 etc_msgs.append(clean_line)
 
