@@ -63,6 +63,8 @@ def build_command(file_path: str, file_ext: str) -> list:
 #         return success_response("Model API", "Unknown Error", json_output)
 
 ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
+green_check = re.compile(r'\x1b\[92mCheck')
+red_check = re.compile(r'\x1b\[91mCheck')
 
 def parse_engine_output(output: str) -> dict:
     if output.startswith('\u001b[92mCheck'):  # 초록색
@@ -82,20 +84,24 @@ def parse_engine_output(output: str) -> dict:
 
         for line in lines:
             clean_line = ansi_escape.sub('', line.strip())
-
-            if line.startswith("Constraint"):
+            print('한줄한줄체크해볼까?',line)
+            if clean_line.startswith("Constraint "):
                 constraint_msgs.append(clean_line)
-            elif "@ /assetAdministrations" in clean_line:
+            elif "@ /assetAdministrationShells" in clean_line:
                 asset_info_msgs.append(clean_line)
             elif "@ /submodels" in clean_line:
                 submodel_msgs.append(clean_line)
             elif "@ /conceptDescriptions" in clean_line:
                 concept_description_msgs.append(clean_line)
-            elif line.startswith("Check") or ("Skipped") or ("Templates:"):
+            elif clean_line.startswith("Check") or clean_line.startswith("Skipped") or clean_line.startswith("Template:"):
                 check_msg.append(clean_line)
+                
             else:
                 etc_msgs.append(clean_line)
-
+                print("222222222222", etc_msgs)
+        
+        print("111111111111", check_msg)
+        print(clean_line)
         verification_message = {
             "assetInfo": {
                 "count": len(asset_info_msgs),
