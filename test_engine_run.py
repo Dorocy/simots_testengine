@@ -98,10 +98,7 @@ def parse_engine_output(output: str) -> dict:
                 
             else:
                 etc_msgs.append(clean_line)
-                print("222222222222", etc_msgs)
-        
-        print("111111111111", check_msg)
-        print(clean_line)
+
         verification_message = {
             "assetInfo": {
                 "count": len(asset_info_msgs),
