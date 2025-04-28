@@ -30,7 +30,7 @@ async def check_and_delete_schema(semanticId: str = Query(..., description="Sema
 
 @router.get("/schemas")
 async def schema_list():
-    return await retrive_schemas
+    return await schema_list()
 
 # @router.get("/schemas/")
 # async def aaa():
