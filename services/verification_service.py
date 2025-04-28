@@ -101,7 +101,7 @@ def check_submodel_kind(data: json):
 # Mission 1. 위의 라이브러리를 사용하여 아래 소스코드 간소화 및 수정 요함!
 # SME의 qualifier 검사
 def validate_qualifiers(data: json):
-
+    print(data)
     for submodel in data["submodels"]:
         submodel_elements = submodel.get("submodelElements", [])
 
