@@ -3,7 +3,9 @@ from services.verification_service import (
     verification_instance,
     verification_metamodel,
     verification_schema,
-    delete_schema
+    delete_schema,
+    schemas_list,
+    # find_schema
 )
 
 router = APIRouter()
@@ -30,11 +32,11 @@ async def check_and_delete_schema(semanticId: str = Query(..., description="Sema
 
 @router.get("/schemas")
 async def schema_list():
-    return await schema_list()
+    return await schemas_list()
 
 # @router.get("/schemas/")
-# async def aaa():
-#     return await aaaaa
+# async def find_schema_with_semantic_id():
+#     return await find_schema(semantic_id)
 
 # @router.put("/schemas")
 # async def bbb():

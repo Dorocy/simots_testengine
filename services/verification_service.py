@@ -3,7 +3,7 @@ from fastapi import HTTPException, Query
 from fastapi.responses import JSONResponse
 from utils.file_handler import remove_ansi_codes
 from utils.response_handler import ErrorCode, error_response
-from utils.db_hadler import delete_schema_by_semantic_id
+from utils.db_hadler import delete_schema_by_semantic_id, retrieve_schemas
 import aas_core3.jsonization as aas_jsonization
 from export_schema import get_schema_result
 
@@ -139,10 +139,17 @@ async def delete_schema(semanticId: str = Query(..., description="SemanticId of 
     return {"message": f"Schema for semanticId '{semanticId}' has been deleted from DB."}
 
 
-# async def schema_list():
-#      try:
-#         submodel_ids = retrieve_schemas()
-#         if not submodel_ids:
-#             raise HTTPException(status_code=404, detail="No schemas found in database.")
+async def schemas_list():
+    try:
+        submodel_ids = retrieve_schemas()
+        return submodel_ids
+    except Exception:
+        return HTTPException(status_code=404, detail="No schemas found in database.")
 
-#         return {"schemas": submodel_ids}
+
+async def schemas_list():
+    try:
+        submodel_ids = retrieve_schemas()
+        return submodel_ids
+    except Exception:
+        return HTTPException(status_code=404, detail="No schemas found in database.")

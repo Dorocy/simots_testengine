@@ -53,21 +53,21 @@ def delete_schema_by_semantic_id(semantic_id: str) -> bool:
     try:
         client.admin.command("ping")
         result = client.aas.aas_schema.delete_one({"submodel_id": semantic_id})
-        print("Delete Result: ", client.aas.aas_schema.DeleteResult)
+        # print("Delete Result: ", client.aas.aas_schema.DeleteResult)
         return result.deleted_count > 0
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"DB deletion error: {str(e)}")
+        print(f"Error occurred: {e}")
 
 # Schema 조회
-# def retrive_schemas():
-#     client = get_db_client()
-#     try:
-#         client.admin.command("ping")
-#         collection = client.aas.aas_schema
-#         documents = collection.find({}, {"submodel_id": 1, "_id": 0})
+def retrieve_schemas():
+    client = get_db_client()
+    try:
+        client.admin.command("ping")
+        collection = client.aas.aas_schema
+        documents = collection.find({}, {"submodel_id": 1, "_id": 0})
 
-#         submodel_ids = [doc["submodel_id"] for doc in documents]
-#         return submodel_ids
+        submodel_ids = [doc["submodel_id"] for doc in documents]
+        return submodel_ids
 
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=f"DB check schema error: {}")
+    except Exception as e:
+        print(f"Error occurred: {e}")
