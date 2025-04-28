@@ -59,4 +59,4 @@ def delete_schema_by_semantic_id(semantic_id: str) -> bool:
         raise HTTPException(status_code=500, detail=f"DB deletion error: {str(e)}")
 
 # Schema 조회
-# def retrive_schemas()
+# def retrive_schemas():

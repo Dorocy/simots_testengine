@@ -6,22 +6,16 @@ from fastapi.responses import JSONResponse
 
 def run_test_engine(file_path: str, file_ext: str) -> dict:
     command = build_command(file_path, file_ext)
-
     try:
         result = subprocess.run(command, capture_output=True, text=True, encoding="utf-8-sig")
-        print("???????>>>>>>>>>>", result, "<<<<<<<<<<")
         if not result:
             return error_response(500, ErrorCode.TEST_ENGINE_NO_OUTPUT)
-    # 다시 수정하기 !!!!!!!!!!!!
-        if result.stderr is not None and result.stdout is not None:
+        print(result)
+        if result.stdout:
             return parse_engine_output(result.stdout)
-
-        if result.stderr is not None and result.stdout is None:
+        if result.stderr:
             return parse_engine_output(result.stderr)
-
-        if result.stdout is not None and result.stderr is None:
-            return parse_engine_output(result.stdout)
-         
+       
         return error_response(500, ErrorCode.TEST_ENGINE_NO_OUTPUT)
     # 커맨드 라인에서 발생하는 에러니까.. 메세지는 따로 출력되도록 처리함
     except json.JSONDecodeError as e:
@@ -42,34 +36,12 @@ def build_command(file_path: str, file_ext: str) -> list:
     return base_command
 
 
-# def parse_engine_output(output: str) -> dict:
-#     try:
-#         json_output = json.loads(output)
-#     except json.JSONDecodeError:
-#         return error_response(
-#             status_code=400,
-#             error_code=ErrorCode.INVALID_JSON_FORMAT,
-#             message=output.strip(),
-#         )
-
-#     level = json_output.get("l", None)
-
-#     # Json 형태로 응답받는 부분을 바꿨으므로 처리하는 부분도 바꿨습니다.
-#     if level == 0:
-#         return success_response("Model API", "Pass", json_output)
-#     elif level in [1, 2]:
-#         return success_response("Model API", "Fail", json_output)
-#     # 어떤 상황이 올지 한번 확인해봐야하며,, 이럴때는 어떤상황인지 Test 모델 작성이 필요합니다.
-#     else:
-#         return success_response("Model API", "Unknown Error", json_output)
-
 ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
-green_check = re.compile(r'\x1b\[92mCheck')
-red_check = re.compile(r'\x1b\[91mCheck')
+# green_check = re.compile(r'\x1b\[92mCheck')
+# red_check = re.compile(r'\x1b\[91mCheck')
 
 
 def parse_engine_output(output: str) -> dict:
-    print("output111: ", output)
     if output.startswith('\u001b[92mCheck'):  # 초록색
         verification_status = 'Pass'
     elif output.startswith('\u001b[91mCheck'):  # 빨간색
