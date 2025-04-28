@@ -1,4 +1,4 @@
-import json, re
+import json, re, os
 import subprocess
 from utils.response_handler import ErrorCode, error_response, success_response
 from fastapi import Request
@@ -6,13 +6,16 @@ from fastapi.responses import JSONResponse
 
 def run_test_engine(file_path: str, file_ext: str) -> dict:
     command = build_command(file_path, file_ext)
+    env = os.environ.copy()
+    env["PYTHONIOENCODING"] = "utf-8"
     try:
-        result = subprocess.run(command, capture_output=True, text=True, encoding="utf-8-sig")
+        result = subprocess.run(command, capture_output=True, env=env, text=True, errors="replace")
         if not result:
             return error_response(500, ErrorCode.TEST_ENGINE_NO_OUTPUT)
-        print(result)
+
         if result.stdout:
             return parse_engine_output(result.stdout)
+
         if result.stderr:
             return parse_engine_output(result.stderr)
        
@@ -37,8 +40,7 @@ def build_command(file_path: str, file_ext: str) -> list:
 
 
 ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
-# green_check = re.compile(r'\x1b\[92mCheck')
-# red_check = re.compile(r'\x1b\[91mCheck')
+
 
 
 def parse_engine_output(output: str) -> dict:

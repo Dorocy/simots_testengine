@@ -139,4 +139,10 @@ async def delete_schema(semanticId: str = Query(..., description="SemanticId of 
     return {"message": f"Schema for semanticId '{semanticId}' has been deleted from DB."}
 
 
-# async def schema_list()
+# async def schema_list():
+#      try:
+#         submodel_ids = retrieve_schemas()
+#         if not submodel_ids:
+#             raise HTTPException(status_code=404, detail="No schemas found in database.")
+
+#         return {"schemas": submodel_ids}
