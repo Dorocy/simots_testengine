@@ -183,6 +183,7 @@ async def schemas_list():
     except Exception:
         return HTTPException(status_code=404, detail="No schemas found in database.")
 
+
         
 async def search_schema_by_value(value: str):
     try:
