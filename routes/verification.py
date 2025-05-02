@@ -45,7 +45,6 @@ async def schema_list():
 =======
 @router.get("/schemas/search")
 async def search_schema(value: str = Query(..., description="검색할 값 ex) semanticId or 제조기업")):
-    print("aaaaaaaaaaaaaaaaaaa")
     return await search_schema_by_value(value)
 >>>>>>> deed2fa (add api: get schema list)
 
