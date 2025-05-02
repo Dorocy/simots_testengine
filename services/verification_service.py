@@ -176,14 +176,14 @@ async def schemas_list():
         return HTTPException(status_code=404, detail="No schemas found in database.")
 
 
-<<<<<<< HEAD
 async def schemas_list():
     try:
         submodel_ids = retrieve_schemas()
         return submodel_ids
     except Exception:
         return HTTPException(status_code=404, detail="No schemas found in database.")
-=======
+
+        
 async def search_schema_by_value(value: str):
     try:
         results = search_schema_in_all_fields(value)
@@ -209,4 +209,3 @@ async def search_schema_by_value(value: str):
         }
     except Exception as e:
         print(f"Error in service: {e}")
->>>>>>> deed2fa (add api: get schema list)
