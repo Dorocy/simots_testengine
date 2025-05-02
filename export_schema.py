@@ -10,11 +10,11 @@ from utils.db_hadler import connect_and_insert
 
 
 # JSON 파일 로드
-with open(
-    "./sample_files/schema_sample/IDTA_02004-1-2_Template_Handover_Documentation.json",
-    "r",
-) as file:
-    data = json.load(file)
+# with open(
+#     "./sample_files/schema_sample/IDTA_02004-1-2_Template_Handover_Documentation.json",
+#     "r",
+# ) as file:
+#     data = json.load(file)
 
 result = []
 class_definitions = []
@@ -222,32 +222,6 @@ def process_submodel_elements(
         )
         class_definitions.append(class_def)
         generated_classes.add(name)
-
-
-# 첫 번째 submodel의 semanticId.keys[0].value 값 가져옴
-top_level_semantic_id = ""
-if data.get("submodels"):
-    first_submodel = data["submodels"][0]
-    top_level_semantic_id = (
-        first_submodel.get("semanticId", {}).get("keys", [{}])[0].get("value", "")
-    )
-
-# 모든 submodel 처리
-for i, submodel in enumerate(data.get("submodels", [])):
-    submodel_id_short = submodel.get("idShort")
-    if submodel_id_short:
-        pascal_case_id_short = to_pascal_case(to_snake_case(submodel_id_short))
-        first_level_elements = submodel.get("submodelElements", [])
-        process_submodel_elements(
-            pascal_case_id_short,
-            first_level_elements,
-            is_top_level=(i == 0),
-            top_level_semantic_id=top_level_semantic_id,
-        )
-
-# print("\n".join(enum_definitions))
-# print("\n".join(class_definitions))
-
 
 def get_schema_result(data):
     result.clear()

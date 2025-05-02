@@ -8,7 +8,8 @@ from aas_test_engines.test_cases.v3_0.submodel_templates import parse_submodel_t
 from aas_test_engines.test_cases.v3_0.adapter import JsonAdapter, AdapterPath
 from aas_test_engines.result import AasTestResult
 from aas_test_engines.test_cases.v3_0.model import Environment
-import schema_files.schemas as schemas
+# from utils.db_hadler import export_schema_to_py_file
+import schema_files.test_schema as schemas
 
 templates = {}
 
@@ -37,3 +38,23 @@ def check_submodel_templates(json_data: dict):
 
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
+
+# def check_submodel_templates(json_data: dict):
+#     try:
+#         result, env = parse_env_without_meta(Environment, json_data)
+
+#         if env is not None:
+
+#             for submodel in env.submodels or []:
+#                 if submodel.semantic_id and submodel.semantic_id.keys:
+#                     sid = submodel.semantic_id.keys[0].value.raw_value
+#                     export_schema_to_py_file(sid)
+
+#             parse_submodel_templates(result, env)
+#             return {"status": "success", "submodel_verification": result.dump()}
+#         else:
+#             return {"status": "error", "message": "Failed to parse environment"}
+
+#     except Exception as e:
+#         return {"status": "error", "message": str(e)}

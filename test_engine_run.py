@@ -9,10 +9,15 @@ def run_test_engine(file_path: str, file_ext: str) -> dict:
     env = os.environ.copy()
     env["PYTHONIOENCODING"] = "utf-8"
     try:
+<<<<<<< HEAD
         # result = subprocess.run(command, capture_output=True, env=env, text=True, errors="replace")
         result = subprocess.run(command, capture_output=True, env=env)
         
         # print(output)
+=======
+        result = subprocess.run(command, capture_output=True, env=env)
+
+>>>>>>> deed2fa (add api: get schema list)
         if not result:
             return error_response(500, ErrorCode.TEST_ENGINE_NO_OUTPUT)
 
@@ -47,7 +52,11 @@ def build_command(file_path: str, file_ext: str) -> list:
 ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
 
 def parse_engine_output(output: str) -> dict:
+<<<<<<< HEAD
     print(output)
+=======
+    # print(output)
+>>>>>>> deed2fa (add api: get schema list)
     if output.startswith('\u001b[92mCheck'):  # 초록색
         verification_status = 'Pass'
     elif output.startswith('\u001b[91mCheck'):  # 빨간색

@@ -5,7 +5,11 @@ from services.verification_service import (
     verification_schema,
     delete_schema,
     schemas_list,
+<<<<<<< HEAD
     # find_schema
+=======
+    search_schema_by_value
+>>>>>>> deed2fa (add api: get schema list)
 )
 
 router = APIRouter()
@@ -34,9 +38,16 @@ async def check_and_delete_schema(semanticId: str = Query(..., description="Sema
 async def schema_list():
     return await schemas_list()
 
+<<<<<<< HEAD
 # @router.get("/schemas/")
 # async def find_schema_with_semantic_id():
 #     return await find_schema(semantic_id)
+=======
+@router.get("/schemas/search")
+async def search_schema(value: str = Query(..., description="검색할 값 ex) semanticId or 제조기업")):
+    print("aaaaaaaaaaaaaaaaaaa")
+    return await search_schema_by_value(value)
+>>>>>>> deed2fa (add api: get schema list)
 
 # @router.put("/schemas")
 # async def bbb():
