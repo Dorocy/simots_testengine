@@ -9,14 +9,17 @@ def run_test_engine(file_path: str, file_ext: str) -> dict:
     env = os.environ.copy()
     env["PYTHONIOENCODING"] = "utf-8"
     try:
-        result = subprocess.run(command, capture_output=True, env=env, text=True, errors="replace")
+        result = subprocess.run(command, capture_output=True, env=env)
+
         if not result:
             return error_response(500, ErrorCode.TEST_ENGINE_NO_OUTPUT)
 
         if result.stdout:
+            result.stdout = result.stdout.decode('utf-8-sig', errors='replace')
             return parse_engine_output(result.stdout)
 
         if result.stderr:
+            result.stderr = result.stderr.decode('utf-8-sig', errors='replace')
             return parse_engine_output(result.stderr)
        
         return error_response(500, ErrorCode.TEST_ENGINE_NO_OUTPUT)
@@ -41,9 +44,8 @@ def build_command(file_path: str, file_ext: str) -> list:
 
 ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
 
-
-
 def parse_engine_output(output: str) -> dict:
+    # print(output)
     if output.startswith('\u001b[92mCheck'):  # 초록색
         verification_status = 'Pass'
     elif output.startswith('\u001b[91mCheck'):  # 빨간색

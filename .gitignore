@@ -1,0 +1,16 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.so
+# Virtual environment 폴더 (예: venv, .venv 등)
+venv/
+.venv/
+# IDE 설정 파일들 (PyCharm, VSCode 등)
+.idea/
+.vscode/
+# 기타
+*.log
+*.pot
+*.pyc
+.DS_Store
+uploaded_files/
