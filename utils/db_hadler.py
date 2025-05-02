@@ -64,77 +64,15 @@ def delete_schema_by_semantic_id(semantic_id: str) -> bool:
         print(f"Error occurred: {e}")
 
 # Schema 조회
-def retrieve_schemas():
-    client = get_db_client()
-    try:
-        client.admin.command("ping")
-        collection = client.aas.aas_schema
-        documents = collection.find({}, {"submodel_id": 1, "_id": 0})
-<<<<<<< HEAD
-
-        submodel_ids = [doc["submodel_id"] for doc in documents]
-        return submodel_ids
-
-    except Exception as e:
-        print(f"Error occurred: {e}")
-=======
-
-        submodel_ids = [doc["submodel_id"] for doc in documents]
-        return submodel_ids
-
-    except Exception as e:
-        print(f"Error occurred: {e}")
-
-
-def search_schema_in_all_fields(value: str):
-    client = get_db_client()
-    try:
-        client.admin.command("ping")
-        collection = client.aas.aas_schema
-
-        # 모든 주요 필드에 대해 or 조건으로 검색
-        query = {
-            "$or": [
-                {"submodel_id": value},
-                {"uploaded_by": value},
-                {"version": value},
-                {"revision": value}
-            ]
-        }
-        document = collection.find(query)
-        return list(document)
-
-    except Exception as e:
-        print(f"[DB Error] {e}")
-        return None
-
-
-# def export_schema_to_py_file(submodel_id: str, file_path: str = "schema_files/test_schema.py") -> bool:
+# def retrive_schemas():
 #     client = get_db_client()
 #     try:
 #         client.admin.command("ping")
 #         collection = client.aas.aas_schema
+#         documents = collection.find({}, {"submodel_id": 1, "_id": 0})
 
-#         document = collection.find_one({"submodel_id": submodel_id})
-#         if not document:
-#             print(f"No schema found for submodel_id: {submodel_id}")
-#             return False
-
-#         binary_data = document["schema"]
-#         decoded_schema = binary_data.decode("utf-8")
-
-#         with open(file_path, "w", encoding="utf-8") as f:
-#             f.write("from enum import Enum\n"
-#                     "from typing import Optional, List\n"
-#                     "from dataclasses import dataclass, field\n"
-#                     "from aas_test_engines.test_cases.v3_0.parse_submodel import LangString\n"
-#                     "from aas_test_engines.test_cases.v3_0.submodel_templates import template\n")
-#             f.write(decoded_schema)
-
-#         print(f"Schema for {submodel_id} written to {file_path}")
-#         return True
+#         submodel_ids = [doc["submodel_id"] for doc in documents]
+#         return submodel_ids
 
 #     except Exception as e:
-#         print(f"[Export Error] {e}")
-#         return False
->>>>>>> deed2fa (add api: get schema list)
+#         raise HTTPException(status_code=500, detail=f"DB check schema error: {}")
