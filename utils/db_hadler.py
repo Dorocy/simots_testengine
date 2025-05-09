@@ -77,3 +77,24 @@ def retrieve_schemas():
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"DB check schema error: {e}")
+
+
+def search_schema_in_all_fields(value: str):
+    client = get_db_client()
+    try:
+        client.admin.command("ping")
+        collection = client.aas.aas_schema
+        # 모든 주요 필드에 대해 or 조건으로 검색
+        query = {
+            "$or": [
+                {"submodel_id": value},
+                {"uploaded_by": value},
+                {"version": value},
+                {"revision": value}
+            ]
+        }
+        document = collection.find(query)
+        return list(document)
+    except Exception as e:
+        print(f"[DB Error] {e}")
+        return None
