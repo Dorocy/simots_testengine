@@ -99,3 +99,4 @@ def search_schema_in_all_fields(value: str):
     except Exception as e:
         print(f"[DB Error] {e}")
         return []
+        
