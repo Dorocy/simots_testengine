@@ -3,14 +3,10 @@ from fastapi import HTTPException, Query
 from fastapi.responses import JSONResponse
 from utils.file_handler import remove_ansi_codes
 from utils.response_handler import ErrorCode, error_response
-<<<<<<< HEAD
-from utils.db_hadler import delete_schema_by_semantic_id, retrieve_schemas
-=======
 from utils.db_hadler import (
     delete_schema_by_semantic_id,
     retrieve_schemas,
     search_schema_in_all_fields)
->>>>>>> deed2fa (add api: get schema list)
 import aas_core3.jsonization as aas_jsonization
 from export_schema import get_schema_result
 

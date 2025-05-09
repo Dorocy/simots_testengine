@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 import datetime, json, re
@@ -64,15 +65,15 @@ def delete_schema_by_semantic_id(semantic_id: str) -> bool:
         print(f"Error occurred: {e}")
 
 # Schema 조회
-# def retrive_schemas():
-#     client = get_db_client()
-#     try:
-#         client.admin.command("ping")
-#         collection = client.aas.aas_schema
-#         documents = collection.find({}, {"submodel_id": 1, "_id": 0})
+def retrieve_schemas():
+    client = get_db_client()
+    try:
+        client.admin.command("ping")
+        collection = client.aas.aas_schema
+        documents = collection.find({}, {"submodel_id": 1, "_id": 0})
 
-#         submodel_ids = [doc["submodel_id"] for doc in documents]
-#         return submodel_ids
+        submodel_ids = [doc["submodel_id"] for doc in documents]
+        return submodel_ids
 
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=f"DB check schema error: {}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"DB check schema error: {e}")
