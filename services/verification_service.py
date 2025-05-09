@@ -52,6 +52,7 @@ async def verification_instance(file):
 async def verification_metamodel(file):
     response = process_verification(file)
     return response
+    
 # async def verification_instance(file):
 #     file_content = await file.read()
 #     try:

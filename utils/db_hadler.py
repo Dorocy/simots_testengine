@@ -93,8 +93,10 @@ def search_schema_in_all_fields(value: str):
                 {"revision": value}
             ]
         }
+
         document = collection.find(query)
         return list(document)
     except Exception as e:
         print(f"[DB Error] {e}")
         return None
+
