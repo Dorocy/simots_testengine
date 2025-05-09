@@ -8,7 +8,7 @@ def get_db_client():
     uri = 'mongodb+srv://yulmoocha2001:smic12#$@testengine.sa2ir6w.mongodb.net/?retryWrites=true&w=majority&appName=testEngine'
     return MongoClient(uri, server_api = ServerApi("1"))
 
-def extract_semantic_id(submodel: dict) -> str | None:
+def extract_semantic_id(submodel: dict) -> str:
     keys = submodel.get("semanticId", {}).get("keys", [])
     return keys[0].get("value") if keys else None
 
