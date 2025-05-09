@@ -58,7 +58,7 @@ def success_response(status: str, verification_status, verification_message):
         status_code=200,
         content={
             "status": status,
-            "verficiation": {
+            "verificiation": {
                 "result": verification_status,
                 "message": verification_message,
             },

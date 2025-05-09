@@ -1,5 +1,5 @@
 # Python bytecode
-__pycache__/
+**/__pycache__/
 *.py[cod]
 *.so
 # Virtual environment 폴더 (예: venv, .venv 등)

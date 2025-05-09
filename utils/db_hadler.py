@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 import datetime, json, re
@@ -7,7 +8,7 @@ def get_db_client():
     uri = 'mongodb+srv://yulmoocha2001:smic12#$@testengine.sa2ir6w.mongodb.net/?retryWrites=true&w=majority&appName=testEngine'
     return MongoClient(uri, server_api = ServerApi("1"))
 
-def extract_semantic_id(submodel: dict) -> str | None:
+def extract_semantic_id(submodel: dict) -> str:
     keys = submodel.get("semanticId", {}).get("keys", [])
     return keys[0].get("value") if keys else None
 
@@ -83,7 +84,7 @@ def search_schema_in_all_fields(value: str):
     try:
         client.admin.command("ping")
         collection = client.aas.aas_schema
-
+        # 모든 주요 필드에 대해 or 조건으로 검색
         query = {
             "$or": [
                 {"submodel_id": value},
@@ -93,10 +94,9 @@ def search_schema_in_all_fields(value: str):
             ]
         }
 
-        documents = collection.find(query)
-        return list(documents)
-
+        document = collection.find(query)
+        return list(document)
     except Exception as e:
         print(f"[DB Error] {e}")
-        return []
-        
+        return None
+
