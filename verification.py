@@ -13,6 +13,7 @@ async def check_schema(file: UploadFile = File(...)):
 
 @router.post("/instance")
 async def check_instance(file: UploadFile = File(...)):
+    print("aaaaaaaaaaa")
     return await verification_instance(file)
 
 @router.delete("/delete_submodel_schema/")

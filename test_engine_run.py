@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse
 def run_test_engine(file_path: str, file_ext: str) -> dict:
     command = build_command(file_path, file_ext)
     env = os.environ.copy()
+
     env["PYTHONIOENCODING"] = "utf-8"
     try:
         result = subprocess.run(command, capture_output=True, env=env)
