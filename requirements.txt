@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+python-multipart
+aas-test-engines
+pydantic
+pymongo
+aas_core3.0
