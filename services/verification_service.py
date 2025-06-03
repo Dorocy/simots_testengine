@@ -3,6 +3,10 @@ from fastapi import HTTPException, Query
 from fastapi.responses import JSONResponse
 from utils.file_handler import remove_ansi_codes
 from utils.response_handler import ErrorCode, error_response
+from utils.db_hadler import (
+    delete_schema_by_semantic_id,
+    retrieve_schemas,
+    search_schema_in_all_fields)
 import aas_core3.jsonization as aas_jsonization
 from export_schema import get_schema_result
 
@@ -23,15 +27,10 @@ async def verification_schema(file):
             first_key_value = semantic_id_keys[0].get("value", "")
             if first_key_value.startswith("https://admin-shell.io/"):
                 return get_schema_result(data)
-
     validate_qualifiers(data)
-
-    result = await get_schema_result(data)
-
-    # DB저장로직~
-
+    result = get_schema_result(data)
+    
     return result
-
 
 async def verification_instance(file):
     file_content = await file.read()
@@ -47,9 +46,29 @@ async def verification_instance(file):
     sys.stdout = old_stdout
 
     cleaned_output = remove_ansi_codes(output).strip().splitlines()
-    # formatted_output = cleaned_output.splitlines()
 
     return JSONResponse(content=cleaned_output)
+
+
+async def verification_metamodel(file):
+    response = process_verification(file)
+    return response
+    
+# async def verification_instance(file):
+#     file_content = await file.read()
+#     try:
+#         json_data = json.loads(file_content.decode("utf-8"))
+
+#         old_stdout = sys.stdout
+#         sys.stdout = io.StringIO()
+#         run_submodel.check_submodel_templates(json_data)
+#         output = sys.stdout.getvalue()
+#         sys.stdout = old_stdout
+
+#         cleaned_output = remove_ansi_codes(output).strip().splitlines()
+#     except Exception:
+#             error_response(status_code=400, error_code=ErrorCode.INVALID_JSON_FORMAT)
+#     return JSONResponse(content=cleaned_output)
 
 
 async def verification_metamodel(file):
@@ -77,7 +96,8 @@ def process_verification(file) -> dict:
 
         result = test_engine_run.run_test_engine(file_path, file_ext)
 
-        response = {"file": os.path.basename(file_path), "verification": result}
+        response = {"file": os.path.basename(file_path), 
+                    "verification": result}
         if extracted_id:
             response["extracted_id"] = extracted_id
 
@@ -94,7 +114,8 @@ def check_submodel_kind(data: json):
     # submodel을 라이브러리의 타입에 맞게 변화하는 부분 확인차 에러 처리
     try:
         submodel = aas_jsonization.submodel_from_jsonable(data)
-    except Exception as e:
+
+    except Exception:
         return error_response(
             400,
             ErrorCode.INVALID_FILE_FORMAT,
@@ -108,7 +129,6 @@ def check_submodel_kind(data: json):
 # Mission 1. 위의 라이브러리를 사용하여 아래 소스코드 간소화 및 수정 요함!
 # SME의 qualifier 검사
 def validate_qualifiers(data: json):
-
     for submodel in data["submodels"]:
         submodel_elements = submodel.get("submodelElements", [])
 
@@ -139,28 +159,52 @@ def validate_qualifiers(data: json):
                     )
 
 
-def semantic_id_to_filename(semantic_id: str) -> str:
-    filename = semantic_id.replace("https://", "").replace("/", "_")
-    return f"{filename}.py"
+async def delete_schema(semanticId: str = Query(..., description="SemanticId of the schema to delete")):
+    success = delete_schema_by_semantic_id(semanticId)
+    if not success:
+        raise HTTPException(status_code=404, detail="Schema not found in database.")
+    return {"message": f"Schema for semanticId '{semanticId}' has been deleted from DB."}
 
 
-EXPORT_DIR = "exported_schema"
-
-
-async def delete_schema(
-    semanticId: str = Query(..., description="SemanticId of the schema to delete")
-):
-    safe_filename = semantic_id_to_filename(semanticId)
-    file_path = os.path.join(EXPORT_DIR, f"{safe_filename}")
-
-    if not os.path.exists(file_path):
-        raise HTTPException(status_code=404, detail="Schema file not found.")
-
+async def schemas_list():
     try:
-        os.remove(file_path)
-        return {"message": f"Schema for semanticId '{semanticId}' has been deleted."}
+        submodel_ids = retrieve_schemas()
+        return submodel_ids
+    except Exception:
+        return HTTPException(status_code=404, detail="No schemas found in database.")
+
+
+async def schemas_list():
+    try:
+        submodel_ids = retrieve_schemas()
+        return submodel_ids
+    except Exception:
+        return HTTPException(status_code=404, detail="No schemas found in database.")
+
+
+        
+async def search_schema_by_value(value: str):
+    try:
+        results = search_schema_in_all_fields(value)
+
+        if not results:
+            return {
+                "message": f"'{value}'가(이) 없습니다."
+            }
+
+        data_list = []
+        for result in results:
+            data_list.append({
+                "submodel_id": result.get("submodel_id"),
+                "version": result.get("version"),
+                "revision": result.get("revision"),
+                "create_at": result.get("create_at"),
+                "uploaded_by": result.get("uploaded_by"),
+            })
+
+        return {
+            "message": f"'{value}'가(이) 있습니다. 총 {len(data_list)}건",
+            "data": data_list
+        }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error deleting file: {str(e)}")
-
-
-# def create_submodel_schema():
+        print(f"Error in service: {e}")
