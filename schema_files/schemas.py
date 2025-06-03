@@ -12,10 +12,6 @@ class EntityType(Enum):
 class EntityValue:
     entity_type: EntityType
 
-    class_name: LangString = field(metadata={"semantic_id": "0173-1#02-ABJ219#003"})
-    
-    class_name: LangString = field(metadata={'semantic_id': '0173-1#02-ABJ219#004'})
-
 @dataclass
 class DocumentId00:
     document_domain_id: str = field(metadata={

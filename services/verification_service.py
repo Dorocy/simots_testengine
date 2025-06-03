@@ -29,6 +29,7 @@ async def verification_schema(file):
                 return get_schema_result(data)
     validate_qualifiers(data)
     result = get_schema_result(data)
+    
     return result
 
 async def verification_instance(file):

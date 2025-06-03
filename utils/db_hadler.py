@@ -1,3 +1,4 @@
+from http.client import HTTPException
 from fastapi import HTTPException
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
@@ -77,8 +78,8 @@ def retrieve_schemas():
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"DB check schema error: {e}")
-
-
+    
+    
 def search_schema_in_all_fields(value: str):
     client = get_db_client()
     try:
@@ -93,10 +94,31 @@ def search_schema_in_all_fields(value: str):
                 {"revision": value}
             ]
         }
-
         document = collection.find(query)
         return list(document)
     except Exception as e:
         print(f"[DB Error] {e}")
         return None
-
+# def export_schema_to_py_file(submodel_id: str, file_path: str = "schema_files/test_schema.py") -> bool:
+#     client = get_db_client()
+#     try:
+#         client.admin.command("ping")
+#         collection = client.aas.aas_schema
+#         document = collection.find_one({"submodel_id": submodel_id})
+#         if not document:
+#             print(f"No schema found for submodel_id: {submodel_id}")
+#             return False
+#         binary_data = document["schema"]
+#         decoded_schema = binary_data.decode("utf-8")
+#         with open(file_path, "w", encoding="utf-8") as f:
+#             f.write("from enum import Enum\n"
+#                     "from typing import Optional, List\n"
+#                     "from dataclasses import dataclass, field\n"
+#                     "from aas_test_engines.test_cases.v3_0.parse_submodel import LangString\n"
+#                     "from aas_test_engines.test_cases.v3_0.submodel_templates import template\n")
+#             f.write(decoded_schema)
+#         print(f"Schema for {submodel_id} written to {file_path}")
+#         return True
+#     except Exception as e:
+#         print(f"[Export Error] {e}")
+#         return False
