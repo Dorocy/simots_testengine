@@ -1,16 +1,31 @@
 # 🛠️ AAS-Verify
 
-[🖥️ 데모 바로 보기 (Vercel)](https://your-vercel-url.vercel.app)
+[🖥️ 데모 바로 보기](http://te.amrc.kr/docs)
 
 AAS-Verify는 Asset Administration Shell (AAS) 모델의 구조와 데이터를 자동으로 검증하는 FastAPI 기반 백엔드 도구입니다.  
 산업용 디지털 트윈 표준인 AAS의 JSON 데이터를 받아 메타모델 스펙 준수 여부를 확인할 수 있습니다.
 
 ---
 
+## 📁 폴더 구조 예시
+
+```
+aas-verify/
+├── main.py                 # FastAPI 앱 진입점
+├── validators/             # 검증 로직 모듈
+├── schemas/                # Pydantic 모델 정의
+├── tests/                  # 단위 테스트
+├── requirements.txt
+├── vercel.json             # Vercel 배포 설정
+└── README.md
+```
+
+---
+
 ## ✨ Implemented AAS Specifications
 
 - **AAS Part 1**: Metamodel v3.0 Specification
-- **AAS Test Engines**: AAS 데이터 검증 도구 사용
+- **AAS Part 2**: APIs v3.0 Specification (..ing)
 
 ---
 
@@ -82,6 +97,8 @@ class Submodel(BaseModel):
 pip install -r requirements.txt
 ```
 
+> 필요 라이브러리 전체 한번에 설치!
+
 ### ✅ Step 2: 서버 실행
 
 ```bash
@@ -107,18 +124,3 @@ uvicorn main:app --reload
 - AAS XML 포맷 지원
 - 정적 프론트 페이지 추가 (검증 결과 시각화)
 - 사용자 정의 검증 규칙 로딩 기능
-
----
-
-## 📁 폴더 구조 예시
-
-```
-aas-verify/
-├── main.py                 # FastAPI 앱 진입점
-├── validators/             # 검증 로직 모듈
-├── schemas/                # Pydantic 모델 정의
-├── tests/                  # 단위 테스트
-├── requirements.txt
-├── vercel.json             # Vercel 배포 설정
-└── README.md
-```
