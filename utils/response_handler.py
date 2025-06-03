@@ -1,0 +1,92 @@
+from enum import Enum
+from fastapi import Request
+from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
+from starlette.status import HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR
+from typing import Optional
+
+
+# 원하는 에러 메세지를 전달하기위해 Enum으로 그룹핑해서 처리
+class ErrorCode(str, Enum):
+    INVALID_PARAMETER = "invalid_parameter"
+    API_NOT_FOUND = "api_not_found"
+    MISSING_PARAMETER = "missing_parameter"
+    INTERNAL_SERVER_ERROR = "internal_server_error"
+    INVALID_FILE_FORMAT = "invalid_file_format"
+    # 아래는 검증부분에서 사전에 처리되면 좋을 에러
+    INVALID_QUALIFIER_KIND = "invalid_qualifier_kind"
+    INVALID_QUALIFIER_TYPE = "invalid_qualifier_type"
+    INVALID_SUBMODEL_KIND = "invalid_submodel_kind"
+    INVALID_JSON_FORMAT = "invalid_json_format"
+    TEST_ENGINE_NO_OUTPUT = "test_engine_no_output"
+
+
+# 에러코드에 따라 에러메세지도 동일하게 처리되도록 매핑
+ERROR_MESSAGES = {
+    ErrorCode.INVALID_PARAMETER: "잘못된 파라미터입니다.",
+    ErrorCode.API_NOT_FOUND: "API를 찾을 수 없습니다.",
+    ErrorCode.MISSING_PARAMETER: "필수 파라미터가 누락되었습니다.",
+    ErrorCode.INTERNAL_SERVER_ERROR: "서버 내부 오류가 발생했습니다.",
+    ErrorCode.INVALID_FILE_FORMAT: "지원하지 않는 파일 형식입니다.",
+    ErrorCode.INVALID_QUALIFIER_KIND: "Qualifier의 'kind'는 'TemplateQualifier'여야 합니다.",
+    ErrorCode.INVALID_QUALIFIER_TYPE: "Qualifier의 'type'은 'SMT_Cardinality'여야 합니다.",
+    ErrorCode.INVALID_SUBMODEL_KIND: "Submodel의 'Kind'는 'Template'여야 합니다.",
+    ErrorCode.TEST_ENGINE_NO_OUTPUT: "test engine으로 부터 결과를 받지 못했습니다.",
+    ErrorCode.INVALID_JSON_FORMAT: "json 파싱 오류 발생",
+}
+
+
+# 예외 처리시 동일한 구조로 가도록 함수 작성
+def error_response(
+    status_code: int, error_code: ErrorCode, message: Optional[str] = None
+):
+    return JSONResponse(
+        status_code=status_code,
+        content={
+            "status": "API error",
+            "error": {
+                "code": error_code.value,
+                "message": message
+                or ERROR_MESSAGES.get(error_code, "알 수 없는 오류입니다."),
+            },
+        },
+    )
+
+
+def success_response(status: str, verification_status, verification_message):
+    return JSONResponse(
+        status_code=200,
+        content={
+            "status": status,
+            "verificiation": {
+                "result": verification_status,
+                "message": verification_message,
+            },
+        },
+    )
+
+
+# FAST api에서 예외 처리하기 위해 만듬.
+def setup_exception_handlers(app):
+    @app.exception_handler(RequestValidationError)
+    async def validation_exception_handler(
+        request: Request, exc: RequestValidationError
+    ):
+        return error_response(
+            status_code=HTTP_400_BAD_REQUEST,
+            error_code=ErrorCode.INVALID_PARAMETER,
+        )
+
+    @app.exception_handler(Exception)
+    async def general_exception_handler(request: Request, exc: Exception):
+        return error_response(
+            status_code=HTTP_500_INTERNAL_SERVER_ERROR,
+            error_code=ErrorCode.INTERNAL_SERVER_ERROR,
+        )
+
+    @app.exception_handler(UnicodeDecodeError)
+    async def unicode_exception_handler(request: Request, exc: UnicodeDecodeError):
+        return error_response(
+            status_code=400,
+            error_code=ErrorCode.INVALID_FILE_FORMAT,
+        )

@@ -1,0 +1,39 @@
+from fastapi import APIRouter, UploadFile, File, Query
+from services.verification_service import (
+    verification_instance,
+    verification_metamodel,
+    verification_schema,
+    delete_schema,
+    schemas_list,
+    search_schema_by_value
+)
+
+router = APIRouter()
+
+
+@router.post("/metamodel")
+async def check_metamodel(file: UploadFile = File(...)):
+    return await verification_metamodel(file)
+
+
+@router.post("/schema")
+async def check_schema(file: UploadFile = File(...)):
+    return await verification_schema(file)
+
+
+@router.post("/instance")
+async def check_instance(file: UploadFile = File(...)):
+    return await verification_instance(file)
+
+
+@router.delete("/delete_submodel_schema/")
+async def check_and_delete_schema(semanticId: str = Query(..., description="SemanticId of the schema to delete")):
+    return await delete_schema(semanticId)
+
+@router.get("/schemas")
+async def schema_list():
+    return await schemas_list()
+
+@router.get("/schemas/search")
+async def search_schema(value: str = Query(..., description="검색할 값 ex) semanticId or 제조기업")):
+    return await search_schema_by_value(value)
