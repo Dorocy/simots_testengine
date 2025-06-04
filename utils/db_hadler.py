@@ -1,3 +1,4 @@
+from http.client import HTTPException
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 from pymongo.mongo_client import MongoClient
@@ -107,6 +108,7 @@ def search_schema_with_semantic_id(semanticId: str):
 
 
 def search_schema_with_uploaded_by(uploadedBy: str):
+
     client = get_db_client()
     try:
         collection = client.aas.aas_schema
@@ -115,6 +117,7 @@ def search_schema_with_uploaded_by(uploadedBy: str):
         documents = collection.find(query)
 
         return list(documents)
+
     except Exception as e:
 
         print(f"[DB Error] {e}")

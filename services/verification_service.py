@@ -17,6 +17,68 @@ from export_schema import get_schema_result
 existing_names = {}
 
 
+async def verification_schema(file):
+    contents = await file.read()
+    data = json.loads(contents)
+
+    for submodel in data.get("submodels", []):
+        submodel_type_error = check_submodel_kind(submodel)
+        if submodel_type_error:
+            return submodel_type_error
+        semantic_id_keys = submodel.get("semanticId", {}).get("keys", [])
+        if semantic_id_keys and isinstance(semantic_id_keys, list):
+            first_key_value = semantic_id_keys[0].get("value", "")
+            if first_key_value.startswith("https://admin-shell.io/"):
+                return get_schema_result(data)
+    validate_qualifiers(data)
+    result = get_schema_result(data)
+    
+    return result
+
+async def verification_instance(file):
+    file_content = await file.read()
+    try:
+        json_data = json.loads(file_content.decode("utf-8"))
+    except Exception:
+        error_response("json 파싱 에러")
+
+    old_stdout = sys.stdout
+    sys.stdout = io.StringIO()
+    run_submodel.check_submodel_templates(json_data)
+    output = sys.stdout.getvalue()
+    sys.stdout = old_stdout
+
+    cleaned_output = remove_ansi_codes(output).strip().splitlines()
+
+    return JSONResponse(content=cleaned_output)
+
+
+async def verification_metamodel(file):
+    response = process_verification(file)
+    return response
+    
+# async def verification_instance(file):
+#     file_content = await file.read()
+#     try:
+#         json_data = json.loads(file_content.decode("utf-8"))
+
+#         old_stdout = sys.stdout
+#         sys.stdout = io.StringIO()
+#         run_submodel.check_submodel_templates(json_data)
+#         output = sys.stdout.getvalue()
+#         sys.stdout = old_stdout
+
+#         cleaned_output = remove_ansi_codes(output).strip().splitlines()
+#     except Exception:
+#             error_response(status_code=400, error_code=ErrorCode.INVALID_JSON_FORMAT)
+#     return JSONResponse(content=cleaned_output)
+
+
+async def verification_metamodel(file):
+    response = process_verification(file)
+    return response
+
+
 def process_verification(file) -> dict:
     _, file_ext = os.path.splitext(file.filename)
 

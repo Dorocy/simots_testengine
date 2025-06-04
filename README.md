@@ -1,39 +1,124 @@
-# aas-verify
+# 🛠️ AAS-Verify
+
+[🖥️ 데모 바로 보기 (Vercel)](https://your-vercel-url.vercel.app)
+
+AAS-Verify는 Asset Administration Shell (AAS) 모델의 구조와 데이터를 자동으로 검증하는 FastAPI 기반 백엔드 도구입니다.  
+산업용 디지털 트윈 표준인 AAS의 JSON 데이터를 받아 메타모델 스펙 준수 여부를 확인할 수 있습니다.
+
+---
 
 ## ✨ Implemented AAS Specifications
 
 - **AAS Part 1**: Metamodel v3.0 Specification
-- **AAS Test Engines**: Tools for verifying AAS compliance
+- **AAS Test Engines**: AAS 데이터 검증 도구 사용
 
-## 🚀 Usage Guide
+---
 
-### Step 0: Requirements
+## ⚙️ 기술 스택 요약
 
-requirements:
+| 항목       | 내용                                  |
+| ---------- | ------------------------------------- |
+| 언어       | Python 3.12.6                         |
+| 프레임워크 | FastAPI                               |
+| 검증도구   | aas-test-engines (AAS 공식 스펙 기반) |
+| 서버       | Uvicorn (ASGI)                        |
+| 기타       | python-multipart (파일 업로드 지원)   |
 
-```bash
-Python 3.12.6
-pip 25.0.1
+---
+
+## ✅ 핵심 구현 포인트 (면접용 설명)
+
+### 1. 검증 함수의 모듈화 설계
+
+```python
+def validate_id_short(model):
+    if not model.idShort:
+        raise ValueError("idShort is missing.")
 ```
 
-### Step 1: Install Required Libraries
+> 개별 검증 항목을 함수로 분리하여 유지보수 및 확장성 확보
 
-Before running the server, make sure you have the necessary dependencies installed. You can do this by running the following commands:
+---
 
-```bash
-python -m pip install --upgrade aas_test_engines
-pip install fastapi
-pip install python-multipart
+### 2. FastAPI 기반 REST API 설계
 
+```python
+@app.post("/validate")
+def validate_model(data: Submodel):
+    validate_id_short(data)
+    return {"message": "Validation passed"}
 ```
 
-### Step 2: To start server, use the following command in your terminal:
+> 클라이언트가 JSON을 업로드하면, 구조 유효성 검사를 수행하고 결과 반환
+
+---
+
+### 3. Pydantic 모델 정의 예시
+
+```python
+class Submodel(BaseModel):
+    idShort: str
+    semanticId: Optional[str]
+    kind: Optional[str]
+```
+
+> AAS 구조를 타입 기반으로 정의하여 JSON 입력 시 자동 유효성 검사 처리
+
+---
+
+## 🚀 실행 가이드
+
+### ✅ Step 0: 환경 요구사항
+
+- Python 3.12.6
+- pip 25.0.1 이상
+- OS: Windows/Linux/macOS 모두 가능
+- 가상환경 권장: `venv` 또는 `virtualenv`
+- 포트 8000 사용 가능해야 함 (FastAPI 기본 포트)
+
+### ✅ Step 1: 의존성 설치
+
+```bash
+pip install -r requirements.txt
+```
+
+### ✅ Step 2: 서버 실행
 
 ```bash
 uvicorn main:app --reload
 ```
 
-if your server starts, you can acces it at:
+접속 주소:
 
-- default address: http://127.0.0.1
-- port: 8000
+- http://127.0.0.1:8000
+- FastAPI Docs: http://127.0.0.1:8000/docs
+
+---
+
+## 🌐 배포 (Vercel)
+
+- 배포 주소: `https://your-vercel-url.vercel.app`
+- FastAPI가 Vercel에 배포되어 누구나 실시간으로 API를 테스트할 수 있음
+
+---
+
+## 📌 향후 개선 사항
+
+- AAS XML 포맷 지원
+- 정적 프론트 페이지 추가 (검증 결과 시각화)
+- 사용자 정의 검증 규칙 로딩 기능
+
+---
+
+## 📁 폴더 구조 예시
+
+```
+aas-verify/
+├── main.py                 # FastAPI 앱 진입점
+├── validators/             # 검증 로직 모듈
+├── schemas/                # Pydantic 모델 정의
+├── tests/                  # 단위 테스트
+├── requirements.txt
+├── vercel.json             # Vercel 배포 설정
+└── README.md
+```
