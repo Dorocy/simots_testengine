@@ -1,8 +1,11 @@
 from http.client import HTTPException
 from fastapi import HTTPException
+from fastapi.responses import JSONResponse
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 import datetime, json, re
+from utils.response_handler import ErrorCode, error_response, success_response
+from typing import List
 
 # DB 연결
 def get_db_client():
@@ -21,55 +24,63 @@ def extract_version_revision(semantic_id):
     else:
         return None, None
 
-# Schema 저장
+
 def connect_and_insert(original_data, result_schema):
     client = get_db_client()
     binary_data = result_schema.encode("utf-8")
 
-    # 연결 확인
     try:
-        client.admin.command("ping")
+        submodels = original_data.get("submodels", [])
+        if not submodels:
+            return error_response(400, ErrorCode.NO_SUBMODEL_FOUND, "No submodels found")
 
-        for submodel in original_data.get("submodels", []):
-            semantic_id = extract_semantic_id(submodel)
-            if not semantic_id:
-                continue  # 저장 불가
+        semantic_id = extract_semantic_id(submodels[0])
+        if not semantic_id:
+            return error_response(400, ErrorCode.NO_SEMANTIC_ID, "semantic_id not found")
 
+        existing_submodel_ids = retrieve_schemas()
+
+        if semantic_id not in existing_submodel_ids:
             version, revision = extract_version_revision(semantic_id)
+            print(existing_submodel_ids)
+            # print(type(existing_submodel_ids[0]))
 
             schema_data = {
                 "submodel_id": semantic_id,
                 "version": version,
                 "revision": revision,
                 "create_at": datetime.datetime.now(),
-                # "create_at": datetime.datetime.now.strftime("%Y-%m-%d %H:%M:%S"),
-                "uploaded_by": "IDTA",  # 나중에 동적으로 바꿔도 됨
+                "uploaded_by": "IDTA",
                 "schema": binary_data
             }
+
             insert_result = client.aas.aas_schema.insert_one(schema_data)
             print(f"Data inserted with _id: {insert_result.inserted_id}")
-        return insert_result
+            return success_response("Schema API", "success", f"Schema '{semantic_id}' is extracted and stored")
+
+        else:
+            return error_response(400, ErrorCode.ALREADY_EXISTS_SCHEMA, f"Schema '{semantic_id}' is already exists.")
 
     except Exception as e:
-        print(f"Error occurred: {e}")
+        print(f"[Error] {e}")
+        return error_response(500, ErrorCode.DB_ERROR, str(e))
 
 # Schema 삭제
 def delete_schema_by_semantic_id(semantic_id: str) -> bool:
     print("삭제 부분 연결 성공")
     client = get_db_client()
     try:
-        client.admin.command("ping")
         result = client.aas.aas_schema.delete_one({"submodel_id": semantic_id})
         # print("Delete Result: ", client.aas.aas_schema.DeleteResult)
         return result.deleted_count > 0
     except Exception as e:
         print(f"Error occurred: {e}")
 
+
 # Schema 조회
 def retrieve_schemas():
     client = get_db_client()
     try:
-        client.admin.command("ping")
         collection = client.aas.aas_schema
         documents = collection.find({}, {"submodel_id": 1, "_id": 0})
 
@@ -78,47 +89,87 @@ def retrieve_schemas():
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"DB check schema error: {e}")
-    
-    
-def search_schema_in_all_fields(value: str):
+
+
+def search_schema_with_semantic_id(semanticId: str):
     client = get_db_client()
     try:
-        client.admin.command("ping")
         collection = client.aas.aas_schema
-        # 모든 주요 필드에 대해 or 조건으로 검색
-        query = {
-            "$or": [
-                {"submodel_id": value},
-                {"uploaded_by": value},
-                {"version": value},
-                {"revision": value}
-            ]
-        }
-        document = collection.find(query)
-        return list(document)
+
+        query = {"submodel_id": semanticId}
+        document = collection.find_one(query)
+
+        return document
+    except Exception as e:
+
+        print("조회")
+        print(f"[DB Error] {e}")
+        return None
+
+
+def search_schema_with_uploaded_by(uploadedBy: str):
+
+    client = get_db_client()
+    try:
+        collection = client.aas.aas_schema
+
+        query = {"uploaded_by": uploadedBy}
+        documents = collection.find(query)
+
+        return list(documents)
+
+    except Exception as e:
+
+        print(f"[DB Error] {e}")
+        return None
+
+
+def search_schema_in_all_fields(semanticId: str, uploadedBy: str):
+    client = get_db_client()
+    try:
+        collection = client.aas.aas_schema
+
+        query = {"submodel_id": semanticId,
+                "uploaded_by": uploadedBy}
+        document = collection.find_one(query)
+
+        return document
+
     except Exception as e:
         print(f"[DB Error] {e}")
         return None
-# def export_schema_to_py_file(submodel_id: str, file_path: str = "schema_files/test_schema.py") -> bool:
-#     client = get_db_client()
-#     try:
-#         client.admin.command("ping")
-#         collection = client.aas.aas_schema
-#         document = collection.find_one({"submodel_id": submodel_id})
-#         if not document:
-#             print(f"No schema found for submodel_id: {submodel_id}")
-#             return False
-#         binary_data = document["schema"]
-#         decoded_schema = binary_data.decode("utf-8")
-#         with open(file_path, "w", encoding="utf-8") as f:
-#             f.write("from enum import Enum\n"
-#                     "from typing import Optional, List\n"
-#                     "from dataclasses import dataclass, field\n"
-#                     "from aas_test_engines.test_cases.v3_0.parse_submodel import LangString\n"
-#                     "from aas_test_engines.test_cases.v3_0.submodel_templates import template\n")
-#             f.write(decoded_schema)
-#         print(f"Schema for {submodel_id} written to {file_path}")
-#         return True
-#     except Exception as e:
-#         print(f"[Export Error] {e}")
-#         return False
+
+
+def export_schema_to_py_file(submodel_ids: List[str], file_path: str = "schema_files/test_schema.py") -> bool:
+    client = get_db_client()
+    try:
+        collection = client.aas.aas_schema
+
+        # 파일 처음 열기 - 헤더 포함
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write("from enum import Enum\n"
+                    "from typing import Optional, List\n"
+                    "from dataclasses import dataclass, field\n"
+                    "from aas_test_engines.test_cases.v3_0.parse_submodel import LangString\n"
+                    "from aas_test_engines.test_cases.v3_0.submodel_templates import template\n\n")
+
+        # 이후 submodel_id 목록 순회하며 각각 스키마 가져와서 이어쓰기
+        for submodel_id in submodel_ids:
+            document = collection.find_one({"submodel_id": submodel_id})
+            if not document:
+                print(f"[Warning] No schema found for submodel_id: {submodel_id}")
+                continue
+
+            binary_data = document["schema"]
+            decoded_schema = binary_data.decode("utf-8")
+
+            with open(file_path, "a", encoding="utf-8") as f:
+                f.write(decoded_schema + "\n\n")
+
+            print(f"Schema for {submodel_id} appended to {file_path}")
+
+        return True
+
+    except Exception as e:
+        print(f"[Export Error] {e}")
+        return False
