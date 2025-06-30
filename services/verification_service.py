@@ -195,7 +195,6 @@ async def verification_instance(file):
 async def delete_schema(semanticId: str = Query(..., description="SemanticId of the schema to delete")):
     success = delete_schema_by_semantic_id(semanticId)
     if not success:
-        # raise HTTPException(status_code=404, detail="Schema not found in database.")
         return success_response(
             "Delete API",
             "failed",
