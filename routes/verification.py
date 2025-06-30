@@ -7,24 +7,25 @@ from services.verification_service import (
     schemas_list,
     search_schema_by_value,
     search_schema_by_semamtic_id,
-    search_schema_by_uploaded_by
+    search_schema_by_uploaded_by,
+    edit_schema_by_semantic_id
 )
 
 router = APIRouter()
 
 
 @router.post("/metamodel")
-async def check_metamodel(file: UploadFile = File(...)):
+async def verify_metamodel(file: UploadFile = File(...)):
     return await verification_metamodel(file)
 
 
 @router.post("/schema")
-async def check_schema(file: UploadFile = File(...)):
+async def create_schema(file: UploadFile = File(...)):
     return await verification_schema(file)
 
 
 @router.post("/instance")
-async def check_instance(file: UploadFile = File(...)):
+async def verify_instance(file: UploadFile = File(...)):
     return await verification_instance(file)
 
 
@@ -49,5 +50,11 @@ async def search_schema_with_uploaded_by(value: str = Query(..., description="�
 
 
 @router.get("/schemas/search")
-async def search_schema(semanticId: str = Query(..., description="semanticId"), uploadedBy: str = Query(..., description="제조 기업")):
+async def search_schema(semanticId: str = Query(..., description="semanticId"),
+                        uploadedBy: str = Query(..., description="제조 기업")):
     return await search_schema_by_value(semanticId, uploadedBy)
+
+
+@router.put("/edit/schema")
+async def edit_schema(file: UploadFile = File(...)):
+    return await edit_schema_by_semantic_id(file)

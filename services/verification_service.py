@@ -1,4 +1,5 @@
 import json, io, sys, os, utils.file_handler as file_handler, test_engine_run, run_submodel
+import asyncio
 from fastapi import HTTPException, Query
 from fastapi.responses import JSONResponse
 from utils.file_handler import remove_ansi_codes
@@ -8,70 +9,16 @@ from utils.db_hadler import (
     retrieve_schemas,
     search_schema_in_all_fields,
     search_schema_with_semantic_id,
-    search_schema_with_uploaded_by
+    search_schema_with_uploaded_by,
+    delete_schema_by_semantic_id,
+    restore_schema_backup,
+    get_db_client
     )
 import aas_core3.jsonization as aas_jsonization
 from export_schema import get_schema_result
 
 
 existing_names = {}
-
-
-async def verification_schema(file):
-    contents = await file.read()
-    data = json.loads(contents)
-
-    for submodel in data.get("submodels", []):
-        submodel_type_error = check_submodel_kind(submodel)
-        if submodel_type_error:
-            return submodel_type_error
-        semantic_id_keys = submodel.get("semanticId", {}).get("keys", [])
-        if semantic_id_keys and isinstance(semantic_id_keys, list):
-            first_key_value = semantic_id_keys[0].get("value", "")
-            if first_key_value.startswith("https://admin-shell.io/"):
-                return get_schema_result(data)
-    validate_qualifiers(data)
-    result = get_schema_result(data)
-    
-    return result
-
-async def verification_instance(file):
-    file_content = await file.read()
-    try:
-        json_data = json.loads(file_content.decode("utf-8"))
-    except Exception:
-        error_response("json 파싱 에러")
-
-    old_stdout = sys.stdout
-    sys.stdout = io.StringIO()
-    run_submodel.check_submodel_templates(json_data)
-    output = sys.stdout.getvalue()
-    sys.stdout = old_stdout
-
-    cleaned_output = remove_ansi_codes(output).strip().splitlines()
-
-    return JSONResponse(content=cleaned_output)
-
-
-async def verification_metamodel(file):
-    response = process_verification(file)
-    return response
-    
-# async def verification_instance(file):
-#     file_content = await file.read()
-#     try:
-#         json_data = json.loads(file_content.decode("utf-8"))
-
-#         old_stdout = sys.stdout
-#         sys.stdout = io.StringIO()
-#         run_submodel.check_submodel_templates(json_data)
-#         output = sys.stdout.getvalue()
-#         sys.stdout = old_stdout
-
-#         cleaned_output = remove_ansi_codes(output).strip().splitlines()
-#     except Exception:
-#             error_response(status_code=400, error_code=ErrorCode.INVALID_JSON_FORMAT)
-#     return JSONResponse(content=cleaned_output)
 
 
 async def verification_metamodel(file):
@@ -82,9 +29,11 @@ async def verification_metamodel(file):
 def process_verification(file) -> dict:
     _, file_ext = os.path.splitext(file.filename)
 
-    # 파일 형태 예외처리 error_handler에서 공통 함수 사용해서 처리
     if file_ext not in file_handler.SUPPORTED_EXTENSIONS:
-        return error_response(status_code=400, error_code=ErrorCode.INVALID_FILE_FORMAT)
+        return error_response(
+            400,
+            ErrorCode.INVALID_FILE_FORMAT
+            )
 
     try:
         file_path = file_handler.save_uploaded_file(file, existing_names)
@@ -113,11 +62,6 @@ def process_verification(file) -> dict:
         raise HTTPException(status_code=500, detail=f"처리 중 오류 발생: {str(e)}")
 
 
-async def verification_metamodel(file):
-    response = process_verification(file)
-    return response
-
-
 async def verification_schema(file):
     contents = await file.read()
     data = json.loads(contents)
@@ -144,18 +88,20 @@ async def verification_schema(file):
 
 
 def check_submodel_kind(data: json):
-    # submodel을 라이브러리의 타입에 맞게 변화하는 부분 확인차 에러 처리
     try:
         submodel = aas_jsonization.submodel_from_jsonable(data)
 
     except Exception:
         return error_response(
             400,
-            ErrorCode.INVALID_FILE_FORMAT,
-        )
+            ErrorCode.INVALID_FILE_FORMAT
+            )
 
     if submodel.kind.value != "Template":
-        return error_response(400, ErrorCode.INVALID_SUBMODEL_KIND)
+        return error_response(
+            400,
+            ErrorCode.INVALID_SUBMODEL_KIND
+            )
     return None
 
 
@@ -165,76 +111,101 @@ def validate_qualifiers(data: json):
     except Exception:
         return error_response(
             400,
-            ErrorCode.INVALID_FILE_FORMAT,
-        )
+            ErrorCode.INVALID_FILE_FORMAT
+            )
 
     for submodel in environment.submodels:
-        for element in submodel.submodel_elements or []:  # submodelElement가 없을 경우 []
-            element_id = element.id_short or "Unknown"  # idShort가 없으면 Unknown
-            for qualifier in element.qualifiers or []:  # qualifier가 없으면 []
-                q_kind = qualifier.kind.value
-                print(q_kind)
-                q_type = qualifier.type
+        for element in submodel.submodel_elements or []:
+            element_id = element.id_short or "Unknown"
+            qualifiers = element.qualifiers or []
+
+            has_required_qualifier = False
+            for qualifier in qualifiers:
+                q_kind = qualifier.kind.value if qualifier.kind else None
+                q_type = qualifier.type if qualifier.type else None
 
                 print(f"DEBUG: Checking {element_id} -> kind: {q_kind}, type: {q_type}")
 
-                if q_kind != "TemplateQualifier":
-                    return error_response(
-                        400,
-                        ErrorCode.INVALID_QUALIFIER_KIND,
-                        f"element '{element_id}'의 qualifier.kind는 'TemplateQualifier'여야 합니다.",
-                    )
+                if q_kind == "TemplateQualifier" and q_type == "SMT_Cardinality":
+                    has_required_qualifier = True
+                    break  # 조건 만족 시 바로 통과
 
-                if q_type != "SMT_Cardinality":
-                    return error_response(
-                        400,
-                        ErrorCode.INVALID_QUALIFIER_TYPE,
-                        f"element '{element_id}'의 qualifier.type은 'SMT_Cardinality'여야 합니다.",
-                    )
+            if not has_required_qualifier:
+                return error_response(
+                    400,
+                    ErrorCode.INVALID_QUALIFIER_COMBINATION,
+                    f"element '{element_id}'에는 kind='TemplateQualifier', type='SMT_Cardinality'인 qualifier가 하나 이상 있어야 합니다.",
+                )
+
     return True
 
 
 SUCCESS_COLOR_CODE = "\x1b[92m"
 FAILED_COLOR_CODE = "\x1b[91m"
 
+
+def group_by_template(output_lines: list[str]) -> dict:
+    groups = {}
+    current_key = None
+
+    for line in output_lines:
+        stripped_line = line.strip()
+        if stripped_line.startswith("Template:"):
+            current_key = stripped_line.replace("Template: ", "")
+            groups[current_key] = []
+        elif current_key:
+            if not stripped_line.startswith("Check submodel"):
+                groups[current_key].append(stripped_line)
+                print(groups)
+    return groups
+
+
 async def verification_instance(file):
     file_content = await file.read()
     try:
         json_data = json.loads(file_content.decode("utf-8"))
     except Exception:
-        print("파싱 에러")
         return ErrorCode.INVALID_JSON_FORMAT
 
-    # n_submodel.check_submodel_templates(json_data)
-    # print(test)
-    old_stdout = sys.stdout
-    sys.stdout = io.StringIO()
-    run_submodel.check_submodel_templates(json_data)
-    output = sys.stdout.getvalue()
-    sys.stdout = old_stdout
+    buffer = io.StringIO()  # 기본 출력을 문자열 버퍼로 변경
+    sys.stdout = buffer
+    run_submodel.check_submodel_templates(json_data)  # 터미널 출력을 저장
+    output = buffer.getvalue()
 
     cleaned_output = remove_ansi_codes(output).strip().splitlines()
 
-    success_list = []
-    failed_list = []
+    grouped_templates = group_by_template(cleaned_output)
 
     for line in output.splitlines():
         if "Check submodel" in line:
             if SUCCESS_COLOR_CODE in line:
-                clean_line = remove_ansi_codes(line).strip()
-                success_list.append(clean_line)
-                return success_response("Instance API", "success", cleaned_output)
+                return success_response(
+                    "Instance API",
+                    "success",
+                    grouped_templates
+                )
             elif FAILED_COLOR_CODE in line:
-                clean_line = remove_ansi_codes(line).strip()
-                failed_list.append(clean_line)
-                return success_response("Instance API", "failed", cleaned_output)
+                return success_response(
+                    "Instance API",
+                    "failed",
+                    grouped_templates
+                )
 
 
 async def delete_schema(semanticId: str = Query(..., description="SemanticId of the schema to delete")):
     success = delete_schema_by_semantic_id(semanticId)
     if not success:
-        raise HTTPException(status_code=404, detail="Schema not found in database.")
-    return {"message": f"Schema for semanticId '{semanticId}' has been deleted from DB."}
+        # raise HTTPException(status_code=404, detail="Schema not found in database.")
+        return success_response(
+            "Delete API",
+            "failed",
+            "Schema not found in database."
+            )
+    return success_response(
+        "Delete API",
+        "success",
+        f"Schema for semanticId '{semanticId}' has been deleted from DB."
+        )
 
 
 async def schemas_list():
@@ -258,7 +229,6 @@ async def search_schema_by_semamtic_id(value: str):
             "submodel_id": result.get("submodel_id"),
             "version": result.get("version"),
             "revision": result.get("revision"),
-            # "create_at": result.get("create_at"),
             "uploaded_by": result.get("uploaded_by")
         }
 
@@ -285,7 +255,6 @@ async def search_schema_by_uploaded_by(value: str):
                 "submodel_id": result.get("submodel_id"),
                 "version": result.get("version"),
                 "revision": result.get("revision"),
-                # "create_at": result.get("create_at"),
                 "uploaded_by": result.get("uploaded_by")
             })
 
@@ -310,7 +279,6 @@ async def search_schema_by_value(semanticId: str, uploadedBy: str):
             "submodel_id": result.get("submodel_id"),
             "version": result.get("version"),
             "revision": result.get("revision"),
-            # "create_at": result.get("create_at"),
             "uploaded_by": result.get("uploaded_by")
         }
 
@@ -321,3 +289,163 @@ async def search_schema_by_value(semanticId: str, uploadedBy: str):
 
     except Exception as e:
         print(f"Error in service: {e}")
+
+
+# async def edit_schema_by_semantic_id(file):
+#     contents = await file.read()
+#     data = json.loads(contents)
+#     for submodel in data.get("submodels", []):
+#         try:
+#             submodel = aas_jsonization.submodel_from_jsonable(submodel)
+#         except Exception:
+#             return error_response(
+#                 400,
+#                 ErrorCode.INVALID_FILE_FORMAT
+#                 )
+
+#         semanticId = submodel.semantic_id.keys[0].value
+#         search_result = search_schema_with_semantic_id(semanticId)
+
+#         if search_result is None:
+#             return success_response(
+#                 'Edit API',
+#                 'failed',
+#                 f"schema: {semanticId} not found."
+#             )
+
+#         delete_schema_by_semantic_id(semanticId)
+#         print(delete_schema_by_semantic_id(semanticId))
+#         edit_result = await verification_schema(file)
+#         if edit_result.get("verification") == "success":
+#             return success_response(
+#                 "Edit API",
+#                 "success",
+#                 f"Schema '{semanticId}' is modified."
+#                 )
+#         else:
+#             return edit_result
+
+
+# async def edit_schema_by_semantic_id(file):
+#     contents = await file.read()
+#     data = json.loads(contents)
+
+#     for submodel_data in data.get("submodels", []):
+#         try:
+#             submodel = aas_jsonization.submodel_from_jsonable(submodel_data)
+#         except Exception:
+#             return error_response(
+#                 400,
+#                 ErrorCode.INVALID_FILE_FORMAT
+#             )
+
+#         semantic_id = submodel.semantic_id.keys[0].value
+#         search_result = search_schema_with_semantic_id(semantic_id)
+
+#         await file.seek(0)
+
+#         if search_result is None:
+#             return success_response(
+#                 "Edit API",
+#                 "failed",
+#                 f"schema: {semantic_id} not found."
+#             )
+
+#         backup_schema = search_result
+#         delete_schema_by_semantic_id(semantic_id)
+#         edit_result = await verification_schema(file)
+#         body = json.loads(edit_result.body)
+#         verification_status = body.get("verification", {}).get("result")
+
+#         if verification_status == "success":
+#             return success_response(
+#                 "Edit API",
+#                 "success",
+#                 f"Schema '{semantic_id}'가 수정되었습니다."
+#             )
+#         else:
+#             restored = restore_schema_backup(backup_schema)
+#             if restored is True:
+#                 print(f"복구 성공: Schema '{semantic_id}' 복구")
+#             else:
+#                 print("복구 실패패: Schema '{semantic_id}' 복구 실패")
+
+#         return edit_result
+
+async def edit_schema_by_semantic_id(file):
+    contents = await file.read()
+    data = json.loads(contents)
+
+    for submodel_data in data.get("submodels", []):
+        try:
+            submodel = aas_jsonization.submodel_from_jsonable(submodel_data)
+        except Exception:
+            return error_response(
+                400,
+                ErrorCode.INVALID_FILE_FORMAT
+                )
+
+        try:
+            semantic_id = submodel.semantic_id.keys[0].value
+            search_result = search_schema_with_semantic_id(semantic_id)
+        except Exception:
+            return error_response(
+                400,
+                ErrorCode.SEMANTIC_ID_NOT_FOUND
+            )
+
+        await file.seek(0)  # 파일 포인터 초기화
+
+        if search_result is None:
+            return success_response(
+                "Edit API",
+                "failed",
+                f"schema: {semantic_id} not found."
+                )
+
+        backup_schema = search_result
+        delete_schema_by_semantic_id(semantic_id)
+
+        client = get_db_client()
+
+        for _ in range(10):
+            still_exists = client.aas.aas_schema.find_one({"submodel_id": semantic_id})
+            if not still_exists:
+                break
+            await asyncio.sleep(0.1)
+        else:
+            # 10번 돌았는데도 안 없어졌으면 실패
+            return error_response(
+                500,
+                ErrorCode.DB_ERROR,
+                f"Failed to delete schema '{semantic_id}' from DB in time."
+            )
+
+        edit_result = await verification_schema(file)
+
+        try:
+            body = json.loads(edit_result.body)
+            verification_status = body.get("verification", {}).get("result")
+        except Exception:
+            verification_status = None
+        print("*****************", verification_status)
+
+        if verification_status == "success":
+            return success_response(
+                "Edit API",
+                "success",
+                f"Schema '{semantic_id}'가 수정되었습니다."
+                )
+        else:
+            # 복구 시도
+            restored = restore_schema_backup(backup_schema)
+            if restored:
+                print("복구 성공")
+            else:
+                print("**복구 실패**")
+
+            return success_response(
+                "Edit API",
+                "failed",
+                f"Schema '{semantic_id}'가 올바르지 않습니다."
+            )

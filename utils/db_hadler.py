@@ -32,18 +32,24 @@ def connect_and_insert(original_data, result_schema):
     try:
         submodels = original_data.get("submodels", [])
         if not submodels:
-            return error_response(400, ErrorCode.NO_SUBMODEL_FOUND, "No submodels found")
+            return error_response(
+                400,
+                ErrorCode.SUBMODEL_NOT_FOUND
+                )
 
         semantic_id = extract_semantic_id(submodels[0])
         if not semantic_id:
-            return error_response(400, ErrorCode.NO_SEMANTIC_ID, "semantic_id not found")
+            return error_response(
+                400,
+                ErrorCode.MISSING_PARAMETER,
+                "semantic_id not found"
+                )
 
         existing_submodel_ids = retrieve_schemas()
 
         if semantic_id not in existing_submodel_ids:
             version, revision = extract_version_revision(semantic_id)
             print(existing_submodel_ids)
-            # print(type(existing_submodel_ids[0]))
 
             schema_data = {
                 "submodel_id": semantic_id,
@@ -56,26 +62,35 @@ def connect_and_insert(original_data, result_schema):
 
             insert_result = client.aas.aas_schema.insert_one(schema_data)
             print(f"Data inserted with _id: {insert_result.inserted_id}")
-            return success_response("Schema API", "success", f"Schema '{semantic_id}' is extracted and stored")
+            return success_response(
+                "Schema API",
+                "success",
+                f"Schema '{semantic_id}' is extracted and stored."
+                )
 
         else:
-            return error_response(400, ErrorCode.ALREADY_EXISTS_SCHEMA, f"Schema '{semantic_id}' is already exists.")
+            return error_response(
+                400,
+                ErrorCode.ALREADY_EXISTS_SCHEMA,
+                f"Schema '{semantic_id}' is already exists."
+                )
 
     except Exception as e:
         print(f"[Error] {e}")
-        return error_response(500, ErrorCode.DB_ERROR, str(e))
+        return error_response(
+            500,
+            ErrorCode.DB_ERROR,
+            str(e)
+            )
 
 # Schema 삭제
 def delete_schema_by_semantic_id(semantic_id: str) -> bool:
-    print("삭제 부분 연결 성공")
     client = get_db_client()
     try:
         result = client.aas.aas_schema.delete_one({"submodel_id": semantic_id})
-        # print("Delete Result: ", client.aas.aas_schema.DeleteResult)
         return result.deleted_count > 0
     except Exception as e:
         print(f"Error occurred: {e}")
-
 
 # Schema 조회
 def retrieve_schemas():
@@ -102,7 +117,6 @@ def search_schema_with_semantic_id(semanticId: str):
         return document
     except Exception as e:
 
-        print("조회")
         print(f"[DB Error] {e}")
         return None
 
@@ -144,16 +158,15 @@ def export_schema_to_py_file(submodel_ids: List[str], file_path: str = "schema_f
     client = get_db_client()
     try:
         collection = client.aas.aas_schema
-
-        # 파일 처음 열기 - 헤더 포함
+        # 헤더
         with open(file_path, "w", encoding="utf-8") as f:
             f.write("from enum import Enum\n"
                     "from typing import Optional, List\n"
                     "from dataclasses import dataclass, field\n"
                     "from aas_test_engines.test_cases.v3_0.parse_submodel import LangString\n"
                     "from aas_test_engines.test_cases.v3_0.submodel_templates import template\n\n")
+            # RefType, File, Blob 등 정의하고 import하기
 
-        # 이후 submodel_id 목록 순회하며 각각 스키마 가져와서 이어쓰기
         for submodel_id in submodel_ids:
             document = collection.find_one({"submodel_id": submodel_id})
             if not document:
@@ -173,3 +186,9 @@ def export_schema_to_py_file(submodel_ids: List[str], file_path: str = "schema_f
     except Exception as e:
         print(f"[Export Error] {e}")
         return False
+
+
+def restore_schema_backup(schema_doc: dict) -> bool:
+    client = get_db_client()
+    client.aas.aas_schema.insert_one(schema_doc)
+    return True

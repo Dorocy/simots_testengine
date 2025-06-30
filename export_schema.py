@@ -9,13 +9,6 @@ from enum import Enum
 from utils.db_hadler import connect_and_insert
 
 
-# JSON 파일 로드
-# with open(
-#     "./sample_files/schema_sample/IDTA_02004-1-2_Template_Handover_Documentation.json",
-#     "r",
-# ) as file:
-#     data = json.load(file)
-
 result = []
 class_definitions = []
 enum_definitions = []

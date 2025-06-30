@@ -15,15 +15,13 @@ class ErrorCode(str, Enum):
     DB_ERROR = "db_error"
     INVALID_FILE_FORMAT = "invalid_file_format"
     # 아래는 검증부분에서 사전에 처리되면 좋을 에러
-    INVALID_QUALIFIER_KIND = "invalid_qualifier_kind"
-    INVALID_QUALIFIER_TYPE = "invalid_qualifier_type"
+    INVALID_QUALIFIER_COMBINATION = "invalid_qualifier_combination"
     INVALID_SUBMODEL_KIND = "invalid_submodel_kind"
     INVALID_JSON_FORMAT = "invalid_json_format"
     TEST_ENGINE_NO_OUTPUT = "test_engine_no_output"
     ALREADY_EXISTS_SCHEMA = "already_exists_schema"
     SUBMODEL_NOT_FOUND = "submodel_not_found"
     SEMANTIC_ID_NOT_FOUND = "semantic_id_not_found"
-    
 
 
 # 에러코드에 따라 에러메세지도 동일하게 처리되도록 매핑
@@ -34,9 +32,7 @@ ERROR_MESSAGES = {
     ErrorCode.INTERNAL_SERVER_ERROR: "서버 내부 오류가 발생했습니다.",
     ErrorCode.DB_ERROR: "DB 오류가 발생했습니다.",
     ErrorCode.INVALID_FILE_FORMAT: "잘못된 형태의 파일입니다.",
-    ErrorCode.INVALID_QUALIFIER_KIND: "Qualifier의 'kind'는 'TemplateQualifier'여야 합니다.",
-    ErrorCode.INVALID_QUALIFIER_TYPE: "Qualifier의 'type'은 'SMT_Cardinality'여야 합니다.",
-    ErrorCode.INVALID_SUBMODEL_KIND: "Submodel의 'Kind'는 'Template'여야 합니다.",
+    ErrorCode.INVALID_QUALIFIER_COMBINATION: "Qualifier의 'kind'는 'TemplateQualifier', 'type'은 'SMT_Cardinality'인 요소가 하나 이상 포함되어야 합니다.",
     ErrorCode.TEST_ENGINE_NO_OUTPUT: "test engine으로 부터 결과를 받지 못했습니다.",
     ErrorCode.INVALID_JSON_FORMAT: "json 파싱 오류 발생",
     ErrorCode.ALREADY_EXISTS_SCHEMA: "이미 존재하는 스키마입니다.",
@@ -67,7 +63,7 @@ def success_response(status: str, verification_status, verification_message):
         status_code=200,
         content={
             "status": status,
-            "verificiation": {
+            "verification": {
                 "result": verification_status,
                 "message": verification_message,
             },

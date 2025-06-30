@@ -22,7 +22,7 @@ def run_test_engine(file_path: str, file_ext: str) -> dict:
         if result.stderr:
             result.stderr = result.stderr.decode('utf-8-sig', errors='replace')
             return parse_engine_output(result.stderr)
-       
+
         return error_response(500, ErrorCode.TEST_ENGINE_NO_OUTPUT)
     # 커맨드 라인에서 발생하는 에러니까.. 메세지는 따로 출력되도록 처리함
     except json.JSONDecodeError as e:
@@ -48,9 +48,9 @@ ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
 def parse_engine_output(output: str) -> dict:
     # print(output)
     if output.startswith('\u001b[92mCheck'):  # 초록색
-        verification_status = 'Pass'
+        verification_status = 'success'
     elif output.startswith('\u001b[91mCheck'):  # 빨간색
-        verification_status = 'Fail'
+        verification_status = 'failed'
 
     try:
         lines = output.strip().splitlines()
@@ -100,10 +100,10 @@ def parse_engine_output(output: str) -> dict:
             }
         }
 
-        if verification_status == 'Pass':
-            return success_response("Model API", "Pass", "PERFECT")
-        elif verification_status == 'Fail':
-            return success_response("Model API", "Fail", verification_message)
+        if verification_status == 'success':
+            return success_response("Model API", "success", "PERFECT")
+        elif verification_status == 'failed':
+            return success_response("Model API", "failed", verification_message)
         # 어떤 상황이 올지 한번 확인해봐야하며,, 이럴때는 어떤상황인지 Test 모델 작성이 필요합니다.
         else:
             return error_response("400", "Unknown Error", verification_message)
