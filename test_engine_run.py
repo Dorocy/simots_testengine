@@ -4,6 +4,7 @@ from utils.response_handler import ErrorCode, error_response, success_response
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
+
 def run_test_engine(file_path: str, file_ext: str) -> dict:
     command = build_command(file_path, file_ext)
     env = os.environ.copy()
@@ -17,11 +18,11 @@ def run_test_engine(file_path: str, file_ext: str) -> dict:
 
         if result.stdout:
             result.stdout = result.stdout.decode('utf-8-sig', errors='replace')
-            return parse_engine_output(result.stdout)
+            return parse_engine_output(result.stdout, is_stdout=True)
 
         if result.stderr:
             result.stderr = result.stderr.decode('utf-8-sig', errors='replace')
-            return parse_engine_output(result.stderr)
+            return parse_engine_output(result.stderr, is_stdout=False)
 
         return error_response(500, ErrorCode.TEST_ENGINE_NO_OUTPUT)
     # 커맨드 라인에서 발생하는 에러니까.. 메세지는 따로 출력되도록 처리함
@@ -45,12 +46,15 @@ def build_command(file_path: str, file_ext: str) -> list:
 
 ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
 
-def parse_engine_output(output: str) -> dict:
+
+def parse_engine_output(output: str, is_stdout: bool = True) -> dict:
     # print(output)
     if output.startswith('\u001b[92mCheck'):  # 초록색
         verification_status = 'success'
     elif output.startswith('\u001b[91mCheck'):  # 빨간색
         verification_status = 'failed'
+    else:
+        verification_status = None
 
     try:
         lines = output.strip().splitlines()
@@ -64,18 +68,25 @@ def parse_engine_output(output: str) -> dict:
 
         for line in lines:
             clean_line = ansi_escape.sub('', line.strip())
-            if clean_line.startswith("Constraint "):
-                constraint_msgs.append(clean_line)
-            elif "@ /assetAdministrationShells" in clean_line:
-                asset_info_msgs.append(clean_line)
-            elif "@ /submodels" in clean_line:
-                submodel_msgs.append(clean_line)
-            elif "@ /conceptDescriptions" in clean_line:
-                concept_description_msgs.append(clean_line)
-            elif clean_line.startswith("Check") or clean_line.startswith("Skipped") or clean_line.startswith("Template:"):
-                check_msg.append(clean_line)
+
+            if is_stdout is True:
+                if clean_line.startswith('Constraint '):
+                    constraint_msgs.append(clean_line)
+                elif "@ /assetAdministrationShells" in clean_line:
+                    asset_info_msgs.append(clean_line)
+                elif "@ /submodels" in clean_line:
+                    submodel_msgs.append(clean_line)
+                elif "@ /conceptDescriptions" in clean_line:
+                    concept_description_msgs.append(clean_line)
+                elif clean_line.startswith('Check') or clean_line.startswith('Skipped') or clean_line.startswith('Template:'):
+                    check_msg.append(clean_line)
+                else:
+                    etc_msgs.append(clean_line)
             else:
-                etc_msgs.append(clean_line)
+                if clean_line.startswith('f"Constraint violated:'):
+                    constraint_msgs.append(clean_line)
+                    print(clean_line)
+                    verification_status = 'failed'
 
         verification_message = {
             "assetInfo": {

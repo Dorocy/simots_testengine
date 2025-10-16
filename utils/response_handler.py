@@ -20,6 +20,7 @@ class ErrorCode(str, Enum):
     INVALID_JSON_FORMAT = "invalid_json_format"
     TEST_ENGINE_NO_OUTPUT = "test_engine_no_output"
     ALREADY_EXISTS_SCHEMA = "already_exists_schema"
+    SCHEMA_NOT_FOUND = "schema_not_found"
     SUBMODEL_NOT_FOUND = "submodel_not_found"
     SEMANTIC_ID_NOT_FOUND = "semantic_id_not_found"
 
@@ -32,10 +33,12 @@ ERROR_MESSAGES = {
     ErrorCode.INTERNAL_SERVER_ERROR: "서버 내부 오류가 발생했습니다.",
     ErrorCode.DB_ERROR: "DB 오류가 발생했습니다.",
     ErrorCode.INVALID_FILE_FORMAT: "잘못된 형태의 파일입니다.",
-    ErrorCode.INVALID_QUALIFIER_COMBINATION: "Qualifier의 'kind'는 'TemplateQualifier', 'type'은 'SMT_Cardinality'인 요소가 하나 이상 포함되어야 합니다.",
+    ErrorCode.INVALID_SUBMODEL_KIND: "submodel의 kind가 'Template'이 아닙니다.",
+    ErrorCode.INVALID_QUALIFIER_COMBINATION: "{param}의 Qualifier의 'kind'는 'TemplateQualifier', 'type'은 'SMT_Cardinality'인 요소가 하나 이상 포함되어야 합니다.",
     ErrorCode.TEST_ENGINE_NO_OUTPUT: "test engine으로 부터 결과를 받지 못했습니다.",
     ErrorCode.INVALID_JSON_FORMAT: "json 파싱 오류 발생",
     ErrorCode.ALREADY_EXISTS_SCHEMA: "이미 존재하는 스키마입니다.",
+    ErrorCode.SCHEMA_NOT_FOUND: "스키마를 찾을 수 없습니다.",
     ErrorCode.SUBMODEL_NOT_FOUND: "Submodel이 없습니다.",
     ErrorCode.SEMANTIC_ID_NOT_FOUND: "semantic_id가 없습니다."
 }
@@ -43,7 +46,7 @@ ERROR_MESSAGES = {
 
 # 예외 처리시 동일한 구조로 가도록 함수 작성
 def error_response(
-    status_code: int, error_code: ErrorCode, message: Optional[str] = None
+    status_code: int, error_code: ErrorCode,  param: Optional[str] = None, message: Optional[str] = None
 ):
     return JSONResponse(
         status_code=status_code,
@@ -51,8 +54,7 @@ def error_response(
             "status": "API error",
             "error": {
                 "code": error_code.value,
-                "message": message
-                or ERROR_MESSAGES.get(error_code, "알 수 없는 오류입니다."),
+                "message": (message or ERROR_MESSAGES.get(error_code, "알 수 없는 오류입니다.")).format(param=param)
             },
         },
     )

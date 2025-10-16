@@ -188,7 +188,59 @@ def export_schema_to_py_file(submodel_ids: List[str], file_path: str = "schema_f
         return False
 
 
-def restore_schema_backup(schema_doc: dict) -> bool:
+# def alter_schema(semantic_id: str, binary_data: bytes):
+#     client = get_db_client()
+#     collection = client.aas.aas_schema
+
+#     result = collection.update_one(
+#         {"submodel_id": semantic_id},
+#         {
+#             "$set": {
+#                 "time": datetime.datetime.now(),
+#                 "schema": binary_data
+#             }
+#         }
+#     )
+#     return result.modified_count > 0
+
+
+def alter_schema_put(semantic_id: str, binary_data: bytes, data: dict):
     client = get_db_client()
-    client.aas.aas_schema.insert_one(schema_doc)
-    return True
+    collection = client.aas.aas_schema
+
+    version, revision = extract_version_revision(semantic_id)
+
+    new_document = {
+        "submodel_id": semantic_id,
+        "version": version,
+        "revision": revision,
+        "create_at": datetime.datetime.now(),
+        "uploaded_by": "IDTA",
+        "schema": binary_data
+    }
+
+    result = collection.replace_one(
+        {"submodel_id": semantic_id},
+        new_document,
+        upsert=True  # 없으면 새로 만들기
+    )
+    return result.modified_count > 0 or result.upserted_id is not None
+
+
+def alter_schema_patch(semantic_id: str, binary_data: bytes):
+    client = get_db_client()
+    collection = client.aas.aas_schema
+
+    existing = collection.find_one({"submodel_id": semantic_id})
+    if existing and existing.get("schema") == binary_data:
+        return "same schema"
+
+    result = collection.update_one(
+        {"submodel_id": semantic_id},
+        {"$set":
+            {
+                "time": datetime.datetime.now(),
+                "schema": binary_data
+            }}
+    )
+    return result.modified_count > 0
