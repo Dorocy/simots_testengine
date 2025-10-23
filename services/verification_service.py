@@ -28,7 +28,12 @@ async def verification_metamodel(file):
     return response
 
 
-def process_verification(file) -> dict:
+async def verification_template(file, is_template):
+    response = process_verification(file, is_template)
+    return response
+
+
+def process_verification(file, is_template: bool = False) -> dict:
     _, file_ext = os.path.splitext(file.filename)
 
     if file_ext not in file_handler.SUPPORTED_EXTENSIONS:
@@ -48,10 +53,9 @@ def process_verification(file) -> dict:
         elif file_ext == ".aasx":
             extracted_id = file_handler.extract_id_from_aasx(file_path)
 
-        result = test_engine_run.run_test_engine(file_path, file_ext)
+        result = test_engine_run.run_test_engine(file_path, file_ext, is_template=is_template)
 
-        response = {"file": os.path.basename(file_path), 
-                    "verification": result}
+        response = {"file": os.path.basename(file_path), "verification": result}
         if extracted_id:
             response["extracted_id"] = extracted_id
 
