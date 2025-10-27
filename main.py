@@ -4,7 +4,9 @@ import uvicorn
 from routes.verification import router as verification_router
 
 
-app = FastAPI()
+app = FastAPI(
+    title="AAS 적합성 테스팅"
+)
 app.include_router(verification_router, prefix="/verification")
 setup_exception_handlers(app)
 

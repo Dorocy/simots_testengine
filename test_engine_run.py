@@ -4,7 +4,8 @@ from utils.response_handler import ErrorCode, error_response, success_response
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
-def run_test_engine(file_path: str, file_ext: str) -> dict:
+
+def run_test_engine(file_path: str, file_ext: str, is_template: bool = False) -> dict:
     command = build_command(file_path, file_ext)
     env = os.environ.copy()
 
@@ -17,14 +18,14 @@ def run_test_engine(file_path: str, file_ext: str) -> dict:
 
         if result.stdout:
             result.stdout = result.stdout.decode('utf-8-sig', errors='replace')
-            return parse_engine_output(result.stdout)
+            return parse_engine_output(result.stdout, is_stdout=True, is_template=is_template)
 
         if result.stderr:
             result.stderr = result.stderr.decode('utf-8-sig', errors='replace')
-            return parse_engine_output(result.stderr)
-       
+            return parse_engine_output(result.stderr, is_stdout=False, is_template=is_template)
+
         return error_response(500, ErrorCode.TEST_ENGINE_NO_OUTPUT)
-    # 커맨드 라인에서 발생하는 에러니까.. 메세지는 따로 출력되도록 처리함
+
     except json.JSONDecodeError as e:
         return error_response(500, ErrorCode.INVALID_JSON_FORMAT, {str(e)})
 
@@ -45,12 +46,14 @@ def build_command(file_path: str, file_ext: str) -> list:
 
 ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
 
-def parse_engine_output(output: str) -> dict:
-    # print(output)
+
+def parse_engine_output(output: str, is_stdout: bool = True, is_template: bool = False) -> dict:
     if output.startswith('\u001b[92mCheck'):  # 초록색
-        verification_status = 'Pass'
+        verification_status = 'success'
     elif output.startswith('\u001b[91mCheck'):  # 빨간색
-        verification_status = 'Fail'
+        verification_status = 'failed'
+    else:
+        verification_status = None
 
     try:
         lines = output.strip().splitlines()
@@ -64,18 +67,32 @@ def parse_engine_output(output: str) -> dict:
 
         for line in lines:
             clean_line = ansi_escape.sub('', line.strip())
-            if clean_line.startswith("Constraint "):
+
+            if clean_line.startswith('f"Constraint violated:'):
                 constraint_msgs.append(clean_line)
-            elif "@ /assetAdministrationShells" in clean_line:
-                asset_info_msgs.append(clean_line)
-            elif "@ /submodels" in clean_line:
-                submodel_msgs.append(clean_line)
-            elif "@ /conceptDescriptions" in clean_line:
-                concept_description_msgs.append(clean_line)
-            elif clean_line.startswith("Check") or clean_line.startswith("Skipped") or clean_line.startswith("Template:"):
-                check_msg.append(clean_line)
-            else:
-                etc_msgs.append(clean_line)
+                # print(clean_line)
+                verification_status = 'failed'
+                continue
+
+            if is_template and (
+                "String is shorter than 1 characters" in clean_line
+                or "Empty array not allowed" in clean_line
+            ):
+                continue
+
+            if is_stdout is True:
+                if clean_line.startswith('Constraint '):
+                    constraint_msgs.append(clean_line)
+                elif "@ /assetAdministrationShells" in clean_line:
+                    asset_info_msgs.append(clean_line)
+                elif "@ /submodels" in clean_line:
+                    submodel_msgs.append(clean_line)
+                elif "@ /conceptDescriptions" in clean_line:
+                    concept_description_msgs.append(clean_line)
+                elif clean_line.startswith('Check') or clean_line.startswith('Skipped') or clean_line.startswith('Template:'):
+                    check_msg.append(clean_line)
+                else:
+                    etc_msgs.append(clean_line)
 
         verification_message = {
             "assetInfo": {
@@ -100,11 +117,21 @@ def parse_engine_output(output: str) -> dict:
             }
         }
 
-        if verification_status == 'Pass':
-            return success_response("Model API", "Pass", "PERFECT")
-        elif verification_status == 'Fail':
-            return success_response("Model API", "Fail", verification_message)
-        # 어떤 상황이 올지 한번 확인해봐야하며,, 이럴때는 어떤상황인지 Test 모델 작성이 필요합니다.
+        if is_template:
+            total_msgs = (len(asset_info_msgs)
+                          + len(submodel_msgs)
+                          + len(concept_description_msgs)
+                          + len(constraint_msgs)
+                          + len(etc_msgs))
+            if total_msgs == 0:
+                verification_status = 'success'
+            else:
+                verification_status = 'failed'
+
+        if verification_status == 'success':
+            return success_response("Model API", "success", "PERFECT")
+        elif verification_status == 'failed':
+            return success_response("Model API", "failed", verification_message)
         else:
             return error_response("400", "Unknown Error", verification_message)
 
