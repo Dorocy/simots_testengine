@@ -9,7 +9,6 @@ from utils.response_handler import ErrorCode, error_response, success_response
 from utils.db_hadler import (
     delete_schema_by_semantic_id,
     retrieve_schemas,
-    extract_semantic_id,
     search_schema_in_all_fields,
     search_schema_with_semantic_id,
     search_schema_with_uploaded_by,
@@ -23,17 +22,12 @@ from export_schema import get_schema_result, generate_schema_code
 existing_names = {}
 
 
-async def verification_metamodel(file):
-    response = process_verification(file)
-    return response
-
-
-async def verification_template(file, is_template):
+async def verification(file, is_template):
     response = process_verification(file, is_template)
     return response
 
 
-def process_verification(file, is_template: bool = False) -> dict:
+def process_verification(file, is_template: bool) -> dict:
     _, file_ext = os.path.splitext(file.filename)
 
     if file_ext not in file_handler.SUPPORTED_EXTENSIONS:
@@ -43,23 +37,16 @@ def process_verification(file, is_template: bool = False) -> dict:
             )
 
     try:
-        file_path = file_handler.save_uploaded_file(file, existing_names)
+        file_name = file_handler.save_temp_file(file)
+        result = test_engine_run.run_test_engine(file, file_name, is_template)
 
-        extracted_id = None
-        if file_ext == ".json":
-            extracted_id = file_handler.extract_id_from_json(file_path)
-        elif file_ext == ".xml":
-            extracted_id = file_handler.extract_id_from_xml(file_path)
-        elif file_ext == ".aasx":
-            extracted_id = file_handler.extract_id_from_aasx(file_path)
-
-        result = test_engine_run.run_test_engine(file_path, file_ext, is_template=is_template)
-
-        response = {"file": os.path.basename(file_path), "verification": result}
-        if extracted_id:
-            response["extracted_id"] = extracted_id
+        try:
+            os.remove(file_name)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
 
         return result
+
     except ValueError as ve:
         raise HTTPException(status_code=400, detail=str(ve))
     except RuntimeError as re:
@@ -214,6 +201,7 @@ FAILED_COLOR_CODE = "\x1b[91m"
 
 
 def group_by_template(output_lines: list[str]) -> dict:
+    print(output_lines)
     groups = {}
     current_key = None
 
@@ -248,20 +236,45 @@ async def verification_instance(file):
     except Exception:
         return ErrorCode.INVALID_JSON_FORMAT
 
+    # print('1111111111111111111')
+    # buffer = io.StringIO()
+    # sys.stdout = buffer
+    # result =run_submodel.check_submodel_templates(json_data)
+    # output = buffer.getvalue()
+    # print("Captured buffer:\n", output)
+    # print("Returned value:", result)
+
+    # output = buffer.getvalue()
+    # cleaned_output = remove_ansi_codes(output).strip().splitlines()
+    # grouped_templates = group_by_template(cleaned_output)
+
+    # result_status, grouped_templates = postprocess_grouped_templates(grouped_templates)
+    # return success_response(
+    #         "Instance API",
+    #         result_status,
+    #         grouped_templates
+    #     )
     buffer = io.StringIO()
+    old_stdout = sys.stdout
     sys.stdout = buffer
-    run_submodel.check_submodel_templates(json_data)
+    try:
+        result = run_submodel.check_submodel_templates(json_data)
+    finally:
+        sys.stdout = old_stdout
 
     output = buffer.getvalue()
+    print("Captured buffer:\n", output)  # 이제 print가 잘 나올 것
+    print("Returned value:", result)
+
     cleaned_output = remove_ansi_codes(output).strip().splitlines()
     grouped_templates = group_by_template(cleaned_output)
 
     result_status, grouped_templates = postprocess_grouped_templates(grouped_templates)
     return success_response(
-            "Instance API",
-            result_status,
-            grouped_templates
-        )
+        "Instance API",
+        result_status,
+        grouped_templates
+    )
 
 
 async def delete_schema(semanticId: str = Query(..., description="SemanticId of the schema to delete")):

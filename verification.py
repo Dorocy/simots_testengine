@@ -2,8 +2,7 @@ from fastapi import APIRouter, UploadFile, File, Query, Path
 from typing import Optional
 from services.verification_service import (
     verification_instance,
-    verification_metamodel,
-    verification_template,
+    verification,
     verification_schema,
     delete_schema,
     schemas_list,
@@ -19,11 +18,11 @@ router = APIRouter()
 
 @router.post("/metamodel")
 async def verify_metamodel(file: UploadFile = File(...)):
-    return await verification_metamodel(file)
+    return await verification(file, is_template=False)
 
 @router.post("/template")
 async def verify_template(file: UploadFile = File(...)):
-    return await verification_template(file, is_template=True)
+    return await verification(file, is_template=True)
 
 
 @router.post("/schema")
