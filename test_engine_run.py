@@ -16,9 +16,9 @@ def run_test_engine(file, file_name: str, is_template: bool) -> dict:
     try:
         result = subprocess.run(command, capture_output=True, env=env)
         if is_template:
-            return run_constraint_check(file)
-             
-
+            message = run_constraint_check(file)
+            parse_engine_output(message, is_stdout=True, is_template=is_template)
+            
         if result.stdout:
             result.stdout = result.stdout.decode('utf-8-sig', errors='replace')
             return parse_engine_output(result.stdout, is_stdout=True, is_template=is_template)
@@ -88,7 +88,6 @@ def parse_engine_output(output: str, is_stdout: bool = True, is_template: bool =
                 continue
 
             if is_stdout is True:
-                # if clean_line.startswith('Constraint AASd-120') or clean_line.startswith('Check') or clean_line.startswith('Skipped') or clean_line.startswith('Template:') or clean_line.startswith('Relationship aasx/'):
                 if re.match(r'^(Constraint AASd-120|Check|Skipped|Template:|Relationship aasx/)', clean_line):
                     msg['needless'].append(clean_line)
                 elif clean_line.startswith('Constraint '):
@@ -108,8 +107,8 @@ def parse_engine_output(output: str, is_stdout: bool = True, is_template: bool =
             if key != "needless"
         }
 
-        if is_template or is_stdout:
-            total_msgs = sum(len(val) for val in msg.values())
+        if is_template:
+            total_msgs = sum(len(val) for key, val in msg.items() if key != "needless")
             if total_msgs == 0:
                 verification_status = 'success'
             else:
