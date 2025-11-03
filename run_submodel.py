@@ -1,4 +1,4 @@
-import sys
+import sys, io, json
 sys.stdout.reconfigure(encoding="utf-8")
 from typing import Tuple, Optional
 from aas_test_engines.test_cases.v3_0.parse import parse
@@ -26,10 +26,15 @@ def parse_env_without_meta(
     return result_root, env
 
 
-def check_submodel_templates(json_data: dict):
-    print('22222222222222222')
+def check_submodel_templates(file):
     try:
-        result, env = json_to_obj(json_data, r_environment)
+        result, env = json_to_obj(file, r_environment)
+        file.file.seek(0)
+        file_stream = io.TextIOWrapper(file.file, encoding="utf-8")
+        data = json.load(file_stream)
+
+        result, obj = json_to_obj(data, model_type="Environment")
+
         if env is None:
             print('env error')
             return result
@@ -45,7 +50,6 @@ def check_submodel_templates(json_data: dict):
             export_schema_to_py_file(submodel_ids)
 
         parse_submodel_templates(result, env)
-        print('????????')
         return (result.dump())
 
     except Exception as e:

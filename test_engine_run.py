@@ -14,11 +14,12 @@ def run_test_engine(file, file_name: str, is_template: bool) -> dict:
 
     env["PYTHONIOENCODING"] = "utf-8"
     try:
-        result = subprocess.run(command, capture_output=True, env=env)
         if is_template:
-            message = run_constraint_check(file)
-            parse_engine_output(message, is_stdout=True, is_template=is_template)
-            
+                message = run_constraint_check(file)
+                return parse_engine_output(message, is_stdout=True, is_template=is_template)
+        
+        result = subprocess.run(command, capture_output=True, env=env)
+
         if result.stdout:
             result.stdout = result.stdout.decode('utf-8-sig', errors='replace')
             return parse_engine_output(result.stdout, is_stdout=True, is_template=is_template)
@@ -32,8 +33,9 @@ def run_test_engine(file, file_name: str, is_template: bool) -> dict:
     except json.JSONDecodeError as e:
         return error_response(500, ErrorCode.INVALID_JSON_FORMAT, {str(e)})
 
-    except Exception:
-        return error_response(500, ErrorCode.INTERNAL_SERVER_ERROR)
+    except Exception as e:
+        return {str(e)}
+        # return error_response(500, ErrorCode.INTERNAL_SERVER_ERROR)
 
 
 def build_command(file, file_name: str) -> list:
@@ -52,6 +54,7 @@ ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
 
 
 def parse_engine_output(output: str, is_stdout: bool = True, is_template: bool = False) -> dict:
+    print('파싱직전: ', output)
     if output.startswith('\u001b[92mCheck'):  # 초록색, 노란색
         verification_status = 'success'
     elif output.startswith('\u001b[91mCheck') or output.startswith('\u001b[93mCheck'):  # 빨간색
