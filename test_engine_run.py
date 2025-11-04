@@ -1,41 +1,85 @@
-import json, io, re, os, sys
+import json, re, os
 import subprocess
 from utils.response_handler import ErrorCode, error_response, success_response
 from utils.data_type import MessageGroup
 from run_template import run_constraint_check
+from utils.data_type import TEMPLATE_EXCLUDE_PATTERNS
 from fastapi import Request
 from fastapi.responses import JSONResponse
 from aas_core3.types import Environment
 
 
+# def run_test_engine(file, file_name: str, is_template: bool) -> dict:
+#     command = build_command(file, file_name)
+#     env = os.environ.copy()
+
+#     env["PYTHONIOENCODING"] = "utf-8"
+#     try:
+#         if is_template:
+#             message = run_constraint_check(file)
+#             return parse_engine_output(message, is_stdout=True, is_template=is_template)
+
+#         result = subprocess.run(command, capture_output=True, env=env)
+
+#         if result.stdout:
+#             meta_output = result.stdout.decode('utf-8-sig', errors='replace')
+#             return parse_engine_output(meta_output, is_stdout=True, is_template=is_template)
+
+#         if result.stderr:
+#             meta_output = result.stderr.decode('utf-8-sig', errors='replace')
+#             return parse_engine_output(meta_output, is_stdout=False, is_template=is_template)
+
+#         return error_response(500, ErrorCode.TEST_ENGINE_NO_OUTPUT)
+
+#     except json.JSONDecodeError as e:
+#         return error_response(500, ErrorCode.INVALID_JSON_FORMAT, {str(e)})
+
+#     except Exception as e:
+#         return {str(e)}
+#         # return error_response(500, ErrorCode.INTERNAL_SERVER_ERROR)
+
+
 def run_test_engine(file, file_name: str, is_template: bool) -> dict:
     command = build_command(file, file_name)
     env = os.environ.copy()
-
     env["PYTHONIOENCODING"] = "utf-8"
+
     try:
-        if is_template:
-                message = run_constraint_check(file)
-                return parse_engine_output(message, is_stdout=True, is_template=is_template)
-        
         result = subprocess.run(command, capture_output=True, env=env)
+        output = ""
+        is_stdout = True
 
         if result.stdout:
-            result.stdout = result.stdout.decode('utf-8-sig', errors='replace')
-            return parse_engine_output(result.stdout, is_stdout=True, is_template=is_template)
+            output = result.stdout.decode("utf-8-sig", errors="replace")
+            is_stdout = True
+            print('stdout: ', output)
+        elif result.stderr:
+            output = result.stderr.decode("utf-8-sig", errors="replace")
+            is_stdout = False
+            print('stderr: ', output)
+        else:
+            return error_response(500, ErrorCode.TEST_ENGINE_NO_OUTPUT)
 
-        if result.stderr:
-            result.stderr = result.stderr.decode('utf-8-sig', errors='replace')
-            return parse_engine_output(result.stderr, is_stdout=False, is_template=is_template)
+        constraint_output = ""
+        if is_template:
+            constraint_output = run_constraint_check(file)
 
-        return error_response(500, ErrorCode.TEST_ENGINE_NO_OUTPUT)
+        combined_output = output.strip()
+        if constraint_output:
+            combined_output += "\n" + constraint_output.strip()
+            print('combined_output: ', combined_output)
+
+        return parse_engine_output(
+            combined_output,
+            is_stdout=is_stdout,
+            is_template=is_template
+        )
 
     except json.JSONDecodeError as e:
         return error_response(500, ErrorCode.INVALID_JSON_FORMAT, {str(e)})
 
     except Exception as e:
-        return {str(e)}
-        # return error_response(500, ErrorCode.INTERNAL_SERVER_ERROR)
+        return error_response(500, ErrorCode.INTERNAL_SERVER_ERROR, {str(e)})
 
 
 def build_command(file, file_name: str) -> list:
@@ -54,7 +98,6 @@ ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
 
 
 def parse_engine_output(output: str, is_stdout: bool = True, is_template: bool = False) -> dict:
-    print('파싱직전: ', output)
     if output.startswith('\u001b[92mCheck'):  # 초록색, 노란색
         verification_status = 'success'
     elif output.startswith('\u001b[91mCheck') or output.startswith('\u001b[93mCheck'):  # 빨간색
@@ -80,14 +123,10 @@ def parse_engine_output(output: str, is_stdout: bool = True, is_template: bool =
             if is_stdout is False:
                 if clean_line.startswith('f"Constraint violated:'):
                     msg['constraints'].append(clean_line)
-                    # print(clean_line)
                     verification_status = 'failed'
                     continue
 
-            if is_template and (
-                "String is shorter than 1 characters" in clean_line
-                or "Empty array not allowed" in clean_line
-            ):
+            if is_template and any(re.search(pattern, clean_line) for pattern in TEMPLATE_EXCLUDE_PATTERNS):
                 continue
 
             if is_stdout is True:
