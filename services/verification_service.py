@@ -1,12 +1,14 @@
-import json, io, sys, os, utils.file_handler as file_handler, test_engine_run, run_submodel
+import json, io, sys, os
 import aas_core3.jsonization as aas_jsonization
 import asyncio
 from fastapi import HTTPException, Query, Path
 # from fastapi.responses import JSONResponse
 from aas_core3.types import Environment, SubmodelElement, Qualifier
-from utils.file_handler import remove_ansi_codes
-from utils.response_handler import ErrorCode, error_response, success_response
-from utils.db_hadler import (
+from services.run_submodel import check_submodel_templates
+from services.test_engine_run import run_test_engine
+from db.file_handler import remove_ansi_codes, save_temp_file, SUPPORTED_EXTENSIONS
+from api.response_handler import ErrorCode, error_response, success_response
+from db.db_hadler import (
     delete_schema_by_semantic_id,
     retrieve_schemas,
     search_schema_in_all_fields,
@@ -30,15 +32,15 @@ async def verification(file, is_template):
 def process_verification(file, is_template: bool) -> dict:
     _, file_ext = os.path.splitext(file.filename)
 
-    if file_ext not in file_handler.SUPPORTED_EXTENSIONS:
+    if file_ext not in SUPPORTED_EXTENSIONS:
         return error_response(
             400,
             ErrorCode.INVALID_FILE_FORMAT
             )
 
     try:
-        file_name = file_handler.save_temp_file(file)
-        result = test_engine_run.run_test_engine(file, file_name, is_template)
+        file_name = save_temp_file(file)
+        result = run_test_engine(file, file_name, is_template)
 
         try:
             os.remove(file_name)
@@ -171,7 +173,7 @@ def check_submodel_kind(data: json):
 def is_required_qualifier(q: Qualifier) -> bool:
     return (
         q.kind and q.kind.value == "TemplateQualifier"
-        and q.type and q.type == "SMT_Cardinality"
+        and q.type and q.type == "SMT_Cardinality" or "SMT/Cardinality"
     )
 
 
@@ -230,11 +232,11 @@ def postprocess_grouped_templates(grouped: dict) -> tuple[str, dict]:
 
 async def verification_instance(file):
 
-    file_content = await file.read()
-    try:
-        json_data = json.loads(file_content.decode("utf-8"))
-    except Exception:
-        return ErrorCode.INVALID_JSON_FORMAT
+    # file_content = await file.read()
+    # try:
+    #     json_data = json.loads(file_content.decode("utf-8"))
+    # except Exception:
+    #     return ErrorCode.INVALID_JSON_FORMAT
 
     # print('1111111111111111111')
     # buffer = io.StringIO()
@@ -254,17 +256,11 @@ async def verification_instance(file):
     #         result_status,
     #         grouped_templates
     #     )
-    buffer = io.StringIO()
-    old_stdout = sys.stdout
-    sys.stdout = buffer
-    try:
-        result = run_submodel.check_submodel_templates(json_data)
-    finally:
-        sys.stdout = old_stdout
+    # buffer = io.StringIO()
+    # old_stdout = sys.stdout
+    # sys.stdout = buffer
 
-    output = buffer.getvalue()
-    print("Captured buffer:\n", output)  # 이제 print가 잘 나올 것
-    print("Returned value:", result)
+    output = check_submodel_templates(file)
 
     cleaned_output = remove_ansi_codes(output).strip().splitlines()
     grouped_templates = group_by_template(cleaned_output)

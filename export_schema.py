@@ -5,7 +5,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 from typing import Optional, List
 from dataclasses import dataclass, field
 from enum import Enum
-from utils.db_hadler import connect_and_insert
+from db.db_hadler import connect_and_insert
 
 
 result = []

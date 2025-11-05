@@ -1,42 +1,13 @@
-import json, re, os
+import json, re, os, io
 import subprocess
-from utils.response_handler import ErrorCode, error_response, success_response
-from utils.data_type import MessageGroup
-from run_template import run_constraint_check
-from utils.data_type import TEMPLATE_EXCLUDE_PATTERNS
+import sys
+import traceback
+from api.response_handler import ErrorCode, error_response, success_response
+from utils.data_type import MessageGroup, TEMPLATE_EXCLUDE_PATTERNS
+from services.run_template import run_constraint_check
 from fastapi import Request
 from fastapi.responses import JSONResponse
 from aas_core3.types import Environment
-
-
-# def run_test_engine(file, file_name: str, is_template: bool) -> dict:
-#     command = build_command(file, file_name)
-#     env = os.environ.copy()
-
-#     env["PYTHONIOENCODING"] = "utf-8"
-#     try:
-#         if is_template:
-#             message = run_constraint_check(file)
-#             return parse_engine_output(message, is_stdout=True, is_template=is_template)
-
-#         result = subprocess.run(command, capture_output=True, env=env)
-
-#         if result.stdout:
-#             meta_output = result.stdout.decode('utf-8-sig', errors='replace')
-#             return parse_engine_output(meta_output, is_stdout=True, is_template=is_template)
-
-#         if result.stderr:
-#             meta_output = result.stderr.decode('utf-8-sig', errors='replace')
-#             return parse_engine_output(meta_output, is_stdout=False, is_template=is_template)
-
-#         return error_response(500, ErrorCode.TEST_ENGINE_NO_OUTPUT)
-
-#     except json.JSONDecodeError as e:
-#         return error_response(500, ErrorCode.INVALID_JSON_FORMAT, {str(e)})
-
-#     except Exception as e:
-#         return {str(e)}
-#         # return error_response(500, ErrorCode.INTERNAL_SERVER_ERROR)
 
 
 def run_test_engine(file, file_name: str, is_template: bool) -> dict:

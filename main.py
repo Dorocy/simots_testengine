@@ -1,7 +1,7 @@
-from utils.response_handler import setup_exception_handlers
+from api.response_handler import setup_exception_handlers
 from fastapi import FastAPI
 import uvicorn
-from verification import router as verification_router
+from api.verification import router as verification_router
 
 
 app = FastAPI(

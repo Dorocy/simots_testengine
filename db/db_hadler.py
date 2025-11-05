@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 import datetime, json, re
-from utils.response_handler import ErrorCode, error_response, success_response
+from api.response_handler import ErrorCode, error_response, success_response
 from typing import List
 
 # DB 연결
@@ -76,7 +76,6 @@ def connect_and_insert(original_data, result_schema):
                 )
 
     except Exception as e:
-        print(f"[Error] {e}")
         return error_response(
             500,
             ErrorCode.DB_ERROR,
@@ -90,7 +89,11 @@ def delete_schema_by_semantic_id(semantic_id: str) -> bool:
         result = client.aas.aas_schema.delete_one({"submodel_id": semantic_id})
         return result.deleted_count > 0
     except Exception as e:
-        print(f"Error occurred: {e}")
+        return error_response(
+            500,
+            ErrorCode.DB_ERROR,
+            str(e)
+            )
 
 # Schema 조회
 def retrieve_schemas():
@@ -103,7 +106,11 @@ def retrieve_schemas():
         return submodel_ids
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"DB check schema error: {e}")
+        return error_response(
+            500,
+            ErrorCode.DB_ERROR,
+            str(e)
+            )
 
 
 def search_schema_with_semantic_id(semanticId: str):
@@ -116,9 +123,11 @@ def search_schema_with_semantic_id(semanticId: str):
 
         return document
     except Exception as e:
-
-        print(f"[DB Error] {e}")
-        return None
+        return error_response(
+            500,
+            ErrorCode.DB_ERROR,
+            str(e)
+            )
 
 
 def search_schema_with_uploaded_by(uploadedBy: str):
@@ -133,9 +142,11 @@ def search_schema_with_uploaded_by(uploadedBy: str):
         return list(documents)
 
     except Exception as e:
-
-        print(f"[DB Error] {e}")
-        return None
+        return error_response(
+            500,
+            ErrorCode.DB_ERROR,
+            str(e)
+            )
 
 
 def search_schema_in_all_fields(semanticId: str, uploadedBy: str):
@@ -150,8 +161,11 @@ def search_schema_in_all_fields(semanticId: str, uploadedBy: str):
         return document
 
     except Exception as e:
-        print(f"[DB Error] {e}")
-        return None
+        return error_response(
+            500,
+            ErrorCode.DB_ERROR,
+            str(e)
+            )
 
 
 def export_schema_to_py_file(submodel_ids: List[str], file_path: str = "schema_files/test_schema.py") -> bool:
@@ -184,24 +198,11 @@ def export_schema_to_py_file(submodel_ids: List[str], file_path: str = "schema_f
         return True
 
     except Exception as e:
-        print(f"[Export Error] {e}")
-        return False
-
-
-# def alter_schema(semantic_id: str, binary_data: bytes):
-#     client = get_db_client()
-#     collection = client.aas.aas_schema
-
-#     result = collection.update_one(
-#         {"submodel_id": semantic_id},
-#         {
-#             "$set": {
-#                 "time": datetime.datetime.now(),
-#                 "schema": binary_data
-#             }
-#         }
-#     )
-#     return result.modified_count > 0
+        return error_response(
+            500,
+            ErrorCode.DB_ERROR,
+            str(e)
+            )
 
 
 def alter_schema_put(semantic_id: str, binary_data: bytes, data: dict):
