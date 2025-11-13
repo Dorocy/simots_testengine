@@ -14,6 +14,7 @@ class ErrorCode(str, Enum):
     INTERNAL_SERVER_ERROR = "internal_server_error"
     DB_ERROR = "db_error"
     INVALID_FILE_FORMAT = "invalid_file_format"
+    INVALID_TEMPLATE = "invalid_template"
     # 아래는 검증부분에서 사전에 처리되면 좋을 에러
     INVALID_QUALIFIER_COMBINATION = "invalid_qualifier_combination"
     INVALID_SUBMODEL_KIND = "invalid_submodel_kind"
@@ -33,6 +34,7 @@ ERROR_MESSAGES = {
     ErrorCode.INTERNAL_SERVER_ERROR: "서버 내부 오류가 발생했습니다.",
     ErrorCode.DB_ERROR: "DB 오류가 발생했습니다.",
     ErrorCode.INVALID_FILE_FORMAT: "잘못된 형태의 파일입니다.",
+    ErrorCode.INVALID_TEMPLATE: "잘못된 형태의 Template입니다.",
     ErrorCode.INVALID_SUBMODEL_KIND: "submodel의 kind가 'Template'이 아닙니다.",
     ErrorCode.INVALID_QUALIFIER_COMBINATION: "{param}의 Qualifier의 'kind'는 'TemplateQualifier', 'type'은 'SMT_Cardinality'인 요소가 하나 이상 포함되어야 합니다.",
     ErrorCode.TEST_ENGINE_NO_OUTPUT: "test engine으로 부터 결과를 받지 못했습니다.",

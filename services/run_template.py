@@ -1,12 +1,11 @@
 import sys, json, io
-from dataclasses import asdict
 import json
-
 from aas_test_engines.test_cases.v3_0.parse import check_constraints
 from aas_test_engines.test_cases.v3_0.__init__ import json_to_obj
-from aas_test_engines.test_cases.v3_0.adapter import AdapterPath
+from aas_test_engines.test_cases.v3_0.adapter import AdapterPath, AdapterException
 from aas_test_engines.result import AasTestResult
 from api.response_handler import ErrorCode, error_response
+
 
 def run_constraint_check(file, model_type="Environment") -> str:
     try:
@@ -17,14 +16,11 @@ def run_constraint_check(file, model_type="Environment") -> str:
             file_stream = file
 
         data = json.load(file_stream)
-        result, obj = json_to_obj(data, model_type=model_type)
 
-        try:
-            constraint_result = AasTestResult("Check")
-            check_constraints(obj, constraint_result, AdapterPath())
+        _, obj = json_to_obj(data, model_type=model_type)
 
-        except Exception as e:
-            constraint_result.append(AasTestResult(f"Constraint check failed: {e}"))
+        constraint_result = AasTestResult("Check")
+        check_constraints(obj, constraint_result, AdapterPath())
 
         buffer = io.StringIO()
         sys.stdout = buffer
@@ -34,8 +30,15 @@ def run_constraint_check(file, model_type="Environment") -> str:
 
         return output
 
-    except Exception:
-        return ErrorCode.INVALID_JSON_FORMAT
-
     except Exception as e:
-        return f"Check\n   Internal error: {e}"
+        msg = str(e)
+        if "'object' object has no attribute 'raw_value'" in msg or "'AssetAdministrationShell' object has no attribute 'id_short_path'" in msg:
+            return error_response(
+                400,
+                ErrorCode.INVALID_TEMPLATE
+            )
+
+        return error_response(
+            500,
+            ErrorCode.INTERNAL_SERVER_ERROR
+        )

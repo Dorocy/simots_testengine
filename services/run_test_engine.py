@@ -1,13 +1,9 @@
-import json, re, os, io
+import json, re, os
 import subprocess
-import sys
-import traceback
+from fastapi.responses import JSONResponse
 from api.response_handler import ErrorCode, error_response, success_response
 from utils.data_type import MessageGroup, TEMPLATE_EXCLUDE_PATTERNS
 from services.run_template import run_constraint_check
-from fastapi import Request
-from fastapi.responses import JSONResponse
-from aas_core3.types import Environment
 
 
 def run_test_engine(file, file_name: str, is_template: bool) -> dict:
@@ -23,17 +19,21 @@ def run_test_engine(file, file_name: str, is_template: bool) -> dict:
         if result.stdout:
             output = result.stdout.decode("utf-8-sig", errors="replace")
             is_stdout = True
-            print('stdout: ', output)
         elif result.stderr:
             output = result.stderr.decode("utf-8-sig", errors="replace")
             is_stdout = False
-            print('stderr: ', output)
         else:
             return error_response(500, ErrorCode.TEST_ENGINE_NO_OUTPUT)
 
         constraint_output = ""
         if is_template:
             constraint_output = run_constraint_check(file)
+            print('constraint output: ', constraint_output)
+
+            if isinstance(constraint_output, JSONResponse):
+                decoded_body = constraint_output.body.decode('utf-8')
+                print("constraint output(decoded): ", decoded_body)
+                return constraint_output
 
         combined_output = output.strip()
         if constraint_output:
@@ -47,10 +47,10 @@ def run_test_engine(file, file_name: str, is_template: bool) -> dict:
         )
 
     except json.JSONDecodeError as e:
-        return error_response(500, ErrorCode.INVALID_JSON_FORMAT, {str(e)})
+        return error_response(400, ErrorCode.INVALID_JSON_FORMAT, {str(e)})
 
     except Exception as e:
-        return error_response(500, ErrorCode.INTERNAL_SERVER_ERROR, {str(e)})
+        return error_response(500, ErrorCode.INVALID_PARAMETER, str(e))
 
 
 def build_command(file, file_name: str) -> list:
@@ -69,9 +69,10 @@ ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
 
 
 def parse_engine_output(output: str, is_stdout: bool = True, is_template: bool = False) -> dict:
-    if output.startswith('\u001b[92mCheck'):  # 초록색, 노란색
+    print('output: ', output)
+    if output.startswith('\u001b[92mCheck'):  # 초록색
         verification_status = 'success'
-    elif output.startswith('\u001b[91mCheck') or output.startswith('\u001b[93mCheck'):  # 빨간색
+    elif output.startswith('\u001b[91mCheck') or output.startswith('\u001b[93mCheck'):  # 빨간색, 노란색
         verification_status = 'failed'
     else:
         verification_status = None
@@ -101,7 +102,7 @@ def parse_engine_output(output: str, is_stdout: bool = True, is_template: bool =
                 continue
 
             if is_stdout is True:
-                if re.match(r'^(Constraint AASd-120|Check|Skipped|Template:|Relationship aasx/)', clean_line):
+                if re.match(r'^(Constraint AASd-120|Check|Skipped|Template:|Relationship aasx/|Relationship )', clean_line):
                     msg['needless'].append(clean_line)
                 elif clean_line.startswith('Constraint '):
                     msg['constraints'].append(clean_line)
@@ -123,20 +124,20 @@ def parse_engine_output(output: str, is_stdout: bool = True, is_template: bool =
         if is_template:
             total_msgs = sum(len(val) for key, val in msg.items() if key != "needless")
             if total_msgs == 0:
-                verification_status = 'success'
+                verification_status = "success"
             else:
-                verification_status = 'failed'
+                verification_status = "failed"
 
-        if verification_status == 'success':
+        if verification_status == "success":
             return success_response("Model API", "success", "PERFECT")
-        elif verification_status == 'failed':
+        elif verification_status == "failed":
             return success_response("Model API", "failed", verification_message)
         else:
             return error_response("400", "Unknown Error", verification_message)
 
     except json.JSONDecodeError:
         return error_response(
-            status_code=400,
-            error_code=ErrorCode.INVALID_JSON_FORMAT,
-            message=output.strip(),
+            400,
+            ErrorCode.INVALID_JSON_FORMAT,
+            output.strip(),
         )

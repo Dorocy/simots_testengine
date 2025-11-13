@@ -1,9 +1,6 @@
-from http.client import HTTPException
-from fastapi import HTTPException
-from fastapi.responses import JSONResponse
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-import datetime, json, re
+import datetime, re
 from api.response_handler import ErrorCode, error_response, success_response
 from typing import List
 

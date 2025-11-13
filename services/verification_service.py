@@ -1,16 +1,15 @@
-import json, io, sys, os
+import json, os
+from fastapi import HTTPException, Query
 import aas_core3.jsonization as aas_jsonization
-import asyncio
-from fastapi import HTTPException, Query, Path
-# from fastapi.responses import JSONResponse
 from aas_core3.types import Environment, SubmodelElement, Qualifier
 from services.run_submodel import check_submodel_templates
-from services.test_engine_run import run_test_engine
+from services.run_test_engine import run_test_engine
 from db.file_handler import remove_ansi_codes, save_temp_file, SUPPORTED_EXTENSIONS
 from api.response_handler import ErrorCode, error_response, success_response
 from db.db_hadler import (
     delete_schema_by_semantic_id,
     retrieve_schemas,
+    extract_semantic_id,
     search_schema_in_all_fields,
     search_schema_with_semantic_id,
     search_schema_with_uploaded_by,
@@ -18,7 +17,7 @@ from db.db_hadler import (
     alter_schema_put,
     alter_schema_patch
     )
-from export_schema import get_schema_result, generate_schema_code
+from services.export_schema import get_schema_result, generate_schema_code
 
 
 existing_names = {}
@@ -67,19 +66,16 @@ async def verification_schema(file):
         if submodel_type_error:
             return submodel_type_error
 
-        semantic_id_keys = submodel.get("semanticId", {}).get("keys", [])
-        if semantic_id_keys and isinstance(semantic_id_keys, list):
-            semantic_id = semantic_id_keys[0].get("value", "")
-            if semantic_id.startswith("https://admin-shell.io/"):
-                return get_schema_result(data)
-            elif semantic_id in ['0173-1#01-AHF578#001', '0173-1#01-AHX837#002']:
-                return get_schema_result(data)
-            else:
-                validate_result = validate_qualifiers(data)
-                if validate_result is not True:
-                    return validate_result
-    result = get_schema_result(data)
-    return result
+        semantic_id_keys = extract_semantic_id(submodel)
+
+        if is_idta_semantic_id(semantic_id_keys):
+            return get_schema_result(data)
+
+        validate_result = validate_qualifiers(data)
+        if validate_result is not True:
+            return validate_result
+
+    return get_schema_result(data)
 
 
 def check_submodel_kind(data: json):
@@ -99,76 +95,6 @@ def check_submodel_kind(data: json):
             )
     return None
 
-
-# def validate_qualifiers(data: json):
-#     try:
-#         environment = aas_jsonization.environment_from_jsonable(data)
-#     except Exception:
-#         return error_response(
-#             400,
-#             ErrorCode.INVALID_FILE_FORMAT
-#             )
-
-#     for submodel in environment.submodels:
-#         for element in submodel.submodel_elements or []:
-#             element_id = element.id_short or "Unknown"
-#             qualifiers = element.qualifiers or []
-
-#             has_required_qualifier = False
-#             for qualifier in qualifiers:
-#                 q_kind = qualifier.kind.value if qualifier.kind else None
-#                 q_type = qualifier.type if qualifier.type else None
-
-#                 print(f"DEBUG: Checking {element_id} -> kind: {q_kind}, type: {q_type}")
-
-#                 if q_kind == "TemplateQualifier" and q_type == "SMT_Cardinality":
-#                     has_required_qualifier = True
-#                     break  # 조건 만족 시 바로 통과
-
-#             if not has_required_qualifier:
-#                 return error_response(
-#                     400,
-#                     ErrorCode.INVALID_QUALIFIER_COMBINATION,
-#                     element_id
-#                 )
-
-#     return True
-
-
-# def validate_qualifiers(data: json):
-#     try:
-#         environment = aas_jsonization.environment_from_jsonable(data)
-#     except Exception:
-#         return error_response(
-#             400,
-#             ErrorCode.INVALID_FILE_FORMAT
-#             )
-
-#     # for submodel in environment.submodels:
-#     for submodel in environment.over_submodels_or_empty():
-#         for element in submodel.submodel_elements or []:
-#             element_id = element.id_short or "Unknown"
-#             qualifiers = element.qualifiers or []
-
-#             has_required_qualifier = False
-#             for qualifier in qualifiers:
-#                 q_kind = qualifier.kind.value if qualifier.kind else None
-#                 q_type = qualifier.type if qualifier.type else None
-
-#                 print(f"DEBUG: Checking {element_id} -> kind: {q_kind}, type: {q_type}")
-
-#                 if q_kind == "TemplateQualifier" and q_type == "SMT_Cardinality":
-#                     has_required_qualifier = True
-#                     break  # 조건 만족 시 바로 통과
-
-#             if not has_required_qualifier:
-#                 return error_response(
-#                     400,
-#                     ErrorCode.INVALID_QUALIFIER_COMBINATION,
-#                     element_id
-#                 )
-
-#     return True
 
 def is_required_qualifier(q: Qualifier) -> bool:
     return (
@@ -196,6 +122,13 @@ def validate_qualifiers(data: dict):
                 )
 
     return True
+
+
+def is_idta_semantic_id(value: str) -> bool:
+    return (
+        value.startswith("https://admin-shell.io/") or
+        value in ['0173-1#01-AHF578#001', '0173-1#01-AHX837#002']
+    )
 
 
 SUCCESS_COLOR_CODE = "\x1b[92m"
@@ -231,35 +164,6 @@ def postprocess_grouped_templates(grouped: dict) -> tuple[str, dict]:
 
 
 async def verification_instance(file):
-
-    # file_content = await file.read()
-    # try:
-    #     json_data = json.loads(file_content.decode("utf-8"))
-    # except Exception:
-    #     return ErrorCode.INVALID_JSON_FORMAT
-
-    # print('1111111111111111111')
-    # buffer = io.StringIO()
-    # sys.stdout = buffer
-    # result =run_submodel.check_submodel_templates(json_data)
-    # output = buffer.getvalue()
-    # print("Captured buffer:\n", output)
-    # print("Returned value:", result)
-
-    # output = buffer.getvalue()
-    # cleaned_output = remove_ansi_codes(output).strip().splitlines()
-    # grouped_templates = group_by_template(cleaned_output)
-
-    # result_status, grouped_templates = postprocess_grouped_templates(grouped_templates)
-    # return success_response(
-    #         "Instance API",
-    #         result_status,
-    #         grouped_templates
-    #     )
-    # buffer = io.StringIO()
-    # old_stdout = sys.stdout
-    # sys.stdout = buffer
-
     output = check_submodel_templates(file)
 
     cleaned_output = remove_ansi_codes(output).strip().splitlines()
@@ -316,8 +220,11 @@ async def search_schema_by_semamtic_id(value: str):
             "message": f"'{value}'가(이) 있습니다.",
             "data": data
         }
-    except Exception as e:
-        print(f"Error in service: {e}")
+    except Exception:
+        return error_response(
+            500,
+            ErrorCode.DB_ERROR
+            )
 
 
 async def search_schema_by_uploaded_by(value: str):
@@ -342,8 +249,11 @@ async def search_schema_by_uploaded_by(value: str):
             "message": f"'{value}'가(이) {len(data_list)}건 있습니다.",
             "data": data_list
         }
-    except Exception as e:
-        print(f"Error in service: {e}")
+    except Exception:
+        return error_response(
+            500,
+            ErrorCode.DB_ERROR
+            )
 
 
 async def search_schema_by_value(semanticId: str, uploadedBy: str):
