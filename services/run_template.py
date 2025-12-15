@@ -5,6 +5,7 @@ from aas_test_engines.test_cases.v3_0.__init__ import json_to_obj
 from aas_test_engines.test_cases.v3_0.adapter import AdapterPath, AdapterException
 from aas_test_engines.result import AasTestResult
 from api.response_handler import ErrorCode, error_response
+from dataclasses import asdict
 
 
 def run_constraint_check(file, model_type="Environment") -> str:
@@ -16,11 +17,18 @@ def run_constraint_check(file, model_type="Environment") -> str:
             file_stream = file
 
         data = json.load(file_stream)
-
         _, obj = json_to_obj(data, model_type=model_type)
+####
+        try:
+            constraint_result = AasTestResult("Check")
+            check_constraints(obj, constraint_result, AdapterPath())
+        except Exception as e:
+            constraint_result.append(AasTestResult(f"Constraint check failed: {e}"))
+####
+        # _, obj = json_to_obj(data, model_type=model_type)
 
-        constraint_result = AasTestResult("Check")
-        check_constraints(obj, constraint_result, AdapterPath())
+        # constraint_result = AasTestResult("Check")
+        # check_constraints(obj, constraint_result, AdapterPath())
 
         buffer = io.StringIO()
         sys.stdout = buffer
@@ -32,7 +40,7 @@ def run_constraint_check(file, model_type="Environment") -> str:
 
     except Exception as e:
         msg = str(e)
-        if "'object' object has no attribute 'raw_value'" in msg or "'AssetAdministrationShell' object has no attribute 'id_short_path'" in msg:
+        if "'AssetAdministrationShell' object has no attribute 'id_short_path'" in msg:
             return error_response(
                 400,
                 ErrorCode.INVALID_TEMPLATE

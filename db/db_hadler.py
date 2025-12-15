@@ -165,7 +165,7 @@ def search_schema_in_all_fields(semanticId: str, uploadedBy: str):
             )
 
 
-def export_schema_to_py_file(submodel_ids: List[str], file_path: str = "schema_files/test_schema.py") -> bool:
+def export_schema_to_py_file(submodel_ids: List[str], file_path: str = "schema_files/schemas.py") -> bool:
     client = get_db_client()
     try:
         collection = client.aas.aas_schema

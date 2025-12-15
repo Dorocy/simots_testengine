@@ -9,7 +9,7 @@ from aas_test_engines.result import AasTestResult
 from aas_test_engines.test_cases.v3_0.model import Environment, r_environment, Submodel
 from db.db_hadler import export_schema_to_py_file
 from api.response_handler import ErrorCode, error_response
-import schema_files.test_schema as schemas
+import schema_files.schemas
 templates = {}
 
 

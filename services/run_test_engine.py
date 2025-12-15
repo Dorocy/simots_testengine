@@ -28,12 +28,12 @@ def run_test_engine(file, file_name: str, is_template: bool) -> dict:
         constraint_output = ""
         if is_template:
             constraint_output = run_constraint_check(file)
-            print('constraint output: ', constraint_output)
+            # print('constraint output: ', constraint_output)
 
-            if isinstance(constraint_output, JSONResponse):
-                decoded_body = constraint_output.body.decode('utf-8')
-                print("constraint output(decoded): ", decoded_body)
-                return constraint_output
+            # if isinstance(constraint_output, JSONResponse):
+            #     decoded_body = constraint_output.body.decode('utf-8')
+            #     print("constraint output(decoded): ", decoded_body)
+            #     return constraint_output
 
         combined_output = output.strip()
         if constraint_output:
@@ -69,7 +69,7 @@ ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
 
 
 def parse_engine_output(output: str, is_stdout: bool = True, is_template: bool = False) -> dict:
-    print('output: ', output)
+    print('output:', '\n', output)
     if output.startswith('\u001b[92mCheck'):  # 초록색
         verification_status = 'success'
     elif output.startswith('\u001b[91mCheck') or output.startswith('\u001b[93mCheck'):  # 빨간색, 노란색
@@ -102,7 +102,7 @@ def parse_engine_output(output: str, is_stdout: bool = True, is_template: bool =
                 continue
 
             if is_stdout is True:
-                if re.match(r'^(Constraint AASd-120|Check|Skipped|Template:|Relationship aasx/|Relationship )', clean_line):
+                if re.match(r"^(Constraint AASd-120|Check|Skipped|Template:|Relationship aasx/|Relationship|Constraint check failed: 'object' object has no attribute 'raw_value')", clean_line):
                     msg['needless'].append(clean_line)
                 elif clean_line.startswith('Constraint '):
                     msg['constraints'].append(clean_line)

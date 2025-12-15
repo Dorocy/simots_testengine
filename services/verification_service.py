@@ -62,15 +62,13 @@ async def verification_schema(file):
 
     for submodel in data.get("submodels", []):
         submodel_type_error = check_submodel_kind(submodel)
-
         if submodel_type_error:
             return submodel_type_error
-
+        
         semantic_id_keys = extract_semantic_id(submodel)
-
         if is_idta_semantic_id(semantic_id_keys):
             return get_schema_result(data)
-
+        
         validate_result = validate_qualifiers(data)
         if validate_result is not True:
             return validate_result
@@ -99,7 +97,7 @@ def check_submodel_kind(data: json):
 def is_required_qualifier(q: Qualifier) -> bool:
     return (
         q.kind and q.kind.value == "TemplateQualifier"
-        and q.type and q.type == "SMT_Cardinality" or "SMT/Cardinality"
+        and q.type in ("SMT_Cardinality", "SMT/Cardinality")
     )
 
 
