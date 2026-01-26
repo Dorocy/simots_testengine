@@ -25,20 +25,15 @@ def run_test_engine(file, file_name: str, is_template: bool) -> dict:
         else:
             return error_response(500, ErrorCode.TEST_ENGINE_NO_OUTPUT)
 
-        constraint_output = ""
-        if is_template:
-            constraint_output = run_constraint_check(file)
-            # print('constraint output: ', constraint_output)
+        meta_success = is_meta_model_success_ansi(output)
 
-            # if isinstance(constraint_output, JSONResponse):
-            #     decoded_body = constraint_output.body.decode('utf-8')
-            #     print("constraint output(decoded): ", decoded_body)
-            #     return constraint_output
+        constraint_output = ""
+        if is_template and (not meta_success):
+            constraint_output = run_constraint_check(file)
 
         combined_output = output.strip()
         if constraint_output:
             combined_output += "\n" + constraint_output.strip()
-            print('combined_output: ', combined_output)
 
         return parse_engine_output(
             combined_output,
@@ -66,6 +61,18 @@ def build_command(file, file_name: str) -> list:
 
 
 ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
+SUCCESS_COLOR_CODE = "\x1b[92m"
+
+
+def is_meta_model_success_ansi(raw_output: str) -> bool:
+    for line in raw_output.splitlines():
+        if "Check meta model" in line:
+            s = line.lstrip()
+            if s.startswith(SUCCESS_COLOR_CODE):
+                return True
+            else:
+                return False
+    return False
 
 
 def parse_engine_output(output: str, is_stdout: bool = True, is_template: bool = False) -> dict:
@@ -102,7 +109,7 @@ def parse_engine_output(output: str, is_stdout: bool = True, is_template: bool =
                 continue
 
             if is_stdout is True:
-                if re.match(r"^(Constraint AASd-120|Check|Skipped|Template:|Relationship aasx/|Relationship|Constraint check failed: 'object' object has no attribute 'raw_value')", clean_line):
+                if re.match(r"^(Constraint AASd-120|Check|Skipped|Template:|Relationship aasx/|Relationship|Constraint check failed: 'object' object has no attribute 'raw_value'|Constraint check failed: 'object' object has no attribute 'id_short')", clean_line):
                     msg['needless'].append(clean_line)
                 elif clean_line.startswith('Constraint '):
                     msg['constraints'].append(clean_line)

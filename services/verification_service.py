@@ -64,11 +64,11 @@ async def verification_schema(file):
         submodel_type_error = check_submodel_kind(submodel)
         if submodel_type_error:
             return submodel_type_error
-        
+
         semantic_id_keys = extract_semantic_id(submodel)
         if is_idta_semantic_id(semantic_id_keys):
             return get_schema_result(data)
-        
+
         validate_result = validate_qualifiers(data)
         if validate_result is not True:
             return validate_result
