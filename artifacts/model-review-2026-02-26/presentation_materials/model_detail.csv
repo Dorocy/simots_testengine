@@ -1,0 +1,6 @@
+﻿file,initial_errors,rule_matched,llm_remaining,after_rule_errors,reduced,reduction_rate_percent,changed_entries
+IDTA 02019-1-0_Template_PlantAssetManagement.json,271,270,1,0,271,100.00,270
+IDTA 02029-1_Template_Sensor4.0_MeasurementValue.json,35,34,1,0,35,100.00,34
+IDTA 02046-1-0_Template_WWMD.json,103,102,1,0,103,100.00,102
+IDTA_02049_Template_QualityControlForMachining.json,406,405,1,0,406,100.00,405
+IDTA02026-1-0_Template_ProvisionOf3DModels.json,216,215,1,0,216,100.00,215

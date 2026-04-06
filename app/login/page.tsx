@@ -27,10 +27,10 @@ export default function LoginPage() {
       if (success) {
         router.push('/verify');
       } else {
-        setError('Invalid email or password');
+        setError('이메일 또는 비밀번호가 올바르지 않습니다.');
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      setError('오류가 발생했습니다. 다시 시도해 주세요.');
     } finally {
       setIsLoading(false);
     }
@@ -45,15 +45,15 @@ export default function LoginPage() {
             <h1 className="text-2xl font-bold">AAS Verify</h1>
           </Link>
           <p className="text-muted-foreground">
-            Sign in to access verification tools
+            검증 도구를 사용하려면 로그인하세요
           </p>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle>Sign In</CardTitle>
+            <CardTitle>로그인</CardTitle>
             <CardDescription>
-              Enter your credentials to continue
+              계속하려면 계정 정보를 입력하세요
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -67,7 +67,7 @@ export default function LoginPage() {
 
               <div className="space-y-2">
                 <label htmlFor="email" className="text-sm font-medium">
-                  Email
+                  이메일
                 </label>
                 <Input
                   id="email"
@@ -81,12 +81,12 @@ export default function LoginPage() {
 
               <div className="space-y-2">
                 <label htmlFor="password" className="text-sm font-medium">
-                  Password
+                  비밀번호
                 </label>
                 <Input
                   id="password"
                   type="password"
-                  placeholder="Enter your password"
+                  placeholder="비밀번호를 입력하세요"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -94,18 +94,18 @@ export default function LoginPage() {
               </div>
 
               <Button type="submit" disabled={isLoading} className="w-full">
-                {isLoading ? 'Signing in...' : 'Sign In'}
+                {isLoading ? '로그인 중...' : '로그인'}
               </Button>
             </form>
 
             <div className="mt-6 p-4 bg-muted rounded-md">
-              <p className="text-sm font-medium mb-2">Demo Credentials:</p>
+              <p className="text-sm font-medium mb-2">데모 계정:</p>
               <div className="text-xs text-muted-foreground space-y-1">
                 <div>
-                  <strong>Admin:</strong> admin@aas-verify.com / admin123
+                  <strong>관리자:</strong> admin@aas-verify.com / admin123
                 </div>
                 <div>
-                  <strong>User:</strong> Any email / Any password
+                  <strong>일반 사용자:</strong> 아무 이메일 / 아무 비밀번호
                 </div>
               </div>
             </div>
@@ -114,7 +114,7 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-muted-foreground mt-4">
           <Link href="/" className="hover:text-foreground underline">
-            Back to home
+            홈으로 돌아가기
           </Link>
         </p>
       </div>

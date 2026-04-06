@@ -1,5 +1,6 @@
 import json, os
-from fastapi import HTTPException, Query
+from fastapi import Query
+from starlette.concurrency import run_in_threadpool
 import aas_core3.jsonization as aas_jsonization
 from aas_core3.types import Environment, SubmodelElement, Qualifier
 from services.run_submodel import check_submodel_templates
@@ -22,9 +23,8 @@ from services.export_schema import get_schema_result, generate_schema_code
 
 existing_names = {}
 
-
 async def verification(file, is_template):
-    response = process_verification(file, is_template)
+    response = await run_in_threadpool(process_verification, file, is_template)
     return response
 
 
@@ -37,6 +37,7 @@ def process_verification(file, is_template: bool) -> dict:
             ErrorCode.INVALID_FILE_FORMAT
             )
 
+#existing_names: 기존에 업로드된 AAS 파일이 있는지 체크하기위한 파라미터였으나, 현재 없어져도될것으로 판단됨
     try:
         file_name = save_temp_file(file)
         result = run_test_engine(file, file_name, is_template)
@@ -44,16 +45,32 @@ def process_verification(file, is_template: bool) -> dict:
         try:
             os.remove(file_name)
         except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
+            return error_response(
+                500,
+                ErrorCode.INTERNAL_SERVER_ERROR,
+                message=str(e)
+            )
 
         return result
 
     except ValueError as ve:
-        raise HTTPException(status_code=400, detail=str(ve))
+        return error_response(
+            400,
+            ErrorCode.INVALID_PARAMETER,
+            message=str(ve)
+        )
     except RuntimeError as re:
-        raise HTTPException(status_code=500, detail=str(re))
+        return error_response(
+            500,
+            ErrorCode.INTERNAL_SERVER_ERROR,
+            message=str(re)
+        )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"처리 중 오류 발생: {str(e)}")
+        return error_response(
+            500,
+            ErrorCode.INTERNAL_SERVER_ERROR,
+            message=f"처리 중 오류 발생: {str(e)}"
+        )
 
 
 async def verification_schema(file):
@@ -122,7 +139,9 @@ def validate_qualifiers(data: dict):
     return True
 
 
-def is_idta_semantic_id(value: str) -> bool:
+def is_idta_semantic_id(value: str | None) -> bool:
+    if not value:
+        return False
     return (
         value.startswith("https://admin-shell.io/") or
         value in ['0173-1#01-AHF578#001', '0173-1#01-AHX837#002']
@@ -195,7 +214,7 @@ async def schemas_list():
         submodel_ids = retrieve_schemas()
         return submodel_ids
     except Exception:
-        return HTTPException(status_code=404, detail="No schemas found in database.")
+        return error_response(404, ErrorCode.SCHEMA_NOT_FOUND)
 
 
 async def search_schema_by_semamtic_id(value: str):
@@ -275,8 +294,11 @@ async def search_schema_by_value(semanticId: str, uploadedBy: str):
             "data": data
         }
 
-    except Exception as e:
-        print(f"Error in service: {e}")
+    except Exception:
+        return error_response(
+            500,
+            ErrorCode.DB_ERROR
+        )
 
 
 async def update_schema_put(file):

@@ -56,11 +56,11 @@ export default function VerifyPage() {
     } catch (error) {
       setResult({
         success: false,
-        message: 'Verification failed. Please check your file and try again.',
+        message: '검증에 실패했습니다. 파일을 확인한 뒤 다시 시도해 주세요.',
         errors: [
           {
             code: 'NETWORK_ERROR',
-            message: error instanceof Error ? error.message : 'Unknown error occurred',
+            message: error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.',
           },
         ],
       });
@@ -79,21 +79,21 @@ export default function VerifyPage() {
           </Link>
           <nav className="flex items-center gap-4">
             <Link href="/verify">
-              <Button variant="ghost">Verification</Button>
+              <Button variant="ghost">검증</Button>
             </Link>
             {user?.role === 'admin' && (
               <Link href="/admin">
-                <Button variant="ghost">Admin</Button>
+                <Button variant="ghost">관리자</Button>
               </Link>
             )}
             {user ? (
               <Button variant="outline" onClick={handleLogout} className="gap-2">
                 <LogOut className="h-4 w-4" />
-                Sign Out
+                로그아웃
               </Button>
             ) : (
               <Link href="/login">
-                <Button>Sign In</Button>
+                <Button>로그인</Button>
               </Link>
             )}
           </nav>
@@ -102,9 +102,9 @@ export default function VerifyPage() {
 
       <main className="container mx-auto px-4 py-12">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-2">AAS Verification</h2>
+          <h2 className="text-3xl font-bold mb-2">AAS 검증</h2>
           <p className="text-muted-foreground">
-            Upload your AAS file and select the verification type to validate against official specifications
+            AAS 파일을 업로드하고 검증 유형을 선택해 규격 적합성을 확인하세요
           </p>
         </div>
 
@@ -112,9 +112,9 @@ export default function VerifyPage() {
           <div className="lg:col-span-2 space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Select Verification Type</CardTitle>
+                <CardTitle>검증 유형 선택</CardTitle>
                 <CardDescription>
-                  Choose the appropriate verification method for your AAS file
+                  파일에 맞는 검증 방식을 선택하세요
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -128,9 +128,9 @@ export default function VerifyPage() {
                     }`}
                   >
                     <FileCheck className="h-6 w-6 text-primary mb-2" />
-                    <div className="font-medium mb-1">Metamodel</div>
+                    <div className="font-medium mb-1">메타모델</div>
                     <div className="text-xs text-muted-foreground">
-                      Validate AAS structure
+                      AAS 구조 검증
                     </div>
                   </button>
 
@@ -143,9 +143,9 @@ export default function VerifyPage() {
                     }`}
                   >
                     <Layers className="h-6 w-6 text-primary mb-2" />
-                    <div className="font-medium mb-1">Template</div>
+                    <div className="font-medium mb-1">템플릿</div>
                     <div className="text-xs text-muted-foreground">
-                      Verify template format
+                      템플릿 형식 검증
                     </div>
                   </button>
 
@@ -158,9 +158,9 @@ export default function VerifyPage() {
                     }`}
                   >
                     <Database className="h-6 w-6 text-primary mb-2" />
-                    <div className="font-medium mb-1">Instance</div>
+                    <div className="font-medium mb-1">인스턴스</div>
                     <div className="text-xs text-muted-foreground">
-                      Check against schema
+                      스키마 기준 검사
                     </div>
                   </button>
                 </div>
@@ -169,9 +169,9 @@ export default function VerifyPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Upload File</CardTitle>
+                <CardTitle>파일 업로드</CardTitle>
                 <CardDescription>
-                  Upload your AAS JSON file for verification
+                  검증할 AAS JSON 파일을 업로드하세요
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -183,7 +183,7 @@ export default function VerifyPage() {
                     className="w-full"
                     size="lg"
                   >
-                    {isVerifying ? 'Verifying...' : 'Verify File'}
+                    {isVerifying ? '검증 중...' : '파일 검증'}
                   </Button>
                 </div>
               </CardContent>
@@ -194,6 +194,9 @@ export default function VerifyPage() {
                 success={result.success}
                 message={result.message}
                 errors={result.errors}
+                verificationType={selectedType}
+                fileName={selectedFile?.name}
+                sourceFile={selectedFile}
               />
             )}
           </div>
@@ -201,25 +204,25 @@ export default function VerifyPage() {
           <div className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Verification Guide</CardTitle>
+                <CardTitle className="text-lg">검증 안내</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 text-sm">
                 <div>
-                  <div className="font-medium mb-1">Metamodel Verification</div>
+                    <div className="font-medium mb-1">메타모델 검증</div>
                   <p className="text-muted-foreground text-xs">
-                    Validates the basic structure and compliance with AAS Metamodel v3.0 specifications
+                      AAS Metamodel v3.0 규격 기준으로 기본 구조와 적합성을 검증합니다
                   </p>
                 </div>
                 <div>
-                  <div className="font-medium mb-1">Template Verification</div>
+                    <div className="font-medium mb-1">템플릿 검증</div>
                   <p className="text-muted-foreground text-xs">
-                    Checks if your template follows the required format and contains necessary fields
+                      템플릿이 요구 형식을 따르고 필수 필드를 포함하는지 확인합니다
                   </p>
                 </div>
                 <div>
-                  <div className="font-medium mb-1">Instance Verification</div>
+                    <div className="font-medium mb-1">인스턴스 검증</div>
                   <p className="text-muted-foreground text-xs">
-                    Verifies instances against registered schemas using semantic ID matching
+                      semantic ID 매칭을 기준으로 등록된 스키마와 대조합니다
                   </p>
                 </div>
               </CardContent>
@@ -227,20 +230,20 @@ export default function VerifyPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">File Requirements</CardTitle>
+                <CardTitle className="text-lg">파일 요구사항</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2 text-sm">
                 <div className="flex items-start gap-2">
                   <div className="h-1.5 w-1.5 rounded-full bg-primary mt-1.5" />
-                  <span className="text-muted-foreground">JSON format only</span>
+                  <span className="text-muted-foreground">JSON 형식만 지원</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <div className="h-1.5 w-1.5 rounded-full bg-primary mt-1.5" />
-                  <span className="text-muted-foreground">Maximum file size: 10MB</span>
+                  <span className="text-muted-foreground">최대 파일 크기: 10MB</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <div className="h-1.5 w-1.5 rounded-full bg-primary mt-1.5" />
-                  <span className="text-muted-foreground">Valid AAS structure required</span>
+                  <span className="text-muted-foreground">유효한 AAS 구조 필요</span>
                 </div>
               </CardContent>
             </Card>

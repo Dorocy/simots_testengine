@@ -2,6 +2,7 @@ from enum import Enum
 from fastapi import Request
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
+from fastapi import HTTPException
 from starlette.status import HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR
 from typing import Optional
 
@@ -24,6 +25,10 @@ class ErrorCode(str, Enum):
     SCHEMA_NOT_FOUND = "schema_not_found"
     SUBMODEL_NOT_FOUND = "submodel_not_found"
     SEMANTIC_ID_NOT_FOUND = "semantic_id_not_found"
+    LLM_NO_USABLE_OUTPUT = "llm_no_usable_output"
+    OLLAMA_HTTP_ERROR = "ollama_http_error"
+    OLLAMA_CONNECTION_ERROR = "ollama_connection_error"
+    OLLAMA_REQUEST_FAILED = "ollama_request_failed"
 
 
 # 에러코드에 따라 에러메세지도 동일하게 처리되도록 매핑
@@ -42,7 +47,11 @@ ERROR_MESSAGES = {
     ErrorCode.ALREADY_EXISTS_SCHEMA: "이미 존재하는 스키마입니다.",
     ErrorCode.SCHEMA_NOT_FOUND: "스키마를 찾을 수 없습니다.",
     ErrorCode.SUBMODEL_NOT_FOUND: "Submodel이 없습니다.",
-    ErrorCode.SEMANTIC_ID_NOT_FOUND: "semantic_id가 없습니다."
+    ErrorCode.SEMANTIC_ID_NOT_FOUND: "semantic_id가 없습니다.",
+    ErrorCode.LLM_NO_USABLE_OUTPUT: "LLM이 사용할 수 있는 수정 결과를 반환하지 않았습니다.",
+    ErrorCode.OLLAMA_HTTP_ERROR: "Ollama HTTP 오류가 발생했습니다.",
+    ErrorCode.OLLAMA_CONNECTION_ERROR: "Ollama 연결 오류가 발생했습니다.",
+    ErrorCode.OLLAMA_REQUEST_FAILED: "Ollama 요청 처리 중 오류가 발생했습니다.",
 }
 
 
@@ -50,13 +59,19 @@ ERROR_MESSAGES = {
 def error_response(
     status_code: int, error_code: ErrorCode,  param: Optional[str] = None, message: Optional[str] = None
 ):
+    template = message if message is not None else ERROR_MESSAGES.get(error_code, "알 수 없는 오류입니다.")
+    try:
+        resolved_message = template.format(param=param) if message is None else template
+    except Exception:
+        resolved_message = template
+
     return JSONResponse(
         status_code=status_code,
         content={
             "status": "API error",
             "error": {
                 "code": error_code.value,
-                "message": (message or ERROR_MESSAGES.get(error_code, "알 수 없는 오류입니다.")).format(param=param)
+                "message": resolved_message
             },
         },
     )
@@ -77,6 +92,15 @@ def success_response(status: str, verification_status, verification_message):
 
 # FAST api에서 예외 처리하기 위해 만듬.
 def setup_exception_handlers(app):
+    @app.exception_handler(HTTPException)
+    async def http_exception_handler(request: Request, exc: HTTPException):
+        detail = exc.detail if isinstance(exc.detail, str) else None
+        return error_response(
+            status_code=exc.status_code,
+            error_code=ErrorCode.INTERNAL_SERVER_ERROR,
+            message=detail,
+        )
+
     @app.exception_handler(RequestValidationError)
     async def validation_exception_handler(
         request: Request, exc: RequestValidationError

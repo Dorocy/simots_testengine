@@ -5,6 +5,8 @@ from api.response_handler import ErrorCode, error_response, success_response
 from utils.data_type import MessageGroup, TEMPLATE_EXCLUDE_PATTERNS
 from services.run_template import run_constraint_check
 
+TEST_ENGINE_TIMEOUT_SECONDS = float(os.getenv("TEST_ENGINE_TIMEOUT_SECONDS", "90"))
+
 
 def run_test_engine(file, file_name: str, is_template: bool) -> dict:
     command = build_command(file, file_name)
@@ -12,7 +14,12 @@ def run_test_engine(file, file_name: str, is_template: bool) -> dict:
     env["PYTHONIOENCODING"] = "utf-8"
 
     try:
-        result = subprocess.run(command, capture_output=True, env=env)
+        result = subprocess.run(
+            command,
+            capture_output=True,
+            env=env,
+            timeout=TEST_ENGINE_TIMEOUT_SECONDS,
+        )
         output = ""
         is_stdout = True
 
@@ -43,6 +50,15 @@ def run_test_engine(file, file_name: str, is_template: bool) -> dict:
 
     except json.JSONDecodeError as e:
         return error_response(400, ErrorCode.INVALID_JSON_FORMAT, {str(e)})
+    except subprocess.TimeoutExpired:
+        return error_response(
+            500,
+            ErrorCode.INTERNAL_SERVER_ERROR,
+            message=(
+                f"Test engine timed out after {TEST_ENGINE_TIMEOUT_SECONDS:.0f}s. "
+                "Try a smaller file or run fewer checks."
+            ),
+        )
 
     except Exception as e:
         return error_response(500, ErrorCode.INVALID_PARAMETER, str(e))

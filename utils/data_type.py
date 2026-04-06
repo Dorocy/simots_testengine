@@ -1,7 +1,11 @@
 import re
 from typing import TypedDict, List, Set
 from dataclasses import dataclass, field
-from aas_test_engines.data_types import DataTypeDefXsd
+
+try:
+    from aas_test_engines.data_types import DataTypeDefXsd  # type: ignore
+except Exception:
+    DataTypeDefXsd = None
 
 
 class MessageGroup(TypedDict):
@@ -20,7 +24,7 @@ def new_message_group() -> MessageGroup:
         conceptDescriptions=[],
         constraints=[],
         etc=[],
-        needless=[]
+        needless=[],
     )
 
 
@@ -34,31 +38,25 @@ class SchemaGroup:
     unnamed_element_counter: int = 0
 
 
-# class SchemaState(TypedDict):
-#     result: List[str]
-#     class_definitions: List[str]
-#     enum_definitions: List[str]
-#     generated_classes: Set[str]
-#     generated_enums: Set[str]
-#     unnamed_element_counter: int
-
-
-# def new_schema_state() -> SchemaState:
-#     return SchemaState(
-#         result=[],
-#         class_definitions=[],
-#         enum_definitions=[],
-#         generated_classes=set(),
-#         generated_enums=set(),
-#         unnamed_element_counter=0
-#     )
-
-
-value_type_names = [v.value for v in DataTypeDefXsd]
+if DataTypeDefXsd is not None:
+    value_type_names = [v.value for v in DataTypeDefXsd]
+else:
+    # Fallback for aas_test_engines versions where DataTypeDefXsd is unavailable.
+    value_type_names = [
+        "xs:string",
+        "xs:boolean",
+        "xs:decimal",
+        "xs:integer",
+        "xs:double",
+        "xs:float",
+        "xs:date",
+        "xs:time",
+        "xs:dateTime",
+    ]
 value_type_pattern = "|".join(re.escape(name) for name in value_type_names)
 
 TEMPLATE_EXCLUDE_PATTERNS = [
-        "String is shorter than 1 characters",
-        "Empty array not allowed",
-        rf"Value '.*?' is not a '({value_type_pattern})'.*"
-    ]
+    "String is shorter than 1 characters",
+    "Empty array not allowed",
+    rf"Value '.*?' is not a '({value_type_pattern})'.*",
+]

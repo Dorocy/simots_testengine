@@ -1,20 +1,39 @@
-import sys, io, json
-sys.stdout.reconfigure(encoding="utf-8")
-from typing import Tuple, Optional
-from aas_test_engines.test_cases.v3_0.parse import parse
-from aas_test_engines.test_cases.v3_0.__init__ import json_to_obj
-from aas_test_engines.test_cases.v3_0.submodel_templates import parse_submodel_templates
-from aas_test_engines.test_cases.v3_0.adapter import JsonAdapter, AdapterPath
-from aas_test_engines.result import AasTestResult
-from aas_test_engines.test_cases.v3_0.model import Environment, r_environment, Submodel
+import io
+import json
+import sys
+import importlib
 from db.db_hadler import export_schema_to_py_file
-from api.response_handler import ErrorCode, error_response
-import schema_files.schemas
-templates = {}
+sys.stdout.reconfigure(encoding="utf-8")
+
+
+def _resolve_json_to_obj():
+    candidates = [
+        ("aas_test_engines.test_cases.v3_0", "json_to_obj"),
+        ("aas_test_engines.test_cases.v3_0.parse", "json_to_obj"),
+    ]
+    for module_name, attr_name in candidates:
+        try:
+            module = importlib.import_module(module_name)
+            fn = getattr(module, attr_name, None)
+            if callable(fn):
+                return fn
+        except Exception:
+            continue
+    return None
 
 
 def check_submodel_templates(file, model_type="Environment") -> str:
     try:
+        try:
+            from aas_test_engines.result import AasTestResult
+            from aas_test_engines.test_cases.v3_0.submodel_templates import parse_submodel_templates
+        except Exception as e:
+            return f"Template: import\nAAS test engine import failed: {e}"
+
+        json_to_obj = _resolve_json_to_obj()
+        if json_to_obj is None:
+            return "Template: import\njson_to_obj is not available in installed aas_test_engines version."
+
         if hasattr(file, "file"):
             file.file.seek(0)
             file_stream = io.TextIOWrapper(file.file, encoding="utf-8")
@@ -49,8 +68,4 @@ def check_submodel_templates(file, model_type="Environment") -> str:
         return output
 
     except Exception as e:
-        return error_response(
-            500,
-            ErrorCode.DB_ERROR,
-            str(e)
-            )
+        return f"Template: runtime\nInstance check failed: {e}"

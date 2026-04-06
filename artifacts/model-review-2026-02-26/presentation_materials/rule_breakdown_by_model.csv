@@ -1,0 +1,11 @@
+﻿file,rule_summary,count
+IDTA 02019-1-0_Template_PlantAssetManagement.json,Normalize identifier to allowed pattern,202
+IDTA 02019-1-0_Template_PlantAssetManagement.json,Normalize IEC61360 dataSpecification reference,68
+IDTA 02029-1_Template_Sensor4.0_MeasurementValue.json,Normalize IEC61360 dataSpecification reference,17
+IDTA 02029-1_Template_Sensor4.0_MeasurementValue.json,Normalize identifier to allowed pattern,17
+IDTA 02046-1-0_Template_WWMD.json,Normalize identifier to allowed pattern,65
+IDTA 02046-1-0_Template_WWMD.json,Normalize IEC61360 dataSpecification reference,37
+IDTA02026-1-0_Template_ProvisionOf3DModels.json,Normalize identifier to allowed pattern,117
+IDTA02026-1-0_Template_ProvisionOf3DModels.json,Normalize IEC61360 dataSpecification reference,98
+IDTA_02049_Template_QualityControlForMachining.json,Normalize IEC61360 dataSpecification reference,222
+IDTA_02049_Template_QualityControlForMachining.json,Normalize identifier to allowed pattern,183

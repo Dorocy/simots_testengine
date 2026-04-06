@@ -1,0 +1,12 @@
+error_signal,rule_summary,answer_or_normalization,patch_path_rule
+"definition is missing","Add missing definition","definition=[{language:en,text:arbitary definition custom}]","<location>/embeddedDataSpecifications(or snake_case)/0/dataSpecificationContent(or snake_case)/definition"
+"definition.language is missing english","Add English definition","definition includes english entry","same as above"
+"AASc-3a-002 English language is missing","Ensure English preferred name","preferredName[0]={language:en,text:arbitrary}","<location>/preferredName(or preferred_name)/0"
+"does not contain a language according to BCP46","Normalize language to BCP47 tag","language=en","<location>/language"
+"String '...' does not match pattern [a-zA-Z][a-zA-Z0-9_]*","Normalize identifier to allowed pattern","invalid chars to '_', ensure leading alphabet","replace at location"
+"Property 'text' must not be empty","Replace empty text","text=arbitrary","<location>/text"
+"AASd-123 first key must be one of AasIdentifiables","Use ExternalReference for GlobalReference/EMPTY","type=ExternalReference","<location>/type"
+"is not a valid TypeOfFaxNumber","Normalize TypeOfFaxNumber value","trim extracted value or fallback code","<location>/value"
+"cannot convert to lang string: no value","Add missing lang string value","value=[{language:en,text:arbitrary}]","<location>/value"
+"cannot convert to string: no value","Add missing string value","value=arbitrary","<location>/value"
+"dataSpecification/keys[0] has unexpected value ... expected ...","Normalize IEC61360 dataSpecification reference","set to expected canonical URL","<location>/dataSpecification(or snake_case)/keys/0/value"

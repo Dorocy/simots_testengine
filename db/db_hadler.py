@@ -1,6 +1,7 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 import datetime, re
+import os
 from api.response_handler import ErrorCode, error_response, success_response
 from typing import List
 
@@ -169,6 +170,7 @@ def export_schema_to_py_file(submodel_ids: List[str], file_path: str = "schema_f
     client = get_db_client()
     try:
         collection = client.aas.aas_schema
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
         # 헤더
         with open(file_path, "w", encoding="utf-8") as f:
             f.write("from enum import Enum\n"

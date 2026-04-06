@@ -1,11 +1,26 @@
 import sys, json, io
-import json
+import importlib
 from aas_test_engines.test_cases.v3_0.parse import check_constraints, CheckConstraintException
-from aas_test_engines.test_cases.v3_0.__init__ import json_to_obj
 from aas_test_engines.test_cases.v3_0.adapter import AdapterPath
 from aas_test_engines.result import AasTestResult
 from api.response_handler import ErrorCode, error_response
 from dataclasses import is_dataclass, fields
+
+
+def _resolve_json_to_obj():
+    candidates = [
+        ("aas_test_engines.test_cases.v3_0", "json_to_obj"),
+        ("aas_test_engines.test_cases.v3_0.parse", "json_to_obj"),
+    ]
+    for module_name, attr_name in candidates:
+        try:
+            module = importlib.import_module(module_name)
+            fn = getattr(module, attr_name, None)
+            if callable(fn):
+                return fn
+        except Exception:
+            continue
+    return None
 
 
 def safe_check_constraints(obj, result: AasTestResult, path: AdapterPath = AdapterPath()):
@@ -44,6 +59,10 @@ ER_PATTERNS = (
 
 def run_constraint_check(file, model_type="Environment") -> str:
     try:
+        json_to_obj = _resolve_json_to_obj()
+        if json_to_obj is None:
+            return "Constraint check failed: json_to_obj is unavailable in current aas_test_engines version."
+
         if hasattr(file, "file"):
             file.file.seek(0)
             file_stream = io.TextIOWrapper(file.file, encoding="utf-8")

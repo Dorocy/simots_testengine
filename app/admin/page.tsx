@@ -81,14 +81,14 @@ export default function AdminPage() {
   };
 
   const handleDelete = async (semanticId: string) => {
-    if (!confirm('Are you sure you want to delete this schema?')) return;
+    if (!confirm('이 스키마를 삭제하시겠습니까?')) return;
 
     try {
       await apiClient.deleteSchema(semanticId);
       await loadSchemas();
     } catch (error) {
       console.error('[v0] Failed to delete schema:', error);
-      alert('Failed to delete schema');
+      alert('스키마 삭제에 실패했습니다.');
     }
   };
 
@@ -107,7 +107,7 @@ export default function AdminPage() {
       await loadSchemas();
     } catch (error) {
       console.error('[v0] Failed to upload schema:', error);
-      alert('Failed to upload schema');
+      alert('스키마 업로드에 실패했습니다.');
     }
   };
 
@@ -126,18 +126,18 @@ export default function AdminPage() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <Shield className="h-6 w-6 text-primary" />
-            <h1 className="text-xl font-bold">AAS Verify - Admin</h1>
+            <h1 className="text-xl font-bold">AAS Verify - 관리자</h1>
           </Link>
           <nav className="flex items-center gap-4">
             <Link href="/verify">
-              <Button variant="ghost">Verification</Button>
+              <Button variant="ghost">검증</Button>
             </Link>
             <Link href="/admin">
-              <Button variant="ghost">Admin</Button>
+              <Button variant="ghost">관리자</Button>
             </Link>
             <Button variant="outline" onClick={handleLogout} className="gap-2">
               <LogOut className="h-4 w-4" />
-              Sign Out
+              로그아웃
             </Button>
           </nav>
         </div>
@@ -146,28 +146,28 @@ export default function AdminPage() {
       <main className="container mx-auto px-4 py-12">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-3xl font-bold mb-2">Schema Management</h2>
+            <h2 className="text-3xl font-bold mb-2">스키마 관리</h2>
             <p className="text-muted-foreground">
-              Manage AAS schemas, search by semantic ID or manufacturer
+              AAS 스키마를 관리하고 semantic ID 또는 제조사로 검색할 수 있습니다
             </p>
           </div>
           <Button onClick={() => setIsUploadDialogOpen(true)} className="gap-2">
             <Plus className="h-4 w-4" />
-            Add Schema
+            스키마 추가
           </Button>
         </div>
 
         <Card className="mb-6">
           <CardHeader>
-            <CardTitle>Search Schemas</CardTitle>
-            <CardDescription>Filter schemas by semantic ID or uploaded by</CardDescription>
+            <CardTitle>스키마 검색</CardTitle>
+            <CardDescription>semantic ID 또는 업로더 기준으로 스키마를 필터링합니다</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search by Semantic ID"
+                  placeholder="Semantic ID로 검색"
                   value={searchSemanticId}
                   onChange={(e) => setSearchSemanticId(e.target.value)}
                   className="pl-9"
@@ -176,7 +176,7 @@ export default function AdminPage() {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search by Manufacturer"
+                  placeholder="제조사로 검색"
                   value={searchUploadedBy}
                   onChange={(e) => setSearchUploadedBy(e.target.value)}
                   className="pl-9"
@@ -189,27 +189,27 @@ export default function AdminPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle>Registered Schemas</CardTitle>
-              <Badge variant="secondary">{filteredSchemas.length} total</Badge>
+              <CardTitle>등록된 스키마</CardTitle>
+              <Badge variant="secondary">총 {filteredSchemas.length}건</Badge>
             </div>
           </CardHeader>
           <CardContent>
             {isLoading ? (
               <div className="text-center py-12 text-muted-foreground">
-                Loading schemas...
+                스키마를 불러오는 중...
               </div>
             ) : filteredSchemas.length === 0 ? (
               <div className="text-center py-12 text-muted-foreground">
-                No schemas found
+                스키마가 없습니다
               </div>
             ) : (
               <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead>Semantic ID</TableHead>
-                    <TableHead>Uploaded By</TableHead>
-                    <TableHead>Created At</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                    <TableHead>업로드한 사용자</TableHead>
+                    <TableHead>생성일</TableHead>
+                    <TableHead className="text-right">작업</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -222,7 +222,7 @@ export default function AdminPage() {
                       <TableCell className="text-muted-foreground">
                         {schema.createdAt
                           ? new Date(schema.createdAt).toLocaleDateString()
-                          : 'N/A'}
+                          : '없음'}
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end gap-2">
@@ -254,8 +254,8 @@ export default function AdminPage() {
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Schema Details</DialogTitle>
-            <DialogDescription>View schema information and structure</DialogDescription>
+            <DialogTitle>스키마 상세 정보</DialogTitle>
+            <DialogDescription>스키마 정보와 구조를 확인합니다</DialogDescription>
           </DialogHeader>
           {selectedSchema && (
             <div className="space-y-4">
@@ -266,19 +266,19 @@ export default function AdminPage() {
                 </div>
               </div>
               <div>
-                <div className="text-sm font-medium mb-1">Uploaded By</div>
+                <div className="text-sm font-medium mb-1">업로드한 사용자</div>
                 <div className="text-sm text-muted-foreground">
                   {selectedSchema.uploadedBy}
                 </div>
               </div>
               <div>
-                <div className="text-sm font-medium mb-1">Schema Structure</div>
+                <div className="text-sm font-medium mb-1">스키마 구조</div>
                 <pre className="text-xs bg-muted p-3 rounded overflow-auto max-h-64 font-mono">
                   {JSON.stringify(selectedSchema.schema, null, 2)}
                 </pre>
               </div>
               <Button onClick={() => setIsViewDialogOpen(false)} className="w-full">
-                Close
+                닫기
               </Button>
             </div>
           )}
@@ -288,8 +288,8 @@ export default function AdminPage() {
       <Dialog open={isUploadDialogOpen} onOpenChange={setIsUploadDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add New Schema</DialogTitle>
-            <DialogDescription>Upload a new AAS schema JSON file</DialogDescription>
+            <DialogTitle>새 스키마 추가</DialogTitle>
+            <DialogDescription>새 AAS 스키마 JSON 파일을 업로드합니다</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
@@ -303,7 +303,7 @@ export default function AdminPage() {
             </div>
             {uploadFile && (
               <div className="text-sm text-muted-foreground">
-                Selected: {uploadFile.name}
+                선택된 파일: {uploadFile.name}
               </div>
             )}
             <div className="flex gap-2">
@@ -313,7 +313,7 @@ export default function AdminPage() {
                 className="flex-1 gap-2"
               >
                 <Upload className="h-4 w-4" />
-                Upload Schema
+                스키마 업로드
               </Button>
               <Button
                 variant="outline"
@@ -322,7 +322,7 @@ export default function AdminPage() {
                   setUploadFile(null);
                 }}
               >
-                Cancel
+                취소
               </Button>
             </div>
           </div>

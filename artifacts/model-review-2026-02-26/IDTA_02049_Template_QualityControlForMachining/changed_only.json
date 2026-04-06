@@ -1,0 +1,3647 @@
+[
+  {
+    "index": 1,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 2,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 3,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 4,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 5,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 6,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/2/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/2/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 7,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/3/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/3/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 8,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/4/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/4/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 9,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/5/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/5/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 10,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/6/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/6/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 11,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/7/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/7/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 12,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/8/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/8/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 13,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/9/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/9/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 14,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/10/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/10/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 15,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/10/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/10/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 16,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/11/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/11/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 17,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/11/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/11/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 18,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/12/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/12/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 19,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/12/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/12/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 20,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/12/value/0/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/12/value/0/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 21,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/0/value/0/value/12/value/0/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/0/value/0/value/12/value/0/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 22,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 23,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 24,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 25,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 26,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/value/2/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/value/2/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 27,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/value/3/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/value/3/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 28,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/value/4/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/value/4/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 29,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/value/5/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/value/5/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 30,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/value/5/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/value/5/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 31,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/value/6/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/value/6/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 32,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/value/6/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/value/6/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 33,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/value/7/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/value/7/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 34,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/value/7/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/value/7/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 35,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/value/7/value/0/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/value/7/value/0/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 36,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/value/7/value/0/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/value/7/value/0/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 37,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/value/8/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/value/8/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 38,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/value/8/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/value/8/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 39,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/value/9/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/value/9/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 40,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/1/value/0/value/9/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/1/value/0/value/9/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 41,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 42,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 43,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 44,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 45,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/2/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/2/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 46,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/3/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/3/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 47,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/4/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/4/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 48,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/5/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/5/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 49,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/6/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/6/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 50,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/7/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/7/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 51,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 52,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 53,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/2/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/2/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 54,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/3/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/3/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 55,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/4/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/4/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 56,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/5/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/5/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 57,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/6/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/6/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 58,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/7/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/7/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 59,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/8/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/7/value/8/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 60,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/8/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/8/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 61,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/8/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/8/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 62,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/9/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/9/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 63,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/9/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/9/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 64,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/10/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/10/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 65,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/10/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/10/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 66,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/10/value/0/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/10/value/0/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 67,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/10/value/0/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/10/value/0/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 68,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/11/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/11/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 69,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/12/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/12/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 70,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/13/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/13/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 71,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/14/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/14/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 72,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/14/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/14/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 73,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/14/value/0/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/14/value/0/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 74,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/2/value/0/value/14/value/0/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/2/value/0/value/14/value/0/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 75,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 76,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 77,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 78,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 79,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/2/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/2/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 80,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/3/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/3/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 81,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/4/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/4/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 82,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/5/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/5/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 83,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/6/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/6/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 84,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/6/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/6/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 85,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/7/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/7/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 86,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/7/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/7/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 87,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/8/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/8/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 88,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/8/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/8/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 89,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/8/value/0/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/8/value/0/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 90,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/8/value/0/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/8/value/0/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 91,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/9/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/9/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 92,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 93,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 94,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/2/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/2/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 95,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/3/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/3/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 96,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/4/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/4/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 97,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/5/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/5/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 98,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/6/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/6/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 99,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/7/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/7/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 100,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/8/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/8/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 101,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/9/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/9/value/9/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 102,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/10/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/10/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 103,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 104,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 105,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/2/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/2/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 106,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/3/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/3/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 107,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/4/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/4/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 108,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/5/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/5/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 109,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/6/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/6/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 110,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/7/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/7/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 111,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/8/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/10/value/8/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 112,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/11/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/11/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 113,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/11/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/11/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 114,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/11/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/11/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 115,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/11/value/2/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/11/value/2/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 116,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/0/value/3/value/0/value/11/value/3/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/0/value/3/value/0/value/11/value/3/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 117,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 118,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/1/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/1/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 119,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/1/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/1/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 120,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/1/value/1/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/1/value/1/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 121,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/1/value/1/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/1/value/1/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 122,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/1/value/1/value/2/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/1/value/1/value/2/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 123,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/1/value/1/value/3/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/1/value/1/value/3/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 124,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/1/value/1/value/4/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/1/value/1/value/4/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 125,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/1/value/1/value/5/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/1/value/1/value/5/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 126,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/1/value/1/value/6/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/1/value/1/value/6/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 127,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/1/value/1/value/7/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/1/value/1/value/7/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 128,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/2/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/2/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 129,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/2/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/2/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 130,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/2/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/2/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 131,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/2/value/2/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/2/value/2/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 132,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/2/value/3/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/2/value/3/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 133,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/2/value/4/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/2/value/4/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 134,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/2/value/5/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/2/value/5/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 135,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/2/value/6/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/2/value/6/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 136,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/2/value/7/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/2/value/7/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 137,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/3/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/3/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 138,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/3/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/3/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 139,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/3/value/0/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/3/value/0/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 140,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/3/value/0/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/3/value/0/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 141,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/3/value/0/value/2/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/3/value/0/value/2/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 142,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/4/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/4/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 143,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/4/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/4/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 144,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/4/value/0/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/4/value/0/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 145,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/4/value/0/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/4/value/0/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 146,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/4/value/0/value/2/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/4/value/0/value/2/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 147,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/4/value/0/value/3/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/4/value/0/value/3/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 148,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/4/value/0/value/4/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/4/value/0/value/4/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 149,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/4/value/0/value/5/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/4/value/0/value/5/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 150,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/4/value/0/value/6/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/4/value/0/value/6/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 151,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/4/value/0/value/7/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/4/value/0/value/7/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 152,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/4/value/0/value/8/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/4/value/0/value/8/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 153,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/4/value/0/value/9/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/4/value/0/value/9/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 154,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 155,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 156,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 157,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/2/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/2/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 158,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/3/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/3/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 159,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/4/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/4/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 160,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/5/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/5/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 161,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/6/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/6/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 162,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 163,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 164,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 165,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 166,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/2/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/2/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 167,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/3/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/3/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 168,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/4/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/4/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 169,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/5/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/5/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 170,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/6/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/6/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 171,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/7/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/7/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 172,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/8/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/8/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 173,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/9/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/9/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 174,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/10/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/10/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 175,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/11/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/11/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 176,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/12/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/12/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 177,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/13/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/13/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 178,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/14/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/14/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 179,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/15/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/15/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 180,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/15/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/15/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 181,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/16/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/16/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 182,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/16/value/0/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/16/value/0/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 183,
+    "summary": "Normalize identifier to allowed pattern",
+    "errorCode": "submodels",
+    "errorLocation": "/submodels/0/submodelElements/5/value/7/value/0/value/16/value/1/qualifiers/0/type",
+    "patchPath": "/submodels/0/submodelElements/5/value/7/value/0/value/16/value/1/qualifiers/0/type",
+    "beforeValue": "SMT/Cardinality",
+    "afterValue": "SMT_Cardinality"
+  },
+  {
+    "index": 184,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/0/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/0/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 185,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/1/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/1/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 186,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/2/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/2/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 187,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/3/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/3/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 188,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/4/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/4/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 189,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/5/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/5/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 190,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/6/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/6/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 191,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/7/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/7/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 192,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/8/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/8/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 193,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/9/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/9/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 194,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/10/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/10/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 195,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/11/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/11/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 196,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/12/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/12/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 197,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/13/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/13/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 198,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/14/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/14/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 199,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/15/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/15/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 200,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/16/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/16/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 201,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/17/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/17/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 202,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/18/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/18/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 203,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/19/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/19/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 204,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/20/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/20/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 205,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/21/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/21/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 206,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/22/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/22/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 207,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/23/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/23/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 208,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/24/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/24/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 209,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/25/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/25/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 210,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/26/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/26/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 211,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/27/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/27/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 212,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/28/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/28/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 213,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/29/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/29/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 214,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/30/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/30/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 215,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/31/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/31/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 216,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/32/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/32/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 217,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/33/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/33/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 218,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/34/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/34/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 219,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/35/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/35/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 220,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/36/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/36/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 221,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/37/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/37/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 222,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/38/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/38/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 223,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/39/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/39/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 224,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/40/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/40/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 225,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/41/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/41/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 226,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/42/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/42/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 227,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/43/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/43/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 228,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/44/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/44/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 229,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/45/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/45/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 230,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/46/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/46/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 231,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/47/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/47/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 232,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/48/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/48/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 233,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/49/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/49/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 234,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/50/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/50/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 235,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/51/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/51/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 236,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/52/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/52/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 237,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/53/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/53/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 238,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/54/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/54/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 239,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/55/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/55/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 240,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/56/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/56/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 241,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/57/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/57/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 242,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/58/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/58/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 243,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/59/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/59/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 244,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/60/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/60/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 245,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/61/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/61/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 246,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/62/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/62/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 247,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/63/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/63/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 248,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/64/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/64/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 249,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/65/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/65/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 250,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/66/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/66/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 251,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/67/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/67/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 252,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/68/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/68/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 253,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/69/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/69/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 254,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/70/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/70/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 255,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/71/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/71/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 256,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/72/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/72/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 257,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/73/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/73/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 258,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/74/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/74/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 259,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/75/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/75/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 260,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/76/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/76/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 261,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/77/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/77/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 262,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/78/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/78/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 263,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/79/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/79/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 264,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/80/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/80/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 265,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/81/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/81/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 266,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/82/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/82/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 267,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/83/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/83/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 268,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/84/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/84/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 269,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/85/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/85/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 270,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/86/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/86/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 271,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/87/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/87/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 272,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/88/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/88/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 273,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/89/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/89/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 274,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/90/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/90/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 275,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/91/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/91/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 276,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/92/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/92/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 277,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/93/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/93/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 278,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/94/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/94/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 279,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/95/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/95/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 280,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/96/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/96/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 281,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/97/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/97/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 282,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/98/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/98/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 283,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/99/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/99/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 284,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/100/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/100/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 285,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/101/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/101/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 286,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/102/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/102/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 287,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/103/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/103/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 288,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/104/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/104/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 289,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/105/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/105/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 290,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/106/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/106/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 291,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/107/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/107/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 292,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/108/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/108/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 293,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/109/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/109/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 294,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/110/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/110/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 295,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/111/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/111/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 296,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/112/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/112/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 297,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/113/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/113/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 298,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/114/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/114/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 299,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/115/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/115/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 300,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/116/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/116/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 301,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/117/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/117/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 302,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/118/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/118/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 303,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/119/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/119/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 304,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/120/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/120/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 305,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/121/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/121/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 306,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/122/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/122/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 307,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/123/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/123/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 308,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/124/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/124/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 309,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/125/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/125/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 310,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/126/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/126/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 311,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/127/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/127/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 312,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/128/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/128/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 313,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/129/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/129/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 314,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/130/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/130/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 315,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/131/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/131/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 316,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/132/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/132/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 317,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/133/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/133/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 318,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/134/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/134/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 319,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/135/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/135/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 320,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/136/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/136/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 321,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/137/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/137/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 322,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/138/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/138/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 323,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/139/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/139/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 324,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/140/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/140/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 325,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/141/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/141/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 326,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/142/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/142/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 327,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/143/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/143/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 328,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/144/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/144/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 329,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/145/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/145/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 330,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/146/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/146/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 331,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/147/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/147/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 332,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/148/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/148/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 333,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/149/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/149/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 334,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/150/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/150/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 335,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/151/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/151/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 336,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/152/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/152/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 337,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/153/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/153/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 338,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/154/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/154/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 339,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/155/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/155/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 340,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/156/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/156/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 341,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/157/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/157/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 342,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/158/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/158/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 343,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/159/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/159/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 344,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/160/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/160/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 345,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/161/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/161/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 346,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/162/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/162/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 347,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/163/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/163/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 348,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/164/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/164/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 349,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/165/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/165/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 350,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/166/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/166/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 351,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/167/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/167/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 352,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/168/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/168/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 353,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/169/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/169/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 354,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/170/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/170/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 355,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/171/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/171/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 356,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/172/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/172/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 357,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/173/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/173/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 358,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/174/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/174/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 359,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/175/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/175/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 360,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/176/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/176/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 361,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/177/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/177/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 362,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/178/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/178/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 363,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/179/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/179/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 364,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/180/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/180/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 365,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/181/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/181/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 366,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/182/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/182/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 367,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/183/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/183/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 368,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/184/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/184/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 369,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/185/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/185/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 370,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/186/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/186/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 371,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/187/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/187/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 372,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/188/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/188/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 373,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/189/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/189/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 374,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/190/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/190/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 375,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/191/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/191/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 376,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/192/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/192/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 377,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/193/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/193/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 378,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/194/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/194/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 379,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/195/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/195/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 380,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/196/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/196/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 381,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/197/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/197/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 382,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/198/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/198/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 383,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/199/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/199/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 384,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/200/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/200/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 385,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/201/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/201/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 386,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/202/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/202/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 387,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/203/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/203/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 388,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/204/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/204/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 389,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/205/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/205/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 390,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/206/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/206/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 391,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/207/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/207/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 392,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/208/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/208/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 393,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/209/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/209/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 394,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/210/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/210/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 395,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/211/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/211/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 396,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/212/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/212/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 397,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/213/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/213/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 398,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/214/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/214/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 399,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/215/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/215/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 400,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/216/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/216/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 401,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/217/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/217/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 402,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/218/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/218/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 403,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/219/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/219/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 404,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/220/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/220/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  },
+  {
+    "index": 405,
+    "summary": "Normalize IEC61360 dataSpecification reference",
+    "errorCode": "etc",
+    "errorLocation": "/concept_descriptions/221/embedded_data_specifications/0",
+    "patchPath": "/concept_descriptions/221/embedded_data_specifications/0/data_specification/keys/0/value",
+    "beforeValue": "http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/3/0",
+    "afterValue": "https://admin-shell.io/DataSpecificationTemplates/DataSpecificationIec61360/3"
+  }
+]

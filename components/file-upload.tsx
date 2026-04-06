@@ -50,14 +50,14 @@ export function FileUpload({ onFileSelect, accept = { 'application/json': ['.jso
             <Upload className="h-8 w-8 text-primary" />
           </div>
           {isDragActive ? (
-            <p className="text-lg font-medium">Drop the file here</p>
+            <p className="text-lg font-medium">여기에 파일을 놓으세요</p>
           ) : (
             <div>
               <p className="text-lg font-medium mb-1">
-                Drag & Drop your file here
+                파일을 여기로 드래그하거나
               </p>
               <p className="text-sm text-muted-foreground">
-                or click to browse (JSON files only, max 10MB)
+                클릭해서 선택하세요 (JSON만 가능, 최대 10MB)
               </p>
             </div>
           )}
