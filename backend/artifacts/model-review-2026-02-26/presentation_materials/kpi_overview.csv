@@ -1,0 +1,9 @@
+﻿metric,value
+generated_at,2026-02-26T11:58:44
+models_tested,5
+total_initial_errors,1031
+total_after_rule_errors,0
+total_reduced,1031
+overall_reduction_rate_percent,100.00
+total_rule_matched,1026
+total_llm_remaining_hint,5

@@ -1,0 +1,56 @@
+{
+  "generatedAt": "2026-02-26T11:58:44",
+  "baseDir": "/Users/dorocy_mac/Desktop/폴더정리/aas-project/aas-verify/artifacts/model-review-2026-02-26",
+  "models": [
+    {
+      "file": "IDTA 02019-1-0_Template_PlantAssetManagement.json",
+      "folder": "/Users/dorocy_mac/Desktop/폴더정리/aas-project/aas-verify/artifacts/model-review-2026-02-26/IDTA 02019-1-0_Template_PlantAssetManagement",
+      "initial_errors": 271,
+      "rule_matched": 270,
+      "llm_remaining": 1,
+      "after_rule_errors": 0,
+      "reduced": 271,
+      "changed_entries": 270
+    },
+    {
+      "file": "IDTA 02029-1_Template_Sensor4.0_MeasurementValue.json",
+      "folder": "/Users/dorocy_mac/Desktop/폴더정리/aas-project/aas-verify/artifacts/model-review-2026-02-26/IDTA 02029-1_Template_Sensor4.0_MeasurementValue",
+      "initial_errors": 35,
+      "rule_matched": 34,
+      "llm_remaining": 1,
+      "after_rule_errors": 0,
+      "reduced": 35,
+      "changed_entries": 34
+    },
+    {
+      "file": "IDTA 02046-1-0_Template_WWMD.json",
+      "folder": "/Users/dorocy_mac/Desktop/폴더정리/aas-project/aas-verify/artifacts/model-review-2026-02-26/IDTA 02046-1-0_Template_WWMD",
+      "initial_errors": 103,
+      "rule_matched": 102,
+      "llm_remaining": 1,
+      "after_rule_errors": 0,
+      "reduced": 103,
+      "changed_entries": 102
+    },
+    {
+      "file": "IDTA_02049_Template_QualityControlForMachining.json",
+      "folder": "/Users/dorocy_mac/Desktop/폴더정리/aas-project/aas-verify/artifacts/model-review-2026-02-26/IDTA_02049_Template_QualityControlForMachining",
+      "initial_errors": 406,
+      "rule_matched": 405,
+      "llm_remaining": 1,
+      "after_rule_errors": 0,
+      "reduced": 406,
+      "changed_entries": 405
+    },
+    {
+      "file": "IDTA02026-1-0_Template_ProvisionOf3DModels.json",
+      "folder": "/Users/dorocy_mac/Desktop/폴더정리/aas-project/aas-verify/artifacts/model-review-2026-02-26/IDTA02026-1-0_Template_ProvisionOf3DModels",
+      "initial_errors": 216,
+      "rule_matched": 215,
+      "llm_remaining": 1,
+      "after_rule_errors": 0,
+      "reduced": 216,
+      "changed_entries": 215
+    }
+  ]
+}
