@@ -74,7 +74,7 @@ def run_constraint_check(file, model_type="Environment") -> str:
         _, obj = json_to_obj(data, model_type=model_type)
         print(type(obj), getattr(obj, "__class__", None))
 
-        constraint_result = AasTestResult("")
+        constraint_result = AasTestResult("Check constraints")
         try:
             safe_check_constraints(obj, constraint_result, AdapterPath())
         except Exception as e:
