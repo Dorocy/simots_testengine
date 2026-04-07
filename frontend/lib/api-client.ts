@@ -185,6 +185,12 @@ function normalizeVerificationErrors(message: unknown): VerificationResult["erro
   return [];
 }
 
+function hasMeaningfulVerificationErrors(errors: VerificationResult["errors"]): boolean {
+  return Boolean(
+    errors?.some((error) => error.message?.trim() || error.location?.trim() || error.code?.trim()),
+  );
+}
+
 async function parseVerificationResponse(response: Response): Promise<VerificationResult> {
   const payload = await response.json();
 
@@ -209,8 +215,10 @@ async function parseVerificationResponse(response: Response): Promise<Verificati
   const backendVerification = payload as BackendVerificationPayload;
   const verificationResult = backendVerification?.verification?.result ?? "";
   const verificationMessage = backendVerification?.verification?.message;
-  const success = verificationResult.toLowerCase() === "success";
-  const errors = success ? [] : normalizeVerificationErrors(verificationMessage);
+  const rawSuccess = verificationResult.toLowerCase() === "success";
+  const normalizedErrors = rawSuccess ? [] : normalizeVerificationErrors(verificationMessage);
+  const success = rawSuccess || !hasMeaningfulVerificationErrors(normalizedErrors);
+  const errors = success ? [] : normalizedErrors;
   const message =
     typeof verificationMessage === "string"
       ? verificationMessage
