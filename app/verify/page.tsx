@@ -100,34 +100,34 @@ export default function VerifyPage() {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-12">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-2">AAS 검증</h2>
+      <main className="container mx-auto px-4 py-6">
+        <div className="mb-4">
+          <h2 className="text-2xl font-bold mb-1">AAS 검증</h2>
           <p className="text-muted-foreground">
             AAS 파일을 업로드하고 검증 유형을 선택해 규격 적합성을 확인하세요
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 space-y-6">
+        <div className="grid lg:grid-cols-3 gap-5">
+          <div className="lg:col-span-2 space-y-4">
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-2 pt-4 px-4">
                 <CardTitle>검증 유형 선택</CardTitle>
                 <CardDescription>
                   파일에 맞는 검증 방식을 선택하세요
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="grid md:grid-cols-3 gap-4">
+              <CardContent className="px-4 pb-4 pt-0">
+                <div className="grid md:grid-cols-3 gap-3">
                   <button
                     onClick={() => setSelectedType('metamodel')}
-                    className={`p-4 rounded-lg border-2 transition-all text-left ${
+                    className={`p-2.5 rounded-lg border-2 transition-all text-left ${
                       selectedType === 'metamodel'
                         ? 'border-primary bg-primary/5'
                         : 'border-border hover:border-primary/50'
                     }`}
                   >
-                    <FileCheck className="h-6 w-6 text-primary mb-2" />
+                    <FileCheck className="h-5 w-5 text-primary mb-2" />
                     <div className="font-medium mb-1">메타모델</div>
                     <div className="text-xs text-muted-foreground">
                       AAS 구조 검증
@@ -136,13 +136,13 @@ export default function VerifyPage() {
 
                   <button
                     onClick={() => setSelectedType('template')}
-                    className={`p-4 rounded-lg border-2 transition-all text-left ${
+                    className={`p-2.5 rounded-lg border-2 transition-all text-left ${
                       selectedType === 'template'
                         ? 'border-primary bg-primary/5'
                         : 'border-border hover:border-primary/50'
                     }`}
                   >
-                    <Layers className="h-6 w-6 text-primary mb-2" />
+                    <Layers className="h-5 w-5 text-primary mb-2" />
                     <div className="font-medium mb-1">템플릿</div>
                     <div className="text-xs text-muted-foreground">
                       템플릿 형식 검증
@@ -151,13 +151,13 @@ export default function VerifyPage() {
 
                   <button
                     onClick={() => setSelectedType('instance')}
-                    className={`p-4 rounded-lg border-2 transition-all text-left ${
+                    className={`p-2.5 rounded-lg border-2 transition-all text-left ${
                       selectedType === 'instance'
                         ? 'border-primary bg-primary/5'
                         : 'border-border hover:border-primary/50'
                     }`}
                   >
-                    <Database className="h-6 w-6 text-primary mb-2" />
+                    <Database className="h-5 w-5 text-primary mb-2" />
                     <div className="font-medium mb-1">인스턴스</div>
                     <div className="text-xs text-muted-foreground">
                       스키마 기준 검사
@@ -168,20 +168,19 @@ export default function VerifyPage() {
             </Card>
 
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-2 pt-4 px-4">
                 <CardTitle>파일 업로드</CardTitle>
                 <CardDescription>
                   검증할 AAS JSON 파일을 업로드하세요
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="px-4 pb-4 pt-0">
                 <FileUpload onFileSelect={handleFileSelect} />
-                <div className="mt-4">
+                <div className="mt-2.5">
                   <Button
                     onClick={handleVerify}
                     disabled={!selectedFile || isVerifying}
-                    className="w-full"
-                    size="lg"
+                    className="w-full h-10"
                   >
                     {isVerifying ? '검증 중...' : '파일 검증'}
                   </Button>
@@ -201,12 +200,12 @@ export default function VerifyPage() {
             )}
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-4">
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-2 pt-4 px-4">
                 <CardTitle className="text-lg">검증 안내</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4 text-sm">
+              <CardContent className="space-y-3 text-sm px-4 pb-4 pt-0">
                 <div>
                     <div className="font-medium mb-1">메타모델 검증</div>
                   <p className="text-muted-foreground text-xs">
@@ -229,10 +228,10 @@ export default function VerifyPage() {
             </Card>
 
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-2 pt-4 px-4">
                 <CardTitle className="text-lg">파일 요구사항</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-2 text-sm">
+              <CardContent className="space-y-2 text-sm px-4 pb-4 pt-0">
                 <div className="flex items-start gap-2">
                   <div className="h-1.5 w-1.5 rounded-full bg-primary mt-1.5" />
                   <span className="text-muted-foreground">JSON 형식만 지원</span>

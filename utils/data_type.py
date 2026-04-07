@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import re
 from typing import TypedDict, List, Set
 from dataclasses import dataclass, field
@@ -8,10 +7,6 @@ try:
 except Exception:
     DataTypeDefXsd = None
 
-=======
-from typing import TypedDict, List
-
->>>>>>> 019da91 (separate data_type for grouping log message)
 
 class MessageGroup(TypedDict):
     assetInfo: List[str]
@@ -19,7 +14,6 @@ class MessageGroup(TypedDict):
     conceptDescriptions: List[str]
     constraints: List[str]
     etc: List[str]
-<<<<<<< HEAD
     needless: List[str]
 
 
@@ -66,6 +60,3 @@ TEMPLATE_EXCLUDE_PATTERNS = [
     "Empty array not allowed",
     rf"Value '.*?' is not a '({value_type_pattern})'.*",
 ]
-=======
-    checks: List[str]
->>>>>>> 019da91 (separate data_type for grouping log message)

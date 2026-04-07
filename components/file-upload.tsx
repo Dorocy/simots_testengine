@@ -35,28 +35,28 @@ export function FileUpload({ onFileSelect, accept = { 'application/json': ['.jso
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2.5">
       <div
         {...getRootProps()}
         className={cn(
-          'border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors',
+          'border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors',
           isDragActive ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50',
           selectedFile && 'border-primary bg-primary/5'
         )}
       >
         <input {...getInputProps()} />
-        <div className="flex flex-col items-center gap-4">
-          <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
-            <Upload className="h-8 w-8 text-primary" />
+        <div className="flex flex-col items-center gap-2">
+          <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+            <Upload className="h-5 w-5 text-primary" />
           </div>
           {isDragActive ? (
-            <p className="text-lg font-medium">여기에 파일을 놓으세요</p>
+            <p className="text-sm font-medium">여기에 파일을 놓으세요</p>
           ) : (
             <div>
-              <p className="text-lg font-medium mb-1">
+              <p className="text-sm font-medium mb-1">
                 파일을 여기로 드래그하거나
               </p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 클릭해서 선택하세요 (JSON만 가능, 최대 10MB)
               </p>
             </div>
@@ -65,10 +65,10 @@ export function FileUpload({ onFileSelect, accept = { 'application/json': ['.jso
       </div>
 
       {selectedFile && (
-        <div className="flex items-center justify-between p-4 bg-card border border-border rounded-lg">
+        <div className="flex items-center justify-between p-2.5 bg-card border border-border rounded-lg">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-              <File className="h-5 w-5 text-primary" />
+            <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+              <File className="h-4 w-4 text-primary" />
             </div>
             <div>
               <p className="text-sm font-medium">{selectedFile.name}</p>
