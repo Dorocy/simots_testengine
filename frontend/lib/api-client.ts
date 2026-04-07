@@ -6,9 +6,9 @@ const RULE_FIX_API_ENDPOINT =
 const LLM_REPAIR_API_ENDPOINT =
   process.env.NEXT_PUBLIC_REPAIR_FIX_ENDPOINT ?? "https://fridge-mesa-sas-amsterdam.trycloudflare.com/repair";
 const DIRECT_FIX_ENDPOINT =
-  process.env.NEXT_PUBLIC_DIRECT_FIX_ENDPOINT ?? "http://127.0.0.1:8000/verification/fix";
+  process.env.NEXT_PUBLIC_DIRECT_FIX_ENDPOINT ?? "https://simotstestengine-production.up.railway.app/verification/fix";
 const DIRECT_RULE_FIX_ENDPOINT =
-  process.env.NEXT_PUBLIC_DIRECT_RULE_FIX_ENDPOINT ?? "http://127.0.0.1:8000/verification/rule-fix";
+  process.env.NEXT_PUBLIC_DIRECT_RULE_FIX_ENDPOINT ?? "https://simotstestengine-production.up.railway.app/verification/rule-fix";
 const DIRECT_LLM_REPAIR_ENDPOINT =
   process.env.NEXT_PUBLIC_DIRECT_LLM_REPAIR_ENDPOINT ?? "https://fridge-mesa-sas-amsterdam.trycloudflare.com/repair";
 
