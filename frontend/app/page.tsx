@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { BrandLogo } from '@/components/brand-logo';
 import { FileCheck, Shield, Database, ArrowRight } from 'lucide-react';
 
 export default function HomePage() {
@@ -8,14 +9,8 @@ export default function HomePage() {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Shield className="h-6 w-6 text-primary" />
-            <h1 className="text-xl font-bold">AAS Verify</h1>
-          </div>
+          <BrandLogo title="ezAAS Verify" />
           <nav className="flex items-center gap-4">
-            <Link href="/verify">
-              <Button variant="ghost">검증</Button>
-            </Link>
             <Link href="/admin">
               <Button variant="ghost">관리자</Button>
             </Link>
@@ -39,11 +34,6 @@ export default function HomePage() {
             <Link href="/verify">
               <Button size="lg" className="gap-2">
                 검증 시작 <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-            <Link href="/docs">
-              <Button size="lg" variant="outline">
-                문서 보기
               </Button>
             </Link>
           </div>

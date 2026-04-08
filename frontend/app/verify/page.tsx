@@ -5,11 +5,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { BrandLogo } from '@/components/brand-logo';
 import { FileUpload } from '@/components/file-upload';
 import { VerificationResult } from '@/components/verification-result';
 import { apiClient, type VerificationResult as VerificationResultType } from '@/lib/api-client';
 import { useAuth } from '@/lib/auth-context';
-import { Shield, FileCheck, Database, Layers, LogOut } from 'lucide-react';
+import { FileCheck, Database, Layers, LogOut } from 'lucide-react';
 
 type VerificationType = 'metamodel' | 'template' | 'instance';
 
@@ -73,9 +74,8 @@ export default function VerifyPage() {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <Shield className="h-6 w-6 text-primary" />
-            <h1 className="text-xl font-bold">AAS Verify</h1>
+          <Link href="/">
+            <BrandLogo title="ezAAS Verify" />
           </Link>
           <nav className="flex items-center gap-4">
             <Link href="/verify">

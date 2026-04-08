@@ -6,8 +6,9 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { BrandLogo } from '@/components/brand-logo';
 import { useAuth } from '@/lib/auth-context';
-import { Shield, AlertCircle } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -40,9 +41,12 @@ export default function LoginPage() {
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-4">
-            <Shield className="h-8 w-8 text-primary" />
-            <h1 className="text-2xl font-bold">AAS Verify</h1>
+          <Link href="/" className="inline-flex mb-4">
+            <BrandLogo
+              title="ezAAS Verify"
+              imageClassName="h-10 w-auto"
+              titleClassName="text-2xl font-bold tracking-tight"
+            />
           </Link>
           <p className="text-muted-foreground">
             검증 도구를 사용하려면 로그인하세요
