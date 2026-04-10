@@ -105,12 +105,41 @@ export function VerificationResult({
     suggestions: LlmFixSuggestion[],
   ): Record<string, LlmFixSuggestion> => {
     const byErrorId = new Map<string, LlmFixSuggestion>();
-    const byCodeLocation = new Map<string, LlmFixSuggestion>();
-    const byMessage = new Map<string, LlmFixSuggestion>();
+    const byCodeLocation = new Map<string, LlmFixSuggestion[]>();
+    const byMessageLocation = new Map<string, LlmFixSuggestion[]>();
+    const byMessage = new Map<string, LlmFixSuggestion[]>();
+    const unmatchedSuggestions: LlmFixSuggestion[] = [];
+
+    const pushToQueue = (
+      map: Map<string, LlmFixSuggestion[]>,
+      key: string,
+      suggestion: LlmFixSuggestion,
+    ) => {
+      if (!key) return;
+      const queue = map.get(key) ?? [];
+      queue.push(suggestion);
+      map.set(key, queue);
+    };
+
+    const consumeFromQueue = (
+      map: Map<string, LlmFixSuggestion[]>,
+      key: string,
+    ): LlmFixSuggestion | undefined => {
+      const queue = map.get(key);
+      if (!queue || queue.length === 0) return undefined;
+      const next = queue.shift();
+      if (queue.length === 0) {
+        map.delete(key);
+      } else {
+        map.set(key, queue);
+      }
+      return next;
+    };
+
     for (const suggestion of suggestions) {
       if (suggestion.errorId) byErrorId.set(suggestion.errorId, suggestion);
       const key = `${suggestion.code ?? ''}|${suggestion.location ?? ''}`;
-      if (key !== '|') byCodeLocation.set(key, suggestion);
+      if (key !== '|') pushToQueue(byCodeLocation, key, suggestion);
 
       const raw = suggestion.raw as {
         anchorPair?: {
@@ -118,23 +147,39 @@ export function VerificationResult({
         };
       } | undefined;
       const anchorMessages = raw?.anchorPair?.error_messages ?? [];
+      let indexedByAnchorMessage = false;
       anchorMessages.forEach((msg) => {
-        const normalized = msg.split(' @ /')[0]?.trim();
-        if (normalized) byMessage.set(normalized, suggestion);
+        const [messagePart, locationPart] = msg.split(' @ /');
+        const normalizedMessage = messagePart?.trim();
+        const normalizedLocation = locationPart ? `/${locationPart.trim().replace(/^\/+/, '')}` : '';
+        if (normalizedMessage) {
+          pushToQueue(
+            byMessageLocation,
+            `${normalizedMessage}|${normalizedLocation}`,
+            suggestion,
+          );
+          pushToQueue(byMessage, normalizedMessage, suggestion);
+          indexedByAnchorMessage = true;
+        }
       });
 
       if (suggestion.summary?.trim()) {
-        byMessage.set(suggestion.summary.trim(), suggestion);
+        pushToQueue(byMessage, suggestion.summary.trim(), suggestion);
+      }
+
+      if (!indexedByAnchorMessage) {
+        unmatchedSuggestions.push(suggestion);
       }
     }
 
     const mappedSuggestions: Record<string, LlmFixSuggestion> = {};
-    targets.forEach((error, index) => {
+    targets.forEach((error) => {
       const mapped =
         byErrorId.get(error.id)
-        ?? byCodeLocation.get(`${error.code}|${error.location ?? ''}`)
-        ?? byMessage.get(error.message.trim())
-        ?? suggestions[index];
+        ?? consumeFromQueue(byCodeLocation, `${error.code}|${error.location ?? ''}`)
+        ?? consumeFromQueue(byMessageLocation, `${error.message.trim()}|${error.location ?? ''}`)
+        ?? consumeFromQueue(byMessage, error.message.trim())
+        ?? unmatchedSuggestions.shift();
       if (mapped) mappedSuggestions[error.id] = mapped;
     });
 
