@@ -14,7 +14,12 @@ import {
   Download,
   AlertTriangle,
 } from 'lucide-react';
-import { apiClient, type LlmFixSuggestion, type VerificationResult as ApiVerificationResult } from '@/lib/api-client';
+import {
+  apiClient,
+  type LlmFixResponse,
+  type LlmFixSuggestion,
+  type VerificationResult as ApiVerificationResult,
+} from '@/lib/api-client';
 import {
   type FixContextSnippet,
   buildSnippetContext,
@@ -134,10 +139,10 @@ export function VerificationResult({
 
   const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-  const runAnalysisAnimation = async (
+  const runAnalysisAnimation = async <T,>(
     errorCount: number,
-    doActualRequest: () => Promise<void>,
-  ) => {
+    doActualRequest: () => Promise<T>,
+  ): Promise<T> => {
     const steps = buildAnalysisSteps(fileName);
     setAnalysisSteps(steps);
     setAnalysisLogs([]);
@@ -164,7 +169,7 @@ export function VerificationResult({
     await delay(140);
     appendLog(`[llm] awaiting stream response...`);
 
-    await doActualRequest();
+    const result = await doActualRequest();
 
     appendLog(`[llm] suggestions received`);
     updateStepStatus('generate', 'done');
@@ -177,6 +182,7 @@ export function VerificationResult({
     updateStepStatus('apply', 'done');
 
     appendLog(`[done] pipeline complete`);
+    return result;
   };
 
   const effectiveSuccess = liveResult?.success ?? success;
@@ -360,16 +366,17 @@ export function VerificationResult({
       });
     }
 
-    let llmResponse: Awaited<ReturnType<typeof apiClient.requestLlmRepairFile>> | null = null;
-
-    await runAnalysisAnimation(targets.length, async () => {
-      llmResponse = sourceFile
+    const llmResponse = await runAnalysisAnimation<LlmFixResponse | null>(
+      targets.length,
+      async () => (
+        sourceFile
         ? await apiClient.requestLlmRepairFile(sourceFile, {
             verificationType,
             fileName: sourceFile.name,
           })
-        : null;
-    });
+        : null
+      ),
+    );
 
     if (!llmResponse?.success) {
       const msg = llmResponse?.message ?? 'LLM 수정 요청에 실패했습니다.';
