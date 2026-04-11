@@ -21,6 +21,7 @@ import {
   Play,
   Zap,
   ChevronDown,
+  RotateCcw,
 } from 'lucide-react';
 
 type VerificationType = 'metamodel' | 'template' | 'instance';
@@ -288,15 +289,15 @@ export default function VerifyPage() {
           <div className="flex items-center gap-4 min-w-0">
             <Link href="/" className="shrink-0">
               <BrandLogo
-                title="ezAAS"
+                title="ezAASVerify"
                 imageClassName="h-6 w-auto"
-                titleClassName="text-sm font-bold tracking-tight"
+                titleClassName="text-sm font-bold tracking-tight logo-shimmer"
               />
             </Link>
             {/* divider */}
             <span className="hidden md:block h-4 w-px bg-border" />
             <div className="hidden md:flex items-center gap-1.5">
-              <ShieldCheck className="h-3 w-3 text-primary shrink-0" />
+              <ShieldCheck className="h-3 w-3 text-primary shrink-0 icon-scan" />
               <span className="text-[11px] font-mono text-muted-foreground whitespace-nowrap">
                 AAS Verification &amp; LLM Repair Engine
               </span>
@@ -573,7 +574,7 @@ export default function VerifyPage() {
 
           {/* RIGHT COLUMN — Result */}
           {result && (
-            <div className="min-w-0">
+            <div className="min-w-0 fade-up">
               {/* Result status banner + tabs */}
               <div
                 className={`rounded-t-lg border-x border-t overflow-hidden ${
@@ -601,10 +602,23 @@ export default function VerifyPage() {
                       : `${result.errors?.length ?? 0}개의 위반 항목이 발견됐습니다 — AI가 자동 수정할 수 있습니다`}
                   </span>
                   {selectedFile && (
-                    <span className="ml-auto text-muted-foreground/60 truncate max-w-[160px]">
+                    <span className="text-muted-foreground/60 truncate max-w-[140px] font-mono">
                       {selectedFile.name}
                     </span>
                   )}
+                  <button
+                    onClick={() => {
+                      setResult(null);
+                      setSelectedFile(null);
+                      setViewerJson(null);
+                      setViewerTab('errors');
+                      setFileUploadKey((k) => k + 1);
+                    }}
+                    className="ml-auto shrink-0 flex items-center gap-1 text-[10px] font-mono text-muted-foreground hover:text-foreground border border-border/60 hover:border-border rounded px-2 py-1 transition-colors bg-background/50 hover:bg-muted/40"
+                  >
+                    <RotateCcw className="h-3 w-3" />
+                    새 파일 검증
+                  </button>
                 </div>
 
                 {/* Tabs — only show when viewer data is available */}

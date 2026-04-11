@@ -115,4 +115,46 @@
   .cursor-blink {
     animation: blink 0.9s step-start infinite;
   }
+  /* Logo shimmer — subtle light sweep */
+  @keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position:  200% center; }
+  }
+  .logo-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--foreground)) 30%,
+      hsl(var(--primary)) 50%,
+      hsl(var(--foreground)) 70%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 4s linear infinite;
+  }
+  /* Header icon scan */
+  @keyframes icon-scan {
+    0%, 100% { opacity: 0.5; transform: scale(1);   }
+    50%       { opacity: 1;   transform: scale(1.15); }
+  }
+  .icon-scan {
+    animation: icon-scan 2.4s ease-in-out infinite;
+  }
+  /* Fade-up entrance */
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up {
+    animation: fade-up 0.4s ease-out forwards;
+  }
+  /* Pipeline step entrance */
+  @keyframes step-in {
+    from { opacity: 0; transform: translateX(-8px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  .step-in {
+    animation: step-in 0.3s ease-out forwards;
+  }
 }
