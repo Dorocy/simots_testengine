@@ -93,15 +93,15 @@ const DEMO_FILES: { id: string; label: string; filename: string; description: st
     id: 'ER2',
     label: 'ER2 — LS ELECTRIC 인버터',
     filename: 'ER2.json',
-    description: '인스턴스 AAS · 29K줄 · 다수 오류 포함',
-    type: 'metamodel',
+    description: '템플릿 AAS · 29K줄 · 다수 오류 포함',
+    type: 'template',
   },
   {
     id: 'ER5',
     label: 'ER5 — 스마트팩토리 템플릿',
     filename: 'ER5.json',
     description: '템플릿 AAS · 다수 구조 오류 포함',
-    type: 'metamodel',
+    type: 'template',
   },
 ];
 
