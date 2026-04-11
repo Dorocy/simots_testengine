@@ -77,7 +77,7 @@ function getLang(arr?: LangString[], lang = 'en'): string {
   return arr.find((l) => l.language === lang)?.text ?? arr[0]?.text ?? '';
 }
 
-function getSubmodelId(ref: AasShell['submodels'][number]): string {
+function getSubmodelId(ref: NonNullable<AasShell['submodels']>[number]): string {
   return ref?.keys?.[0]?.value ?? '';
 }
 
