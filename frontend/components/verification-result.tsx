@@ -33,6 +33,8 @@ interface VerificationResultProps {
   verificationType?: 'metamodel' | 'template' | 'instance';
   fileName?: string;
   sourceFile?: File | null;
+  /** Called with the updated JSON string after AI fix completes */
+  onFixComplete?: (updatedJson: string) => void;
 }
 
 type FixStatus = 'idle' | 'requested' | 'generated' | 'applied' | 'failed';
@@ -81,10 +83,11 @@ const buildAnalysisSteps = (fileName?: string): AnalysisStep[] => [
 export function VerificationResult({
   success,
   message,
-  errors,
+  errors = [],
   verificationType = 'metamodel',
   fileName,
   sourceFile,
+  onFixComplete,
 }: VerificationResultProps) {
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
   const [fixStatuses, setFixStatuses] = useState<Record<string, FixStatus>>({});
@@ -377,7 +380,10 @@ export function VerificationResult({
     const llmMappedSuggestions = mapSuggestionsToErrors(targets, successResponse.suggestions ?? []);
     assignSuggestionsToErrors(targets, llmMappedSuggestions);
 
-    if (successResponse.updatedFile) setUpdatedFileContent(successResponse.updatedFile);
+    if (successResponse.updatedFile) {
+      setUpdatedFileContent(successResponse.updatedFile);
+      onFixComplete?.(successResponse.updatedFile);
+    }
 
     const rawMeta = (successResponse.raw ?? {}) as { llmMatchedCount?: number };
     if (rawMeta) {

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { BrandLogo } from '@/components/brand-logo';
 import { FileUpload } from '@/components/file-upload';
 import { VerificationResult } from '@/components/verification-result';
+import { AasViewer } from '@/components/aas-viewer';
 import { apiClient, type VerificationResult as VerificationResultType } from '@/lib/api-client';
 import { useAuth } from '@/lib/auth-context';
 import {
@@ -159,6 +160,9 @@ export default function VerifyPage() {
   const [fileUploadKey, setFileUploadKey] = useState(0);
   const [demoOpen, setDemoOpen] = useState(false);
   const [isDemoLoading, setIsDemoLoading] = useState(false);
+  // viewer — holds the JSON string to render (from file read or AI fix)
+  const [viewerJson, setViewerJson] = useState<string | null>(null);
+  const [viewerTab, setViewerTab] = useState<'errors' | 'viewer'>('errors');
 
   const handleLogout = () => {
     logout();
@@ -168,6 +172,14 @@ export default function VerifyPage() {
   const handleFileSelect = (file: File) => {
     setSelectedFile(file);
     setResult(null);
+    setViewerJson(null);
+    setViewerTab('errors');
+  };
+
+  // Called by VerificationResult when AI fix produces updated content
+  const handleFixComplete = (updatedJson: string) => {
+    setViewerJson(updatedJson);
+    setViewerTab('viewer');
   };
 
   const handleVerify = async () => {
@@ -188,6 +200,13 @@ export default function VerifyPage() {
           break;
       }
       setResult(response);
+      if (response.success && selectedFile) {
+        try {
+          const text = await selectedFile.text();
+          setViewerJson(text);
+          setViewerTab('viewer');
+        } catch { /* ignore read errors */ }
+      }
     } catch (error) {
       setResult({
         success: false,
@@ -233,6 +252,13 @@ export default function VerifyPage() {
           break;
       }
       setResult(response);
+      if (response.success) {
+        try {
+          const text = await file.text();
+          setViewerJson(text);
+          setViewerTab('viewer');
+        } catch { /* ignore */ }
+      }
     } catch (error) {
       setResult({
         success: false,
@@ -540,41 +566,99 @@ export default function VerifyPage() {
           {/* RIGHT COLUMN — Result */}
           {result && (
             <div className="min-w-0">
-              {/* Result status banner */}
+              {/* Result status banner + tabs */}
               <div
-                className={`flex items-center gap-3 px-4 py-3 rounded-t-lg border-x border-t font-mono text-xs ${
+                className={`rounded-t-lg border-x border-t overflow-hidden ${
                   result.success
-                    ? 'bg-[hsl(142_71%_45%_/_0.06)] border-[hsl(142_71%_45%_/_0.3)] text-[hsl(142_71%_45%)]'
-                    : 'bg-destructive/5 border-destructive/30 text-destructive'
+                    ? 'border-[hsl(142_71%_45%_/_0.3)]'
+                    : 'border-destructive/30'
                 }`}
               >
-                <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold border ${
+                {/* Status row */}
+                <div className={`flex items-center gap-3 px-4 py-3 font-mono text-xs ${
                   result.success
-                    ? 'bg-[hsl(142_71%_45%_/_0.15)] border-[hsl(142_71%_45%_/_0.4)] text-[hsl(142_71%_45%)]'
-                    : 'bg-destructive/15 border-destructive/40 text-destructive'
+                    ? 'bg-[hsl(142_71%_45%_/_0.06)] text-[hsl(142_71%_45%)]'
+                    : 'bg-destructive/5 text-destructive'
                 }`}>
-                  {result.success ? 'PASS' : 'FAIL'}
-                </span>
-                <span className="text-muted-foreground">
-                  {result.success
-                    ? '모든 규격 검사를 통과했습니다'
-                    : `${result.errors?.length ?? 0}개의 위반 항목이 발견됐습니다 — AI가 자동 수정할 수 있습니다`}
-                </span>
-                {selectedFile && (
-                  <span className="ml-auto text-muted-foreground/60 truncate max-w-[160px]">
-                    {selectedFile.name}
+                  <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold border ${
+                    result.success
+                      ? 'bg-[hsl(142_71%_45%_/_0.15)] border-[hsl(142_71%_45%_/_0.4)] text-[hsl(142_71%_45%)]'
+                      : 'bg-destructive/15 border-destructive/40 text-destructive'
+                  }`}>
+                    {result.success ? 'PASS' : 'FAIL'}
                   </span>
+                  <span className="text-muted-foreground">
+                    {result.success
+                      ? '모든 규격 검사를 통과했습니다 — 완성된 모델을 아래에서 확인하세요'
+                      : `${result.errors?.length ?? 0}개의 위반 항목이 발견됐습니다 — AI가 자동 수정할 수 있습니다`}
+                  </span>
+                  {selectedFile && (
+                    <span className="ml-auto text-muted-foreground/60 truncate max-w-[160px]">
+                      {selectedFile.name}
+                    </span>
+                  )}
+                </div>
+
+                {/* Tabs — only show when viewer data is available */}
+                {viewerJson && (
+                  <div className={`flex border-t ${
+                    result.success ? 'border-[hsl(142_71%_45%_/_0.2)] bg-[hsl(142_71%_45%_/_0.03)]' : 'border-destructive/20 bg-destructive/[0.02]'
+                  }`}>
+                    {result.success ? null : (
+                      <button
+                        onClick={() => setViewerTab('errors')}
+                        className={`px-4 py-2 text-[11px] font-mono font-semibold transition-colors border-b-2 ${
+                          viewerTab === 'errors'
+                            ? 'border-destructive text-destructive'
+                            : 'border-transparent text-muted-foreground hover:text-foreground'
+                        }`}
+                      >
+                        오류 목록
+                      </button>
+                    )}
+                    <button
+                      onClick={() => setViewerTab('viewer')}
+                      className={`px-4 py-2 text-[11px] font-mono font-semibold transition-colors border-b-2 flex items-center gap-1.5 ${
+                        viewerTab === 'viewer'
+                          ? result.success
+                            ? 'border-[hsl(142_71%_45%)] text-[hsl(142_71%_45%)]'
+                            : 'border-primary text-primary'
+                          : 'border-transparent text-muted-foreground hover:text-foreground'
+                      }`}
+                    >
+                      <CheckCircle2 className="h-3 w-3" />
+                      모델 뷰어
+                    </button>
+                    {!result.success && (
+                      <button
+                        onClick={() => setViewerTab('errors')}
+                        className={`px-4 py-2 text-[11px] font-mono font-semibold transition-colors border-b-2 ${
+                          viewerTab === 'errors'
+                            ? 'border-destructive text-destructive'
+                            : 'border-transparent text-muted-foreground hover:text-foreground'
+                        }`}
+                      >
+                        오류 목록
+                      </button>
+                    )}
+                  </div>
                 )}
               </div>
 
-              <VerificationResult
-                success={result.success}
-                message={result.message}
-                errors={result.errors}
-                verificationType={selectedType}
-                fileName={selectedFile?.name}
-                sourceFile={selectedFile}
-              />
+              {/* Tab content */}
+              {viewerJson && viewerTab === 'viewer' ? (
+                <AasViewer jsonContent={viewerJson} />
+              ) : (
+                <VerificationResult
+                  success={result.success}
+                  message={result.message}
+                  errors={result.errors}
+                  verificationType={selectedType}
+                  fileName={selectedFile?.name}
+                  sourceFile={selectedFile}
+                  onFixComplete={handleFixComplete}
+                />
+              )}
             </div>
           )}
         </div>
