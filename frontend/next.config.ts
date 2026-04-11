@@ -11,6 +11,7 @@ const fixProxyUrl =
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  devIndicators: false,
   experimental: {
     serverActions: {
       bodySizeLimit: "10mb",
