@@ -24,6 +24,7 @@ import {
   type FixContextSnippet,
   buildSnippetContext,
 } from '@/lib/verification-fix-utils';
+import { AasViewer } from '@/components/aas-viewer';
 
 export interface VerificationError {
   code: string;
@@ -58,6 +59,30 @@ type AnalysisStep = {
 
 const INITIAL_GROUP_ITEM_LIMIT = 5;
 const SEND_FILE_CONTEXT_FOR_FIX = true;
+
+/** Line-level diff between before/after text. Returns per-line status. */
+function computeLineDiff(
+  beforeText: string,
+  afterText: string,
+): { before: { line: string; changed: boolean }[]; after: { line: string; changed: boolean }[] } {
+  const beforeLines = beforeText.split('\n');
+  const afterLines = afterText.split('\n');
+
+  // Build a set of unchanged lines to detect changes
+  const beforeSet = new Set(beforeLines.map((l) => l.trim()));
+  const afterSet = new Set(afterLines.map((l) => l.trim()));
+
+  return {
+    before: beforeLines.map((line) => ({
+      line,
+      changed: !afterSet.has(line.trim()) && line.trim() !== '',
+    })),
+    after: afterLines.map((line) => ({
+      line,
+      changed: !beforeSet.has(line.trim()) && line.trim() !== '',
+    })),
+  };
+}
 
 const buildAnalysisSteps = (fileName?: string): AnalysisStep[] => [
   {
@@ -536,9 +561,40 @@ export function VerificationResult({
         )}
 
         {effectiveSuccess && !effectiveErrors?.length && (
-          <p className="text-xs text-[hsl(var(--success))]">
-            모든 검증을 통과했습니다. 현재 AAS 파일은 요구 규격을 만족합니다.
-          </p>
+          <div className="space-y-4">
+            <p className="text-xs text-[hsl(var(--success))]">
+              모든 검증을 통과했습니다. 현재 AAS 파일은 요구 규격을 만족합니다.
+            </p>
+
+            {/* Show model viewer + download when reverify succeeded with updated content */}
+            {updatedFileContent && liveResult?.success && (
+              <div className="rounded-lg border border-[hsl(142_71%_45%_/_0.3)] bg-[hsl(142_71%_45%_/_0.03)] overflow-hidden">
+                {/* Header */}
+                <div className="flex items-center justify-between px-4 py-3 border-b border-[hsl(142_71%_45%_/_0.15)] bg-[hsl(142_71%_45%_/_0.06)]">
+                  <div className="flex items-center gap-2">
+                    <CheckCheck className="h-3.5 w-3.5 text-[hsl(142_71%_45%)]" />
+                    <span className="text-xs font-semibold text-[hsl(142_71%_50%)]">수정된 모델</span>
+                    <span className="text-[10px] font-mono text-muted-foreground">
+                      {fileName ? `${fileName.replace(/\.json$/i, '')}.fixed.json` : '수정된-모델.fixed.json'}
+                    </span>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={downloadUpdatedFile}
+                    className="h-7 gap-1.5 text-xs border-[hsl(142_71%_45%_/_0.4)] text-[hsl(142_71%_50%)] hover:bg-[hsl(142_71%_45%_/_0.08)]"
+                  >
+                    <Download className="h-3 w-3" />
+                    파일 다운로드
+                  </Button>
+                </div>
+                {/* Model viewer */}
+                <div className="p-0">
+                  <AasViewer jsonContent={updatedFileContent} />
+                </div>
+              </div>
+            )}
+          </div>
         )}
 
         {effectiveErrors && effectiveErrors.length > 0 && (
@@ -640,7 +696,7 @@ export function VerificationResult({
                   </div>
 
                   {/* Terminal log */}
-                  <div className="px-4 py-3 max-h-36 overflow-y-auto space-y-px">
+                  <div className="px-4 py-3 space-y-px">
                     {analysisLogs.map((log, i) => (
                       <div
                         key={i}
@@ -769,58 +825,98 @@ export function VerificationResult({
                               </div>
 
                               {/* Diff view */}
-                              {(hasSuggestion || sentSnippets[error.id]) && (
-                                <div className="mt-3 grid gap-2 md:grid-cols-2 font-mono">
-                                  {/* Before */}
-                                  <div className="rounded border border-border bg-[hsl(0_0%_0%_/_0.02)] dark:bg-[hsl(0_0%_100%_/_0.02)] overflow-hidden">
-                                    <div className="flex items-center gap-1.5 px-2.5 py-1.5 border-b border-border bg-muted/30">
-                                      <span className="text-[9px] font-semibold text-muted-foreground uppercase tracking-wide">before</span>
-                                    </div>
-                                    <div className="p-2.5 max-h-32 overflow-y-auto">
-                                      {(getAnchorPair(fixSuggestions[error.id])
-                                        ? JSON.stringify(getAnchorPair(fixSuggestions[error.id])?.broken_anchor ?? {}, null, 2)
-                                        : (sentSnippets[error.id] ?? '—')
-                                      ).split('\n').map((line, li) => (
-                                        <div key={li} className="text-[10px] leading-[1.6] text-muted-foreground whitespace-pre">
-                                          {line || ' '}
+                              {(hasSuggestion || sentSnippets[error.id]) && (() => {
+                                const anchorPair = getAnchorPair(fixSuggestions[error.id]);
+                                const beforeText = anchorPair
+                                  ? JSON.stringify(anchorPair.broken_anchor ?? {}, null, 2)
+                                  : (sentSnippets[error.id] ?? '—');
+                                const afterText = anchorPair
+                                  ? JSON.stringify(anchorPair.corrected_anchor ?? {}, null, 2)
+                                  : (fixSuggestions[error.id]?.fixedSnippet ??
+                                     fixSuggestions[error.id]?.patch ??
+                                     fixSuggestions[error.id]?.summary ??
+                                     fixSuggestions[error.id]?.reason ??
+                                     '...');
+                                const diff = computeLineDiff(beforeText, afterText);
+                                const changedBeforeCount = diff.before.filter((l) => l.changed).length;
+                                const changedAfterCount = diff.after.filter((l) => l.changed).length;
+
+                                return (
+                                  <div className="mt-3 font-mono space-y-1.5">
+                                    {/* Change summary badge */}
+                                    {(changedBeforeCount > 0 || changedAfterCount > 0) && (
+                                      <div className="flex items-center gap-2 px-0.5">
+                                        <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-muted-foreground">변경사항</span>
+                                        <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-destructive/10 text-destructive border border-destructive/20">
+                                          -{changedBeforeCount}
+                                        </span>
+                                        <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[hsl(142_71%_45%_/_0.12)] text-[hsl(142_71%_50%)] border border-[hsl(142_71%_45%_/_0.3)]">
+                                          +{changedAfterCount}
+                                        </span>
+                                      </div>
+                                    )}
+                                    <div className="grid gap-2 md:grid-cols-2">
+                                      {/* Before */}
+                                      <div className="rounded border border-border bg-[hsl(0_0%_0%_/_0.02)] dark:bg-[hsl(0_0%_100%_/_0.02)] overflow-hidden">
+                                        <div className="flex items-center gap-1.5 px-2.5 py-1.5 border-b border-border bg-muted/30">
+                                          <span className="h-1.5 w-1.5 rounded-full bg-destructive/60 shrink-0" />
+                                          <span className="text-[9px] font-semibold text-muted-foreground uppercase tracking-wide">before</span>
                                         </div>
-                                      ))}
+                                        <div className="p-2.5 max-h-40 overflow-y-auto">
+                                          {diff.before.map(({ line, changed }, li) => (
+                                            <div
+                                              key={li}
+                                              className={`flex items-start text-[10px] leading-[1.6] whitespace-pre group ${
+                                                changed
+                                                  ? 'bg-destructive/8 -mx-2.5 px-2.5 border-l-2 border-destructive/50'
+                                                  : ''
+                                              }`}
+                                            >
+                                              <span className="select-none mr-2 text-[9px] text-muted-foreground/40 w-5 shrink-0 text-right leading-[1.6]">
+                                                {li + 1}
+                                              </span>
+                                              <span className={changed ? 'text-destructive/80' : 'text-muted-foreground'}>
+                                                {line || ' '}
+                                              </span>
+                                            </div>
+                                          ))}
+                                        </div>
+                                      </div>
+                                      {/* After */}
+                                      <div className="rounded border border-[hsl(142_71%_45%_/_0.35)] bg-[hsl(142_71%_45%_/_0.03)] overflow-hidden">
+                                        <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-[hsl(142_71%_45%_/_0.2)] bg-[hsl(142_71%_45%_/_0.06)]">
+                                          <div className="flex items-center gap-1.5">
+                                            <span className="h-1.5 w-1.5 rounded-full bg-[hsl(142_71%_45%)] shrink-0" />
+                                            <span className="text-[9px] font-semibold text-[hsl(142_71%_45%)] uppercase tracking-wide">after</span>
+                                          </div>
+                                          <span className="text-[9px] text-muted-foreground">
+                                            {getSuggestionSourceLabel(fixSuggestions[error.id])}
+                                          </span>
+                                        </div>
+                                        <div className="p-2.5 max-h-40 overflow-y-auto">
+                                          {diff.after.map(({ line, changed }, li) => (
+                                            <div
+                                              key={li}
+                                              className={`flex items-start text-[10px] leading-[1.6] whitespace-pre ${
+                                                changed
+                                                  ? 'bg-[hsl(142_71%_45%_/_0.1)] -mx-2.5 px-2.5 border-l-2 border-[hsl(142_71%_45%)] '
+                                                  : ''
+                                              }`}
+                                            >
+                                              <span className="select-none mr-2 text-[9px] text-muted-foreground/40 w-5 shrink-0 text-right leading-[1.6]">
+                                                {li + 1}
+                                              </span>
+                                              <span className={changed ? 'text-[hsl(142_71%_55%)] font-medium' : 'text-[hsl(142_60%_45%)]'}>
+                                                {line || ' '}
+                                              </span>
+                                            </div>
+                                          ))}
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
-                                  {/* After */}
-                                  <div className="rounded border border-[hsl(142_71%_45%_/_0.35)] bg-[hsl(142_71%_45%_/_0.03)] overflow-hidden">
-                                    <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-[hsl(142_71%_45%_/_0.2)] bg-[hsl(142_71%_45%_/_0.06)]">
-                                      <span className="text-[9px] font-semibold text-[hsl(142_71%_45%)] uppercase tracking-wide">after</span>
-                                      <span className="text-[9px] text-muted-foreground">
-                                        {getSuggestionSourceLabel(fixSuggestions[error.id])}
-                                      </span>
-                                    </div>
-                                    <div className="p-2.5 max-h-32 overflow-y-auto">
-                                      {(getAnchorPair(fixSuggestions[error.id])
-                                        ? JSON.stringify(getAnchorPair(fixSuggestions[error.id])?.corrected_anchor ?? {}, null, 2)
-                                        : (fixSuggestions[error.id]?.fixedSnippet ??
-                                           fixSuggestions[error.id]?.patch ??
-                                           fixSuggestions[error.id]?.summary ??
-                                           fixSuggestions[error.id]?.reason ??
-                                           '...')
-                                      ).split('\n').map((line, li) => (
-                                        <div
-                                          key={li}
-                                          className={`text-[10px] leading-[1.6] whitespace-pre ${
-                                            line.startsWith('+')
-                                              ? 'text-[hsl(142_71%_50%)] bg-[hsl(142_71%_45%_/_0.08)] px-0.5 rounded-sm'
-                                              : line.startsWith('-')
-                                                ? 'text-destructive/70 bg-destructive/5 px-0.5 rounded-sm'
-                                                : 'text-[hsl(142_60%_45%)]'
-                                          }`}
-                                        >
-                                          {line || ' '}
-                                        </div>
-                                      ))}
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
+                                );
+                              })()}
                             </div>
                           );
                         })}
