@@ -210,6 +210,17 @@ export function VerificationResult({
     return result;
   };
 
+  const downloadUpdatedFile = () => {
+    if (!updatedFileContent) return;
+    const blob = new Blob([updatedFileContent], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName ? `${fileName.replace(/\.json$/i, '')}.fixed.json` : 'model.fixed.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const effectiveSuccess = liveResult?.success ?? success;
   const effectiveMessage = liveResult?.message ?? message;
   const effectiveErrors = liveResult?.errors ?? errors;
@@ -404,7 +415,7 @@ export function VerificationResult({
     );
 
     if (!llmResponse?.success) {
-      const msg = llmResponse?.message ?? 'LLM 수정 요청에 실패했습니다.';
+      const msg = llmResponse?.message ?? 'LLM 수정 요청에 실��했습니다.';
       appendLog(`[error] ${msg}`);
       setFixStatuses((prev) => {
         const next = { ...prev };
