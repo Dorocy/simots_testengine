@@ -35,6 +35,7 @@ interface VerificationResultProps {
   sourceFile?: File | null;
   /** Called with the updated JSON string after AI fix completes */
   onFixComplete?: (updatedJson: string) => void;
+  onReverifyComplete?: (result: ApiVerificationResult, updatedJson: string) => void;
 }
 
 type FixStatus = 'idle' | 'requested' | 'generated' | 'applied' | 'failed';
@@ -88,12 +89,14 @@ export function VerificationResult({
   fileName,
   sourceFile,
   onFixComplete,
+  onReverifyComplete,
 }: VerificationResultProps) {
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
   const [fixStatuses, setFixStatuses] = useState<Record<string, FixStatus>>({});
   const [fixSuggestions, setFixSuggestions] = useState<Record<string, LlmFixSuggestion>>({});
   const [sentSnippets, setSentSnippets] = useState<Record<string, string>>({});
   const [isRequestingSelected, setIsRequestingSelected] = useState(false);
+  const [isReverifying, setIsReverifying] = useState(false);
   const [updatedFileContent, setUpdatedFileContent] = useState<string | null>(null);
   const [liveResult, setLiveResult] = useState<ApiVerificationResult | null>(null);
   const [lastPipelineSummary, setLastPipelineSummary] = useState<FixPipelineSummary | null>(null);
@@ -218,10 +221,9 @@ export function VerificationResult({
     suggestions: LlmFixSuggestion[],
   ): Record<string, LlmFixSuggestion> => {
     const byErrorId = new Map<string, LlmFixSuggestion>();
-    const byCodeLocation = new Map<string, LlmFixSuggestion[]>();
+    const byExactMessageLocation = new Map<string, LlmFixSuggestion[]>();
     const byMessageLocation = new Map<string, LlmFixSuggestion[]>();
     const byMessage = new Map<string, LlmFixSuggestion[]>();
-    const unmatchedSuggestions: LlmFixSuggestion[] = [];
 
     const pushToQueue = (
       map: Map<string, LlmFixSuggestion[]>,
@@ -248,41 +250,53 @@ export function VerificationResult({
 
     for (const suggestion of suggestions) {
       if (suggestion.errorId) byErrorId.set(suggestion.errorId, suggestion);
-      const key = `${suggestion.code ?? ''}|${suggestion.location ?? ''}`;
-      if (key !== '|') pushToQueue(byCodeLocation, key, suggestion);
 
       const raw = suggestion.raw as {
         anchorPair?: { error_messages?: string[] };
       } | undefined;
       const anchorMessages = raw?.anchorPair?.error_messages ?? [];
-      let indexedByAnchorMessage = false;
       anchorMessages.forEach((msg) => {
-        const [messagePart, locationPart] = msg.split(' @ /');
-        const normalizedMessage = messagePart?.trim();
-        const normalizedLocation = locationPart
-          ? `/${locationPart.trim().replace(/^\/+/, '')}`
+        const fullText = String(msg ?? '').trim();
+        const atIndex = fullText.lastIndexOf(' @ /');
+        const normalizedMessage = atIndex >= 0
+          ? fullText.slice(0, atIndex).trim()
+          : fullText;
+        const normalizedLocation = atIndex >= 0
+          ? fullText.slice(atIndex + 3).trim()
           : '';
+
+        if (normalizedMessage || normalizedLocation) {
+          pushToQueue(
+            byExactMessageLocation,
+            `${normalizedMessage}|${normalizedLocation}`,
+            suggestion,
+          );
+        }
+
         if (normalizedMessage) {
-          pushToQueue(byMessageLocation, `${normalizedMessage}|${normalizedLocation}`, suggestion);
+          pushToQueue(
+            byMessageLocation,
+            `${normalizedMessage}|${normalizedLocation}`,
+            suggestion,
+          );
           pushToQueue(byMessage, normalizedMessage, suggestion);
-          indexedByAnchorMessage = true;
         }
       });
 
       if (suggestion.summary?.trim()) {
         pushToQueue(byMessage, suggestion.summary.trim(), suggestion);
       }
-      if (!indexedByAnchorMessage) unmatchedSuggestions.push(suggestion);
     }
 
     const mappedSuggestions: Record<string, LlmFixSuggestion> = {};
     targets.forEach((error) => {
+      const targetMessage = error.message.trim();
+      const targetLocation = error.location?.trim() ?? '';
       const mapped =
         byErrorId.get(error.id) ??
-        consumeFromQueue(byCodeLocation, `${error.code}|${error.location ?? ''}`) ??
-        consumeFromQueue(byMessageLocation, `${error.message.trim()}|${error.location ?? ''}`) ??
-        consumeFromQueue(byMessage, error.message.trim()) ??
-        unmatchedSuggestions.shift();
+        consumeFromQueue(byExactMessageLocation, `${targetMessage}|${targetLocation}`) ??
+        consumeFromQueue(byMessageLocation, `${targetMessage}|${targetLocation}`) ??
+        consumeFromQueue(byMessage, targetMessage);
       if (mapped) mappedSuggestions[error.id] = mapped;
     });
 
@@ -407,6 +421,52 @@ export function VerificationResult({
     URL.revokeObjectURL(url);
   };
 
+  const handleReverify = async () => {
+    if (!updatedFileContent) return;
+
+    const baseName = fileName?.replace(/\.json$/i, '') ?? 'fixed-model';
+    const reverifyFile = new File(
+      [updatedFileContent],
+      `${baseName}.fixed.json`,
+      { type: 'application/json' },
+    );
+
+    setIsReverifying(true);
+    try {
+      let response: ApiVerificationResult;
+      switch (verificationType) {
+        case 'template':
+          response = await apiClient.verifyTemplate(reverifyFile);
+          break;
+        case 'instance':
+          response = await apiClient.verifyInstance(reverifyFile);
+          break;
+        case 'metamodel':
+        default:
+          response = await apiClient.verifyMetamodel(reverifyFile);
+          break;
+      }
+
+      setLiveResult(response);
+      if (response.success) {
+        onReverifyComplete?.(response, updatedFileContent);
+      }
+    } catch (error) {
+      setLiveResult({
+        success: false,
+        message: '재검증에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+        errors: [
+          {
+            code: 'REVERIFY_ERROR',
+            message: error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.',
+          },
+        ],
+      });
+    } finally {
+      setIsReverifying(false);
+    }
+  };
+
   const getFixStatusVariant = (status: FixStatus): 'secondary' | 'outline' | 'success' | 'destructive' => {
     if (status === 'generated') return 'secondary';
     if (status === 'failed') return 'destructive';
@@ -508,18 +568,35 @@ export function VerificationResult({
                   </Button>
                   <Button
                     size="sm"
-                    disabled={indexedErrors.length === 0 || isRequestingSelected}
+                    disabled={
+                      updatedFileContent
+                        ? isReverifying
+                        : indexedErrors.length === 0 || isRequestingSelected
+                    }
                     className="h-7 gap-1.5 text-xs"
-                    onClick={async () => {
-                      setIsRequestingSelected(true);
-                      try {
-                        await requestFixForErrors(indexedErrors);
-                      } finally {
-                        setIsRequestingSelected(false);
-                      }
-                    }}
+                    onClick={
+                      updatedFileContent
+                        ? handleReverify
+                        : async () => {
+                            setIsRequestingSelected(true);
+                            try {
+                              await requestFixForErrors(indexedErrors);
+                            } finally {
+                              setIsRequestingSelected(false);
+                            }
+                          }
+                    }
                   >
-                    {isRequestingSelected ? (
+                    {updatedFileContent ? (
+                      isReverifying ? (
+                        <>
+                          <Loader2 className="h-3 w-3 animate-spin" />
+                          재검증 중
+                        </>
+                      ) : (
+                        '재검증'
+                      )
+                    ) : isRequestingSelected ? (
                       <>
                         <Loader2 className="h-3 w-3 animate-spin" />
                         분석 중

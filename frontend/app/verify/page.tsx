@@ -177,10 +177,20 @@ export default function VerifyPage() {
     setViewerTab('errors');
   };
 
-  // Called by VerificationResult when AI fix produces updated content
+  // 성공 검증 결과만 모델 뷰어로 넘긴다.
   const handleFixComplete = (updatedJson: string) => {
-    setViewerJson(updatedJson);
-    setViewerTab('viewer');
+    if (result?.success) {
+      setViewerJson(updatedJson);
+      setViewerTab('viewer');
+    }
+  };
+
+  const handleReverifyComplete = (reverifiedResult: VerificationResultType, updatedJson: string) => {
+    setResult(reverifiedResult);
+    if (reverifiedResult.success) {
+      setViewerJson(updatedJson);
+      setViewerTab('viewer');
+    }
   };
 
   const handleVerify = async () => {
@@ -621,23 +631,11 @@ export default function VerifyPage() {
                   </button>
                 </div>
 
-                {/* Tabs — only show when viewer data is available */}
-                {viewerJson && (
+                {/* Tabs — success 상태에서만 모델 뷰어 제공 */}
+                {result.success && viewerJson && (
                   <div className={`flex border-t ${
                     result.success ? 'border-[hsl(142_71%_45%_/_0.2)] bg-[hsl(142_71%_45%_/_0.03)]' : 'border-destructive/20 bg-destructive/[0.02]'
                   }`}>
-                    {result.success ? null : (
-                      <button
-                        onClick={() => setViewerTab('errors')}
-                        className={`px-4 py-2 text-[11px] font-mono font-semibold transition-colors border-b-2 ${
-                          viewerTab === 'errors'
-                            ? 'border-destructive text-destructive'
-                            : 'border-transparent text-muted-foreground hover:text-foreground'
-                        }`}
-                      >
-                        오류 목록
-                      </button>
-                    )}
                     <button
                       onClick={() => setViewerTab('viewer')}
                       className={`px-4 py-2 text-[11px] font-mono font-semibold transition-colors border-b-2 flex items-center gap-1.5 ${
@@ -651,36 +649,25 @@ export default function VerifyPage() {
                       <CheckCircle2 className="h-3 w-3" />
                       모델 뷰어
                     </button>
-                    {!result.success && (
-                      <button
-                        onClick={() => setViewerTab('errors')}
-                        className={`px-4 py-2 text-[11px] font-mono font-semibold transition-colors border-b-2 ${
-                          viewerTab === 'errors'
-                            ? 'border-destructive text-destructive'
-                            : 'border-transparent text-muted-foreground hover:text-foreground'
-                        }`}
-                      >
-                        오류 목록
-                      </button>
-                    )}
                   </div>
                 )}
               </div>
 
               {/* Tab content */}
-              {viewerJson && viewerTab === 'viewer' ? (
-                <AasViewer jsonContent={viewerJson} />
-              ) : (
-                <VerificationResult
-                  success={result.success}
-                  message={result.message}
-                  errors={result.errors}
-                  verificationType={selectedType}
-                  fileName={selectedFile?.name}
-                  sourceFile={selectedFile}
-                  onFixComplete={handleFixComplete}
-                />
-              )}
+               {result.success && viewerJson && viewerTab === 'viewer' ? (
+                 <AasViewer jsonContent={viewerJson} />
+               ) : (
+                 <VerificationResult
+                   success={result.success}
+                   message={result.message}
+                   errors={result.errors}
+                   verificationType={selectedType}
+                   fileName={selectedFile?.name}
+                   sourceFile={selectedFile}
+                   onFixComplete={handleFixComplete}
+                   onReverifyComplete={handleReverifyComplete}
+                 />
+               )}
             </div>
           )}
         </div>
