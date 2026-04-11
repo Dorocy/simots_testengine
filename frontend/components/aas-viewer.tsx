@@ -281,23 +281,24 @@ export function AasViewer({ jsonContent }: { jsonContent: string }) {
         </div>
       </div>
 
-      {/* Shell info strip */}
-      {shell?.assetInformation?.globalAssetId && (
-        <div className="px-4 py-2 border-b border-border/60 bg-muted/10 flex items-center gap-2">
-          <Info className="h-3 w-3 text-muted-foreground/50 shrink-0" />
-          <span className="text-[10px] font-mono text-muted-foreground/60 truncate">
-            {shell.assetInformation.globalAssetId}
-          </span>
-          {shell.description?.[0] && (
-            <>
-              <span className="text-muted-foreground/30 shrink-0">·</span>
-              <span className="text-[10px] text-muted-foreground/60 truncate">
-                {getLang(shell.description)}
-              </span>
-            </>
-          )}
-        </div>
-      )}
+      {/* Shell info strip — only show globalAssetId if it differs from shell.id */}
+      {shell?.assetInformation?.globalAssetId &&
+        shell.assetInformation.globalAssetId !== shell?.id && (
+          <div className="px-4 py-2 border-b border-border/60 bg-muted/10 flex items-center gap-2">
+            <Info className="h-3 w-3 text-muted-foreground/50 shrink-0" />
+            <span className="text-[10px] font-mono text-muted-foreground/60 truncate">
+              {shell.assetInformation.globalAssetId}
+            </span>
+            {shell.description?.[0] && (
+              <>
+                <span className="text-muted-foreground/30 shrink-0">·</span>
+                <span className="text-[10px] text-muted-foreground/60 truncate">
+                  {getLang(shell.description)}
+                </span>
+              </>
+            )}
+          </div>
+        )}
 
       {/* 2-pane: submodel list + element tree */}
       <div className="flex min-h-0 h-[520px]">
