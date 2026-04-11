@@ -371,10 +371,8 @@ export function VerificationResult({
         : null;
     });
 
-    if (!llmResponse || !(llmResponse as typeof llmResponse & { success: boolean }).success) {
-      const msg =
-        (llmResponse as (typeof llmResponse & { message?: string }) | null)?.message ??
-        'LLM 수정 요청에 실패했습니다.';
+    if (!llmResponse?.success) {
+      const msg = llmResponse?.message ?? 'LLM 수정 요청에 실패했습니다.';
       appendLog(`[error] ${msg}`);
       setFixStatuses((prev) => {
         const next = { ...prev };
@@ -384,12 +382,7 @@ export function VerificationResult({
       return;
     }
 
-    const successResponse = llmResponse as typeof llmResponse & {
-      success: true;
-      suggestions?: LlmFixSuggestion[];
-      updatedFile?: string;
-      raw?: unknown;
-    };
+    const successResponse = llmResponse;
 
     const llmMappedSuggestions = mapSuggestionsToErrors(targets, successResponse.suggestions ?? []);
     assignSuggestionsToErrors(targets, llmMappedSuggestions);
