@@ -664,7 +664,7 @@ export function VerificationResult({
                   </div>
 
                   {/* Terminal log */}
-                  <div className="px-4 py-3 max-h-36 overflow-y-auto space-y-px">
+                  <div className="px-4 py-3 space-y-px">
                     {analysisLogs.map((log, i) => (
                       <div
                         key={i}
