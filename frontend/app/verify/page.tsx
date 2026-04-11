@@ -14,12 +14,12 @@ import {
   Database,
   Layers,
   LogOut,
-  ArrowRight,
   Cpu,
   ShieldCheck,
   CheckCircle2,
   Play,
   Zap,
+  ChevronDown,
 } from 'lucide-react';
 
 type VerificationType = 'metamodel' | 'template' | 'instance';
@@ -86,64 +86,23 @@ const PIPELINE_STEPS = [
   },
 ];
 
-// 에러가 많이 포함된 데모용 AAS 샘플 JSON
-const DEMO_SAMPLE_JSON = JSON.stringify({
-  assetAdministrationShells: [
-    {
-      id: "urn:demo:aas:001",
-      assetInformation: {
-        assetKind: "Instance",
-        globalAssetId: "urn:demo:asset:001"
-      },
-      submodels: [
-        { type: "ModelReference", keys: [{ type: "Submodel", value: "urn:demo:sm:001" }] }
-      ]
-    }
-  ],
-  submodels: [
-    {
-      id: "urn:demo:sm:001",
-      kind: "Instance",
-      semanticId: {
-        type: "ExternalReference",
-        keys: [{ type: "GlobalReference", value: "https://admin-shell.io/demo/1/0" }]
-      },
-      submodelElements: [
-        {
-          modelType: "Property",
-          idShort: "Temperature",
-          valueType: "xs:float",
-          value: "23.5",
-          semanticId: null
-        },
-        {
-          modelType: "Property",
-          idShort: "",
-          valueType: "xs:string",
-          value: "Active"
-        },
-        {
-          modelType: "SubmodelElementCollection",
-          idShort: "Measurements",
-          value: [
-            {
-              modelType: "Property",
-              idShort: "Pressure",
-              valueType: "invalidType",
-              value: "1013"
-            }
-          ]
-        },
-        {
-          modelType: "MultiLanguageProperty",
-          idShort: "Description",
-          value: "should be array not string"
-        }
-      ]
-    }
-  ],
-  conceptDescriptions: []
-}, null, 2);
+// 실제 데모 파일 목록 (public/demo/ 에 위치)
+const DEMO_FILES: { id: string; label: string; filename: string; description: string; type: VerificationType }[] = [
+  {
+    id: 'ER2',
+    label: 'ER2 — LS ELECTRIC 인버터',
+    filename: 'ER2.json',
+    description: '인스턴스 AAS · 29K줄 · 다수 오류 포함',
+    type: 'metamodel',
+  },
+  {
+    id: 'ER5',
+    label: 'ER5 — 스마트팩토리 템플릿',
+    filename: 'ER5.json',
+    description: '템플릿 AAS · 다수 구조 오류 포함',
+    type: 'metamodel',
+  },
+];
 
 function getPipelineActiveStep(
   hasFile: boolean,
@@ -197,7 +156,9 @@ export default function VerifyPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isVerifying, setIsVerifying] = useState(false);
   const [result, setResult] = useState<VerificationResultType | null>(null);
-  const [fileUploadKey, setFileUploadKey] = useState(0); // force re-mount FileUpload on demo load
+  const [fileUploadKey, setFileUploadKey] = useState(0);
+  const [demoOpen, setDemoOpen] = useState(false);
+  const [isDemoLoading, setIsDemoLoading] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -243,19 +204,35 @@ export default function VerifyPage() {
     }
   };
 
-  // 데모 샘플 파일 자동 로드 + 즉시 검증 실행
-  const handleLoadDemo = async () => {
-    const blob = new Blob([DEMO_SAMPLE_JSON], { type: 'application/json' });
-    const file = new File([blob], 'demo-aas-sample.json', { type: 'application/json' });
-    setSelectedFile(file);
+  // 데모 파일 fetch → 업로드 + 즉시 검증
+  const handleLoadDemo = async (demo: typeof DEMO_FILES[number]) => {
+    setDemoOpen(false);
+    setIsDemoLoading(true);
     setResult(null);
-    setFileUploadKey((k) => k + 1);
-
-    setIsVerifying(true);
     try {
-      const response = await apiClient.verifyMetamodel(file);
+      const res = await fetch(`/demo/${demo.filename}`);
+      if (!res.ok) throw new Error('데모 파일을 불러올 수 없습니다.');
+      const blob = await res.blob();
+      const file = new File([blob], demo.filename, { type: 'application/json' });
+      setSelectedFile(file);
+      setSelectedType(demo.type);
+      setFileUploadKey((k) => k + 1);
+
+      setIsVerifying(true);
+      setIsDemoLoading(false);
+      let response: VerificationResultType;
+      switch (demo.type) {
+        case 'metamodel':
+          response = await apiClient.verifyMetamodel(file);
+          break;
+        case 'template':
+          response = await apiClient.verifyTemplate(file);
+          break;
+        case 'instance':
+          response = await apiClient.verifyInstance(file);
+          break;
+      }
       setResult(response);
-      setSelectedType('metamodel');
     } catch (error) {
       setResult({
         success: false,
@@ -269,6 +246,7 @@ export default function VerifyPage() {
       });
     } finally {
       setIsVerifying(false);
+      setIsDemoLoading(false);
     }
   };
 
@@ -407,17 +385,50 @@ export default function VerifyPage() {
                   JSON 파일을 업로드하고 규격 적합성을 검사합니다
                 </p>
               </div>
-              {/* Demo button */}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleLoadDemo}
-                disabled={isVerifying}
-                className="gap-1.5 text-xs shrink-0 border-primary/30 text-primary hover:bg-primary/5"
-              >
-                <Zap className="h-3.5 w-3.5" />
-                데모 실행
-              </Button>
+              {/* Demo dropdown */}
+              <div className="relative shrink-0">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setDemoOpen((o) => !o)}
+                  disabled={isVerifying || isDemoLoading}
+                  className="gap-1.5 text-xs border-primary/30 text-primary hover:bg-primary/5"
+                >
+                  {isDemoLoading ? (
+                    <Cpu className="h-3.5 w-3.5 animate-pulse" />
+                  ) : (
+                    <Zap className="h-3.5 w-3.5" />
+                  )}
+                  데모 실행
+                  <ChevronDown className={`h-3 w-3 transition-transform ${demoOpen ? 'rotate-180' : ''}`} />
+                </Button>
+                {demoOpen && (
+                  <div className="absolute right-0 top-full mt-1 z-30 w-64 rounded-md border border-border bg-card shadow-lg overflow-hidden">
+                    <div className="px-3 py-1.5 border-b border-border bg-muted/30">
+                      <span className="text-[9px] font-mono font-semibold text-muted-foreground uppercase tracking-widest">
+                        데모 파일 선택
+                      </span>
+                    </div>
+                    {DEMO_FILES.map((demo) => (
+                      <button
+                        key={demo.id}
+                        onClick={() => handleLoadDemo(demo)}
+                        className="w-full text-left px-3 py-2.5 hover:bg-muted/40 transition-colors border-b border-border/50 last:border-b-0"
+                      >
+                        <div className="text-xs font-semibold text-foreground">{demo.label}</div>
+                        <div className="text-[10px] text-muted-foreground mt-0.5 font-mono">{demo.description}</div>
+                      </button>
+                    ))}
+                  </div>
+                )}
+                {/* Backdrop to close */}
+                {demoOpen && (
+                  <div
+                    className="fixed inset-0 z-20"
+                    onClick={() => setDemoOpen(false)}
+                  />
+                )}
+              </div>
             </div>
 
             {/* Verification type */}
