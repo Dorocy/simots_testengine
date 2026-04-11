@@ -404,7 +404,7 @@ export function VerificationResult({
     );
 
     if (!llmResponse?.success) {
-      const msg = llmResponse?.message ?? 'LLM 수정 요청에 실패했습니다.';
+      const msg = llmResponse?.message ?? 'LLM 수정 요청에 실��했습니다.';
       appendLog(`[error] ${msg}`);
       setFixStatuses((prev) => {
         const next = { ...prev };
