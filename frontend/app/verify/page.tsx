@@ -298,7 +298,7 @@ export default function VerifyPage() {
             <div className="hidden md:flex items-center gap-1.5">
               <ShieldCheck className="h-3 w-3 text-primary shrink-0" />
               <span className="text-[11px] font-mono text-muted-foreground whitespace-nowrap">
-                AAS Verification &amp; AI Repair Engine
+                AAS Verification &amp; LLM Repair Engine
               </span>
             </div>
           </div>
