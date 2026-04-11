@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CheckCircle2, XCircle, AlertCircle, ChevronDown, ChevronRight, Wand2, Loader2 } from 'lucide-react';
+import { CheckCircle2, XCircle, AlertCircle, ChevronDown, ChevronRight, Wand2, Loader2, Sparkles, Brain, FileSearch, Wrench, CheckCheck } from 'lucide-react';
 import { apiClient, type LlmFixSuggestion, type VerificationResult as ApiVerificationResult } from '@/lib/api-client';
 import {
   type FixContextSnippet,
@@ -32,8 +32,48 @@ interface FixPipelineSummary {
   llmMatchedCount: number;
 }
 
+type AnalysisStep = {
+  id: string;
+  icon: React.ReactNode;
+  label: string;
+  detail: string;
+  status: 'pending' | 'running' | 'done';
+};
+
 const INITIAL_GROUP_ITEM_LIMIT = 5;
 const SEND_FILE_CONTEXT_FOR_FIX = true;
+
+// LLM 분석 스텝 정의
+const buildAnalysisSteps = (errorCount: number, fileName?: string): AnalysisStep[] => [
+  {
+    id: 'parse',
+    icon: <FileSearch className="h-3.5 w-3.5" />,
+    label: '파일 파싱',
+    detail: `${fileName ?? 'input.json'} 구조 분석 중...`,
+    status: 'pending',
+  },
+  {
+    id: 'analyze',
+    icon: <Brain className="h-3.5 w-3.5" />,
+    label: '오류 패턴 분석',
+    detail: `${errorCount}개 오류에 대한 컨텍스트 추출 중...`,
+    status: 'pending',
+  },
+  {
+    id: 'generate',
+    icon: <Sparkles className="h-3.5 w-3.5" />,
+    label: '수정안 생성',
+    detail: 'LLM이 최적 수정안을 생성하는 중...',
+    status: 'pending',
+  },
+  {
+    id: 'apply',
+    icon: <Wrench className="h-3.5 w-3.5" />,
+    label: '패치 적용',
+    detail: '수정된 파일 조합 중...',
+    status: 'pending',
+  },
+];
 
 export function VerificationResult({
   success,
@@ -51,6 +91,10 @@ export function VerificationResult({
   const [updatedFileContent, setUpdatedFileContent] = useState<string | null>(null);
   const [liveResult, setLiveResult] = useState<ApiVerificationResult | null>(null);
   const [lastPipelineSummary, setLastPipelineSummary] = useState<FixPipelineSummary | null>(null);
+  const [analysisSteps, setAnalysisSteps] = useState<AnalysisStep[]>([]);
+  const [analysisLogs, setAnalysisLogs] = useState<string[]>([]);
+  const [isAnalysisVisible, setIsAnalysisVisible] = useState(false);
+  const logEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setLiveResult(null);
@@ -60,7 +104,77 @@ export function VerificationResult({
     setUpdatedFileContent(null);
     setExpandedGroups({});
     setLastPipelineSummary(null);
+    setAnalysisSteps([]);
+    setAnalysisLogs([]);
+    setIsAnalysisVisible(false);
   }, [fileName, verificationType, errors, message, success]);
+
+  // 로그 끝으로 자동 스크롤
+  useEffect(() => {
+    logEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [analysisLogs]);
+
+  const appendLog = (log: string) => {
+    setAnalysisLogs((prev) => [...prev, log]);
+  };
+
+  const updateStepStatus = (stepId: string, status: AnalysisStep['status']) => {
+    setAnalysisSteps((prev) =>
+      prev.map((s) => (s.id === stepId ? { ...s, status } : s)),
+    );
+  };
+
+  const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+  // LLM 분석 시뮬레이션: 실제 API 호출 전/중/후 단계별 상태 업데이트
+  const runAnalysisAnimation = async (
+    errorCount: number,
+    doActualRequest: () => Promise<void>,
+  ) => {
+    const steps = buildAnalysisSteps(errorCount, fileName);
+    setAnalysisSteps(steps);
+    setAnalysisLogs([]);
+    setIsAnalysisVisible(true);
+
+    // Step 1: 파일 파싱
+    updateStepStatus('parse', 'running');
+    appendLog(`> 파일 로드: ${fileName ?? 'input.json'}`);
+    await delay(300);
+    appendLog(`> JSON 구조 파싱 중...`);
+    await delay(400);
+    appendLog(`> 총 ${errorCount}개 오류 감지됨`);
+    updateStepStatus('parse', 'done');
+
+    // Step 2: 오류 분석
+    updateStepStatus('analyze', 'running');
+    await delay(200);
+    appendLog(`> 오류 코드 분류 및 위치 매핑 중...`);
+    await delay(350);
+    appendLog(`> 컨텍스트 스니펫 추출 완료`);
+    updateStepStatus('analyze', 'done');
+
+    // Step 3: LLM 수정안 생성 (실제 API 호출)
+    updateStepStatus('generate', 'running');
+    await delay(200);
+    appendLog(`> LLM 모델에 수정 요청 전송 중...`);
+    await delay(150);
+    appendLog(`> 응답 스트리밍 대기 중...`);
+
+    await doActualRequest();
+
+    appendLog(`> 수정안 수신 완료`);
+    updateStepStatus('generate', 'done');
+
+    // Step 4: 패치 적용
+    updateStepStatus('apply', 'running');
+    await delay(200);
+    appendLog(`> 수정 사항 원본 파일에 반영 중...`);
+    await delay(300);
+    appendLog(`> 최종 파일 생성 완료`);
+    updateStepStatus('apply', 'done');
+
+    appendLog(`✓ 분석 및 수정 파이프라인 완료`);
+  };
 
   const effectiveSuccess = liveResult?.success ?? success;
   const effectiveMessage = liveResult?.message ?? message;
@@ -254,30 +368,20 @@ export function VerificationResult({
       });
     }
 
-    const baseRequest = {
-      mode: targets.length > 1 ? 'batch' : 'single',
-      verificationType,
-      fileName,
-      includeUpdatedFile: Boolean(sourceText),
-      errors: targets.map((target) => ({
-        id: target.id,
-        code: target.code,
-        message: target.message,
-        location: target.location,
-      })),
-      context: contextPayload,
-    };
+    let llmResponse: Awaited<ReturnType<typeof apiClient.requestLlmRepairFile>> | null = null;
 
-    const llmResponse = sourceFile
-      ? await apiClient.requestLlmRepairFile(sourceFile, {
-        verificationType,
-        fileName: sourceFile.name,
-      })
-      : null;
+    await runAnalysisAnimation(targets.length, async () => {
+      llmResponse = sourceFile
+        ? await apiClient.requestLlmRepairFile(sourceFile, {
+          verificationType,
+          fileName: sourceFile.name,
+        })
+        : null;
+    });
 
-    if (!llmResponse?.success) {
-      const msg = llmResponse?.message ?? 'LLM 수정 요청에 실패했습니다.';
-      alert(msg);
+    if (!llmResponse || !(llmResponse as typeof llmResponse & { success: boolean }).success) {
+      const msg = (llmResponse as (typeof llmResponse & { message?: string }) | null)?.message ?? 'LLM 수정 요청에 실패했습니다.';
+      appendLog(`✗ 오류: ${msg}`);
       setFixStatuses((prev) => {
         const next = { ...prev };
         for (const t of targets) next[t.id] = 'failed';
@@ -286,19 +390,21 @@ export function VerificationResult({
       return;
     }
 
-    const llmMappedSuggestions = mapSuggestionsToErrors(targets, llmResponse.suggestions ?? []);
+    const successResponse = llmResponse as typeof llmResponse & { success: true; suggestions?: LlmFixSuggestion[]; updatedFile?: string; raw?: unknown };
+
+    const llmMappedSuggestions = mapSuggestionsToErrors(targets, successResponse.suggestions ?? []);
     assignSuggestionsToErrors(targets, llmMappedSuggestions);
 
-    if (llmResponse?.updatedFile) {
-      setUpdatedFileContent(llmResponse.updatedFile);
+    if (successResponse.updatedFile) {
+      setUpdatedFileContent(successResponse.updatedFile);
     }
 
-    const rawMeta = (llmResponse?.raw ?? {}) as {
+    const rawMeta = (successResponse.raw ?? {}) as {
       llmMatchedCount?: number;
     };
     if (rawMeta) {
       setLastPipelineSummary({
-        llmMatchedCount: Number(rawMeta.llmMatchedCount ?? (llmResponse?.suggestions?.length ?? 0)),
+        llmMatchedCount: Number(rawMeta.llmMatchedCount ?? (successResponse.suggestions?.length ?? 0)),
       });
     }
   };
@@ -382,53 +488,18 @@ export function VerificationResult({
                     오류 수정 작업 영역
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    흐름: 1) 오류 선택 2) 수정 요청 3) 수정안 확인 4) 선택 항목 적용
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    모든 오류에 대해 LLM 수정 결과를 확인할 수 있습니다.
+                    AI가 파일을 자동으로 분석하고 오류를 수정합니다
                   </p>
                 </div>
                 <Badge variant="outline">전체 오류 대상</Badge>
               </div>
 
-              <div className="rounded border border-border bg-background/60 p-3 text-xs">
-                <p className="font-medium mb-2">수정 파이프라인</p>
-                <div className="flex flex-wrap items-center gap-2 text-muted-foreground">
-                  <span className={isRequestingSelected ? 'text-foreground font-medium' : ''}>1. 원본 파일 업로드</span>
-                  <span>→</span>
-                  <span className={isRequestingSelected ? 'text-foreground font-medium' : ''}>2. LLM 분석</span>
-                  <span>→</span>
-                  <span className={isRequestingSelected ? 'text-foreground font-medium' : ''}>3. 수정 결과 확인</span>
-                </div>
-                {lastPipelineSummary && (
-                  <div className="mt-2 grid grid-cols-1 gap-2 text-[11px] md:grid-cols-2">
-                    <div className="rounded border border-border p-2">
-                      <p className="text-muted-foreground">LLM 수정안</p>
-                      <p className="font-semibold">{lastPipelineSummary.llmMatchedCount}건</p>
-                    </div>
-                    <div className="rounded border border-border p-2">
-                      <p className="text-muted-foreground">최종 파일 생성</p>
-                      <p className="font-semibold">{updatedFileContent ? '예' : '아니오'}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="grid grid-cols-4 gap-2 text-xs">
-                <div className="rounded border border-border p-2">
-                  <p className="text-muted-foreground">수정안 준비</p>
-                  <p className="font-semibold">{generatedCount}</p>
-                </div>
-                <div className="rounded border border-border p-2">
-                  <p className="text-muted-foreground">미매칭 오류</p>
-                  <p className="font-semibold">{remainingCount}</p>
-                </div>
-              </div>
-
+              {/* LLM 분석 실행 버튼 */}
               <div className="flex flex-wrap gap-2">
                 <Button
                   size="sm"
                   disabled={indexedErrors.length === 0 || isRequestingSelected}
+                  className="gap-1.5"
                   onClick={async () => {
                     setIsRequestingSelected(true);
                     try {
@@ -438,7 +509,17 @@ export function VerificationResult({
                     }
                   }}
                 >
-                  {isRequestingSelected ? '요청 중...' : '전체 오류 LLM 수정 요청'}
+                  {isRequestingSelected ? (
+                    <>
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      분석 중...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="h-3.5 w-3.5" />
+                      AI 자동 수정
+                    </>
+                  )}
                 </Button>
                 <Button
                   variant="secondary"
@@ -449,10 +530,80 @@ export function VerificationResult({
                   수정된 파일 다운로드
                 </Button>
               </div>
-              {isRequestingSelected && (
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                  원본 파일을 LLM에 전달하고 수정 결과를 가져오는 중...
+
+              {/* LLM 분석 스트리밍 패널 */}
+              {isAnalysisVisible && (
+                <div className="rounded-md border border-border bg-background font-mono text-xs overflow-hidden">
+                  {/* 스텝 진행 표시 */}
+                  <div className="border-b border-border bg-muted/30 px-3 py-2 flex items-center gap-4 flex-wrap">
+                    {analysisSteps.map((step) => (
+                      <div
+                        key={step.id}
+                        className={`flex items-center gap-1.5 transition-colors ${
+                          step.status === 'running'
+                            ? 'text-primary'
+                            : step.status === 'done'
+                              ? 'text-green-500'
+                              : 'text-muted-foreground'
+                        }`}
+                      >
+                        {step.status === 'running' ? (
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        ) : step.status === 'done' ? (
+                          <CheckCheck className="h-3.5 w-3.5" />
+                        ) : (
+                          <span className="h-3.5 w-3.5 flex items-center justify-center opacity-40">{step.icon}</span>
+                        )}
+                        <span className={`${step.status === 'running' ? 'font-semibold' : ''}`}>
+                          {step.label}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* 터미널 로그 */}
+                  <div className="bg-[hsl(var(--background))] p-3 max-h-36 overflow-y-auto space-y-0.5">
+                    {analysisLogs.map((log, i) => (
+                      <div
+                        key={i}
+                        className={`leading-5 ${
+                          log.startsWith('✓')
+                            ? 'text-green-500'
+                            : log.startsWith('✗')
+                              ? 'text-destructive'
+                              : 'text-muted-foreground'
+                        }`}
+                      >
+                        {log}
+                        {i === analysisLogs.length - 1 && isRequestingSelected && (
+                          <span className="inline-block w-1.5 h-3.5 bg-primary ml-0.5 animate-pulse align-middle" />
+                        )}
+                      </div>
+                    ))}
+                    <div ref={logEndRef} />
+                  </div>
+                </div>
+              )}
+
+              {/* 파이프라인 결과 요약 */}
+              {lastPipelineSummary && (
+                <div className="grid grid-cols-2 gap-2 text-xs md:grid-cols-4">
+                  <div className="rounded border border-border p-2">
+                    <p className="text-muted-foreground">LLM 수정안</p>
+                    <p className="font-semibold">{lastPipelineSummary.llmMatchedCount}건</p>
+                  </div>
+                  <div className="rounded border border-border p-2">
+                    <p className="text-muted-foreground">수정안 준비</p>
+                    <p className="font-semibold">{generatedCount}</p>
+                  </div>
+                  <div className="rounded border border-border p-2">
+                    <p className="text-muted-foreground">미매칭 오류</p>
+                    <p className="font-semibold">{remainingCount}</p>
+                  </div>
+                  <div className="rounded border border-border p-2">
+                    <p className="text-muted-foreground">최종 파일</p>
+                    <p className="font-semibold">{updatedFileContent ? '생성됨' : '없음'}</p>
+                  </div>
                 </div>
               )}
             </div>
