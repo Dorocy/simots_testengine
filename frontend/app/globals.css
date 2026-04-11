@@ -4,58 +4,65 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 8%;
+    /* Light — clean slate with a blue-accent tech feel */
+    --background: 220 20% 97%;
+    --foreground: 220 20% 8%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 8%;
+    --card-foreground: 220 20% 8%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 8%;
-    --primary: 240 6% 12%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 5% 96%;
-    --secondary-foreground: 240 6% 12%;
-    --muted: 240 5% 96%;
-    --muted-foreground: 240 4% 46%;
-    --accent: 240 5% 96%;
-    --accent-foreground: 240 6% 12%;
+    --popover-foreground: 220 20% 8%;
+    --primary: 217 91% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14% 93%;
+    --secondary-foreground: 220 20% 20%;
+    --muted: 220 14% 93%;
+    --muted-foreground: 220 10% 48%;
+    --accent: 217 91% 50%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
-    --ring: 240 5% 65%;
-    --radius: 0.625rem;
-    --chart-1: 24 95% 53%;
-    --chart-2: 187 62% 45%;
-    --chart-3: 221 39% 31%;
-    --chart-4: 84 78% 56%;
-    --chart-5: 62 72% 52%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 13% 88%;
+    --input: 220 13% 88%;
+    --ring: 217 91% 60%;
+    --radius: 0.5rem;
+    /* semantic extras */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+    --panel: 220 20% 97%;
+    --panel-border: 220 13% 88%;
+    --node-bg: 217 91% 95%;
+    --connector: 217 60% 70%;
   }
 
   .dark {
-    --background: 240 10% 8%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 8%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 8%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 6% 12%;
-    --secondary: 240 4% 18%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 4% 18%;
-    --muted-foreground: 240 5% 70%;
-    --accent: 240 4% 18%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62% 44%;
-    --destructive-foreground: 0 85% 97%;
-    --border: 240 4% 18%;
-    --input: 240 4% 18%;
-    --ring: 240 5% 42%;
-    --chart-1: 252 84% 66%;
-    --chart-2: 160 60% 55%;
-    --chart-3: 62 72% 52%;
-    --chart-4: 304 67% 58%;
-    --chart-5: 16 83% 57%;
+    /* Dark — deep navy base, electric blue accent */
+    --background: 222 28% 8%;
+    --foreground: 213 31% 91%;
+    --card: 222 24% 11%;
+    --card-foreground: 213 31% 91%;
+    --popover: 222 24% 11%;
+    --popover-foreground: 213 31% 91%;
+    --primary: 217 91% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 222 18% 18%;
+    --secondary-foreground: 213 31% 82%;
+    --muted: 222 18% 18%;
+    --muted-foreground: 220 10% 52%;
+    --accent: 217 91% 58%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 222 16% 18%;
+    --input: 222 16% 18%;
+    --ring: 217 91% 58%;
+    --radius: 0.5rem;
+    /* semantic extras */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+    --panel: 222 24% 11%;
+    --panel-border: 222 16% 18%;
+    --node-bg: 217 50% 20%;
+    --connector: 217 60% 55%;
   }
 }
 
@@ -64,7 +71,23 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
-    background-image: radial-gradient(circle at top, rgba(0, 0, 0, 0.03), transparent 35%);
+    @apply bg-background text-foreground font-sans;
+  }
+  /* Pipeline connector animation */
+  @keyframes flow {
+    0% { stroke-dashoffset: 20; }
+    100% { stroke-dashoffset: 0; }
+  }
+  .pipeline-flow {
+    stroke-dasharray: 4 4;
+    animation: flow 0.8s linear infinite;
+  }
+  /* Step pulse for active node */
+  @keyframes node-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 hsl(var(--primary) / 0.3); }
+    50% { box-shadow: 0 0 0 6px hsl(var(--primary) / 0); }
+  }
+  .node-pulse {
+    animation: node-pulse 1.5s ease-in-out infinite;
   }
 }

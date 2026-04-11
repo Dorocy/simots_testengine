@@ -35,29 +35,31 @@ export function FileUpload({ onFileSelect, accept = { 'application/json': ['.jso
   };
 
   return (
-    <div className="space-y-2.5">
+    <div className="space-y-2">
       <div
         {...getRootProps()}
         className={cn(
-          'border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors',
-          isDragActive ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50',
-          selectedFile && 'border-primary bg-primary/5'
+          'border border-dashed rounded-md p-5 text-center cursor-pointer transition-all',
+          isDragActive
+            ? 'border-primary bg-primary/5'
+            : 'border-border hover:border-primary/50 hover:bg-muted/30',
+          selectedFile && 'border-primary/40 bg-primary/5'
         )}
       >
         <input {...getInputProps()} />
         <div className="flex flex-col items-center gap-2">
-          <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-            <Upload className="h-5 w-5 text-primary" />
+          <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
+            <Upload className="h-4 w-4 text-primary" />
           </div>
           {isDragActive ? (
-            <p className="text-sm font-medium">여기에 파일을 놓으세요</p>
+            <p className="text-xs font-medium text-primary">여기에 파일을 놓으세요</p>
           ) : (
             <div>
-              <p className="text-sm font-medium mb-1">
-                파일을 여기로 드래그하거나
+              <p className="text-xs font-medium mb-0.5">
+                파일을 드래그하거나 클릭해서 선택
               </p>
-              <p className="text-xs text-muted-foreground">
-                클릭해서 선택하세요 (JSON만 가능, 최대 10MB)
+              <p className="text-[11px] text-muted-foreground font-mono">
+                JSON · 최대 10MB
               </p>
             </div>
           )}
@@ -65,20 +67,20 @@ export function FileUpload({ onFileSelect, accept = { 'application/json': ['.jso
       </div>
 
       {selectedFile && (
-        <div className="flex items-center justify-between p-2.5 bg-card border border-border rounded-lg">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
-              <File className="h-4 w-4 text-primary" />
+        <div className="flex items-center justify-between p-2.5 bg-muted/30 border border-border rounded-md">
+          <div className="flex items-center gap-2.5">
+            <div className="h-7 w-7 rounded bg-primary/10 flex items-center justify-center shrink-0">
+              <File className="h-3.5 w-3.5 text-primary" />
             </div>
             <div>
-              <p className="text-sm font-medium">{selectedFile.name}</p>
-              <p className="text-xs text-muted-foreground">
-                {(selectedFile.size / 1024).toFixed(2)} KB
+              <p className="text-xs font-medium font-mono truncate max-w-[200px]">{selectedFile.name}</p>
+              <p className="text-[10px] text-muted-foreground">
+                {(selectedFile.size / 1024).toFixed(1)} KB
               </p>
             </div>
           </div>
-          <Button variant="ghost" size="icon" onClick={clearFile}>
-            <X className="h-4 w-4" />
+          <Button variant="ghost" size="icon" className="h-7 w-7" onClick={clearFile}>
+            <X className="h-3.5 w-3.5" />
           </Button>
         </div>
       )}
