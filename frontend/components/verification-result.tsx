@@ -24,6 +24,7 @@ import {
   type FixContextSnippet,
   buildSnippetContext,
 } from '@/lib/verification-fix-utils';
+import { AasViewer } from '@/components/aas-viewer';
 
 export interface VerificationError {
   code: string;
@@ -560,9 +561,40 @@ export function VerificationResult({
         )}
 
         {effectiveSuccess && !effectiveErrors?.length && (
-          <p className="text-xs text-[hsl(var(--success))]">
-            모든 검증을 통과했습니다. 현재 AAS 파일은 요구 규격을 만족합니다.
-          </p>
+          <div className="space-y-4">
+            <p className="text-xs text-[hsl(var(--success))]">
+              모든 검증을 통과했습니다. 현재 AAS 파일은 요구 규격을 만족합니다.
+            </p>
+
+            {/* Show model viewer + download when reverify succeeded with updated content */}
+            {updatedFileContent && liveResult?.success && (
+              <div className="rounded-lg border border-[hsl(142_71%_45%_/_0.3)] bg-[hsl(142_71%_45%_/_0.03)] overflow-hidden">
+                {/* Header */}
+                <div className="flex items-center justify-between px-4 py-3 border-b border-[hsl(142_71%_45%_/_0.15)] bg-[hsl(142_71%_45%_/_0.06)]">
+                  <div className="flex items-center gap-2">
+                    <CheckCheck className="h-3.5 w-3.5 text-[hsl(142_71%_45%)]" />
+                    <span className="text-xs font-semibold text-[hsl(142_71%_50%)]">수정된 모델</span>
+                    <span className="text-[10px] font-mono text-muted-foreground">
+                      {fileName ? `${fileName.replace(/\.json$/i, '')}.fixed.json` : '수정된-모델.fixed.json'}
+                    </span>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={downloadUpdatedFile}
+                    className="h-7 gap-1.5 text-xs border-[hsl(142_71%_45%_/_0.4)] text-[hsl(142_71%_50%)] hover:bg-[hsl(142_71%_45%_/_0.08)]"
+                  >
+                    <Download className="h-3 w-3" />
+                    파일 다운로드
+                  </Button>
+                </div>
+                {/* Model viewer */}
+                <div className="p-0">
+                  <AasViewer jsonContent={updatedFileContent} />
+                </div>
+              </div>
+            )}
+          </div>
         )}
 
         {effectiveErrors && effectiveErrors.length > 0 && (
