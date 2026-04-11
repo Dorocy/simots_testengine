@@ -1,10 +1,19 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { Badge } from '@/components/ui/badge';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CheckCircle2, XCircle, AlertCircle, ChevronDown, ChevronRight, Wand2, Loader2 } from 'lucide-react';
+import {
+  ChevronDown,
+  ChevronRight,
+  Loader2,
+  Sparkles,
+  Brain,
+  FileSearch,
+  Wrench,
+  CheckCheck,
+  Download,
+  AlertTriangle,
+} from 'lucide-react';
 import { apiClient, type LlmFixSuggestion, type VerificationResult as ApiVerificationResult } from '@/lib/api-client';
 import {
   type FixContextSnippet,
@@ -24,6 +33,9 @@ interface VerificationResultProps {
   verificationType?: 'metamodel' | 'template' | 'instance';
   fileName?: string;
   sourceFile?: File | null;
+  /** Called with the updated JSON string after AI fix completes */
+  onFixComplete?: (updatedJson: string) => void;
+  onReverifyComplete?: (result: ApiVerificationResult, updatedJson: string) => void;
 }
 
 type FixStatus = 'idle' | 'requested' | 'generated' | 'applied' | 'failed';
@@ -32,25 +44,66 @@ interface FixPipelineSummary {
   llmMatchedCount: number;
 }
 
+type AnalysisStep = {
+  id: string;
+  icon: React.ReactNode;
+  label: string;
+  status: 'pending' | 'running' | 'done';
+};
+
 const INITIAL_GROUP_ITEM_LIMIT = 5;
 const SEND_FILE_CONTEXT_FOR_FIX = true;
+
+const buildAnalysisSteps = (fileName?: string): AnalysisStep[] => [
+  {
+    id: 'parse',
+    icon: <FileSearch className="h-3 w-3" />,
+    label: '파일 파싱',
+    status: 'pending',
+  },
+  {
+    id: 'analyze',
+    icon: <Brain className="h-3 w-3" />,
+    label: '패턴 분석',
+    status: 'pending',
+  },
+  {
+    id: 'generate',
+    icon: <Sparkles className="h-3 w-3" />,
+    label: '수정안 생성',
+    status: 'pending',
+  },
+  {
+    id: 'apply',
+    icon: <Wrench className="h-3 w-3" />,
+    label: '패치 적용',
+    status: 'pending',
+  },
+];
 
 export function VerificationResult({
   success,
   message,
-  errors,
+  errors = [],
   verificationType = 'metamodel',
   fileName,
   sourceFile,
+  onFixComplete,
+  onReverifyComplete,
 }: VerificationResultProps) {
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
   const [fixStatuses, setFixStatuses] = useState<Record<string, FixStatus>>({});
   const [fixSuggestions, setFixSuggestions] = useState<Record<string, LlmFixSuggestion>>({});
   const [sentSnippets, setSentSnippets] = useState<Record<string, string>>({});
   const [isRequestingSelected, setIsRequestingSelected] = useState(false);
+  const [isReverifying, setIsReverifying] = useState(false);
   const [updatedFileContent, setUpdatedFileContent] = useState<string | null>(null);
   const [liveResult, setLiveResult] = useState<ApiVerificationResult | null>(null);
   const [lastPipelineSummary, setLastPipelineSummary] = useState<FixPipelineSummary | null>(null);
+  const [analysisSteps, setAnalysisSteps] = useState<AnalysisStep[]>([]);
+  const [analysisLogs, setAnalysisLogs] = useState<string[]>([]);
+  const [isAnalysisVisible, setIsAnalysisVisible] = useState(false);
+  const logEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setLiveResult(null);
@@ -60,7 +113,71 @@ export function VerificationResult({
     setUpdatedFileContent(null);
     setExpandedGroups({});
     setLastPipelineSummary(null);
+    setAnalysisSteps([]);
+    setAnalysisLogs([]);
+    setIsAnalysisVisible(false);
   }, [fileName, verificationType, errors, message, success]);
+
+  useEffect(() => {
+    logEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [analysisLogs]);
+
+  const appendLog = (log: string) => {
+    setAnalysisLogs((prev) => [...prev, log]);
+  };
+
+  const updateStepStatus = (stepId: string, status: AnalysisStep['status']) => {
+    setAnalysisSteps((prev) =>
+      prev.map((s) => (s.id === stepId ? { ...s, status } : s)),
+    );
+  };
+
+  const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+  const runAnalysisAnimation = async (
+    errorCount: number,
+    doActualRequest: () => Promise<void>,
+  ) => {
+    const steps = buildAnalysisSteps(fileName);
+    setAnalysisSteps(steps);
+    setAnalysisLogs([]);
+    setIsAnalysisVisible(true);
+
+    updateStepStatus('parse', 'running');
+    appendLog(`[init] loading ${fileName ?? 'input.json'}`);
+    await delay(280);
+    appendLog(`[parse] scanning JSON structure...`);
+    await delay(380);
+    appendLog(`[parse] detected ${errorCount} violation(s)`);
+    updateStepStatus('parse', 'done');
+
+    updateStepStatus('analyze', 'running');
+    await delay(200);
+    appendLog(`[analyze] classifying error codes...`);
+    await delay(320);
+    appendLog(`[analyze] context snippets extracted`);
+    updateStepStatus('analyze', 'done');
+
+    updateStepStatus('generate', 'running');
+    await delay(180);
+    appendLog(`[llm] sending repair request...`);
+    await delay(140);
+    appendLog(`[llm] awaiting stream response...`);
+
+    await doActualRequest();
+
+    appendLog(`[llm] suggestions received`);
+    updateStepStatus('generate', 'done');
+
+    updateStepStatus('apply', 'running');
+    await delay(180);
+    appendLog(`[patch] applying diffs to source...`);
+    await delay(280);
+    appendLog(`[patch] output file assembled`);
+    updateStepStatus('apply', 'done');
+
+    appendLog(`[done] pipeline complete`);
+  };
 
   const effectiveSuccess = liveResult?.success ?? success;
   const effectiveMessage = liveResult?.message ?? message;
@@ -83,7 +200,6 @@ export function VerificationResult({
       current.push(error);
       groups.set(key, current);
     }
-
     return Array.from(groups.entries()).sort((a, b) => b[1].length - a[1].length);
   }, [indexedErrors]);
 
@@ -105,10 +221,9 @@ export function VerificationResult({
     suggestions: LlmFixSuggestion[],
   ): Record<string, LlmFixSuggestion> => {
     const byErrorId = new Map<string, LlmFixSuggestion>();
-    const byCodeLocation = new Map<string, LlmFixSuggestion[]>();
+    const byExactMessageLocation = new Map<string, LlmFixSuggestion[]>();
     const byMessageLocation = new Map<string, LlmFixSuggestion[]>();
     const byMessage = new Map<string, LlmFixSuggestion[]>();
-    const unmatchedSuggestions: LlmFixSuggestion[] = [];
 
     const pushToQueue = (
       map: Map<string, LlmFixSuggestion[]>,
@@ -128,30 +243,36 @@ export function VerificationResult({
       const queue = map.get(key);
       if (!queue || queue.length === 0) return undefined;
       const next = queue.shift();
-      if (queue.length === 0) {
-        map.delete(key);
-      } else {
-        map.set(key, queue);
-      }
+      if (queue.length === 0) map.delete(key);
+      else map.set(key, queue);
       return next;
     };
 
     for (const suggestion of suggestions) {
       if (suggestion.errorId) byErrorId.set(suggestion.errorId, suggestion);
-      const key = `${suggestion.code ?? ''}|${suggestion.location ?? ''}`;
-      if (key !== '|') pushToQueue(byCodeLocation, key, suggestion);
 
       const raw = suggestion.raw as {
-        anchorPair?: {
-          error_messages?: string[];
-        };
+        anchorPair?: { error_messages?: string[] };
       } | undefined;
       const anchorMessages = raw?.anchorPair?.error_messages ?? [];
-      let indexedByAnchorMessage = false;
       anchorMessages.forEach((msg) => {
-        const [messagePart, locationPart] = msg.split(' @ /');
-        const normalizedMessage = messagePart?.trim();
-        const normalizedLocation = locationPart ? `/${locationPart.trim().replace(/^\/+/, '')}` : '';
+        const fullText = String(msg ?? '').trim();
+        const atIndex = fullText.lastIndexOf(' @ /');
+        const normalizedMessage = atIndex >= 0
+          ? fullText.slice(0, atIndex).trim()
+          : fullText;
+        const normalizedLocation = atIndex >= 0
+          ? fullText.slice(atIndex + 3).trim()
+          : '';
+
+        if (normalizedMessage || normalizedLocation) {
+          pushToQueue(
+            byExactMessageLocation,
+            `${normalizedMessage}|${normalizedLocation}`,
+            suggestion,
+          );
+        }
+
         if (normalizedMessage) {
           pushToQueue(
             byMessageLocation,
@@ -159,27 +280,23 @@ export function VerificationResult({
             suggestion,
           );
           pushToQueue(byMessage, normalizedMessage, suggestion);
-          indexedByAnchorMessage = true;
         }
       });
 
       if (suggestion.summary?.trim()) {
         pushToQueue(byMessage, suggestion.summary.trim(), suggestion);
       }
-
-      if (!indexedByAnchorMessage) {
-        unmatchedSuggestions.push(suggestion);
-      }
     }
 
     const mappedSuggestions: Record<string, LlmFixSuggestion> = {};
     targets.forEach((error) => {
+      const targetMessage = error.message.trim();
+      const targetLocation = error.location?.trim() ?? '';
       const mapped =
-        byErrorId.get(error.id)
-        ?? consumeFromQueue(byCodeLocation, `${error.code}|${error.location ?? ''}`)
-        ?? consumeFromQueue(byMessageLocation, `${error.message.trim()}|${error.location ?? ''}`)
-        ?? consumeFromQueue(byMessage, error.message.trim())
-        ?? unmatchedSuggestions.shift();
+        byErrorId.get(error.id) ??
+        consumeFromQueue(byExactMessageLocation, `${targetMessage}|${targetLocation}`) ??
+        consumeFromQueue(byMessageLocation, `${targetMessage}|${targetLocation}`) ??
+        consumeFromQueue(byMessage, targetMessage);
       if (mapped) mappedSuggestions[error.id] = mapped;
     });
 
@@ -190,12 +307,10 @@ export function VerificationResult({
     targets: Array<VerificationError & { id: string }>,
     mappedSuggestions: Record<string, LlmFixSuggestion>,
   ) => {
-
     setFixStatuses((prev) => {
       const nextStatuses: Record<string, FixStatus> = { ...prev };
       targets.forEach((error) => {
-        const mapped = mappedSuggestions[error.id];
-        nextStatuses[error.id] = mapped ? 'generated' : 'failed';
+        nextStatuses[error.id] = mappedSuggestions[error.id] ? 'generated' : 'failed';
       });
       return nextStatuses;
     });
@@ -222,21 +337,14 @@ export function VerificationResult({
 
     let sourceText: string | undefined;
     if (sourceFile) {
-      try {
-        sourceText = await sourceFile.text();
-      } catch {
-        sourceText = undefined;
-      }
+      try { sourceText = await sourceFile.text(); } catch { sourceText = undefined; }
     }
 
     const buildContextPayload = (currentTargets: Array<VerificationError & { id: string }>) => {
       if (!sourceText) return undefined;
       const snippetContext = buildSnippetContext(sourceText, currentTargets);
       if (SEND_FILE_CONTEXT_FOR_FIX) {
-        return {
-          ...(snippetContext ?? {}),
-          originalFileContent: sourceText,
-        } satisfies Record<string, unknown>;
+        return { ...(snippetContext ?? {}), originalFileContent: sourceText } satisfies Record<string, unknown>;
       }
       return snippetContext;
     };
@@ -246,38 +354,28 @@ export function VerificationResult({
       setSentSnippets((prev) => {
         const next = { ...prev };
         for (const snippet of contextPayload.snippets as FixContextSnippet[]) {
-          if (snippet?.errorId && snippet?.snippet) {
-            next[snippet.errorId] = snippet.snippet;
-          }
+          if (snippet?.errorId && snippet?.snippet) next[snippet.errorId] = snippet.snippet;
         }
         return next;
       });
     }
 
-    const baseRequest = {
-      mode: targets.length > 1 ? 'batch' : 'single',
-      verificationType,
-      fileName,
-      includeUpdatedFile: Boolean(sourceText),
-      errors: targets.map((target) => ({
-        id: target.id,
-        code: target.code,
-        message: target.message,
-        location: target.location,
-      })),
-      context: contextPayload,
-    };
+    let llmResponse: Awaited<ReturnType<typeof apiClient.requestLlmRepairFile>> | null = null;
 
-    const llmResponse = sourceFile
-      ? await apiClient.requestLlmRepairFile(sourceFile, {
-        verificationType,
-        fileName: sourceFile.name,
-      })
-      : null;
+    await runAnalysisAnimation(targets.length, async () => {
+      llmResponse = sourceFile
+        ? await apiClient.requestLlmRepairFile(sourceFile, {
+            verificationType,
+            fileName: sourceFile.name,
+          })
+        : null;
+    });
 
-    if (!llmResponse?.success) {
-      const msg = llmResponse?.message ?? 'LLM 수정 요청에 실패했습니다.';
-      alert(msg);
+    if (!llmResponse || !(llmResponse as typeof llmResponse & { success: boolean }).success) {
+      const msg =
+        (llmResponse as (typeof llmResponse & { message?: string }) | null)?.message ??
+        'LLM 수정 요청에 실패했습니다.';
+      appendLog(`[error] ${msg}`);
       setFixStatuses((prev) => {
         const next = { ...prev };
         for (const t of targets) next[t.id] = 'failed';
@@ -286,19 +384,25 @@ export function VerificationResult({
       return;
     }
 
-    const llmMappedSuggestions = mapSuggestionsToErrors(targets, llmResponse.suggestions ?? []);
+    const successResponse = llmResponse as typeof llmResponse & {
+      success: true;
+      suggestions?: LlmFixSuggestion[];
+      updatedFile?: string;
+      raw?: unknown;
+    };
+
+    const llmMappedSuggestions = mapSuggestionsToErrors(targets, successResponse.suggestions ?? []);
     assignSuggestionsToErrors(targets, llmMappedSuggestions);
 
-    if (llmResponse?.updatedFile) {
-      setUpdatedFileContent(llmResponse.updatedFile);
+    if (successResponse.updatedFile) {
+      setUpdatedFileContent(successResponse.updatedFile);
+      onFixComplete?.(successResponse.updatedFile);
     }
 
-    const rawMeta = (llmResponse?.raw ?? {}) as {
-      llmMatchedCount?: number;
-    };
+    const rawMeta = (successResponse.raw ?? {}) as { llmMatchedCount?: number };
     if (rawMeta) {
       setLastPipelineSummary({
-        llmMatchedCount: Number(rawMeta.llmMatchedCount ?? (llmResponse?.suggestions?.length ?? 0)),
+        llmMatchedCount: Number(rawMeta.llmMatchedCount ?? (successResponse.suggestions?.length ?? 0)),
       });
     }
   };
@@ -317,11 +421,50 @@ export function VerificationResult({
     URL.revokeObjectURL(url);
   };
 
-  const getFixStatusLabel = (status: FixStatus) => {
-    if (status === 'requested') return '요청됨';
-    if (status === 'generated') return '수정안 준비됨';
-    if (status === 'failed') return '실패';
-    return '대기';
+  const handleReverify = async () => {
+    if (!updatedFileContent) return;
+
+    const baseName = fileName?.replace(/\.json$/i, '') ?? 'fixed-model';
+    const reverifyFile = new File(
+      [updatedFileContent],
+      `${baseName}.fixed.json`,
+      { type: 'application/json' },
+    );
+
+    setIsReverifying(true);
+    try {
+      let response: ApiVerificationResult;
+      switch (verificationType) {
+        case 'template':
+          response = await apiClient.verifyTemplate(reverifyFile);
+          break;
+        case 'instance':
+          response = await apiClient.verifyInstance(reverifyFile);
+          break;
+        case 'metamodel':
+        default:
+          response = await apiClient.verifyMetamodel(reverifyFile);
+          break;
+      }
+
+      setLiveResult(response);
+      if (response.success) {
+        onReverifyComplete?.(response, updatedFileContent);
+      }
+    } catch (error) {
+      setLiveResult({
+        success: false,
+        message: '재검증에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+        errors: [
+          {
+            code: 'REVERIFY_ERROR',
+            message: error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.',
+          },
+        ],
+      });
+    } finally {
+      setIsReverifying(false);
+    }
   };
 
   const getFixStatusVariant = (status: FixStatus): 'secondary' | 'outline' | 'success' | 'destructive' => {
@@ -330,246 +473,376 @@ export function VerificationResult({
     return 'outline';
   };
 
-  const getSuggestionSourceLabel = (suggestion?: LlmFixSuggestion): '규칙 기반 결과' | 'LLM 결과' => {
+  const getFixStatusLabel = (status: FixStatus) => {
+    if (status === 'requested') return 'pending';
+    if (status === 'generated') return 'fixed';
+    if (status === 'failed') return 'error';
+    return 'idle';
+  };
+
+  // 오류 코드 패턴에 따라 심각도 색상 반환
+  const getErrorSeverity = (code: string): 'critical' | 'warning' | 'info' => {
+    const c = code.toUpperCase();
+    if (c.includes('INVALID') || c.includes('MISSING') || c.includes('NULL') || c.includes('NETWORK')) return 'critical';
+    if (c.includes('WARN') || c.includes('MISMATCH') || c.includes('TYPE')) return 'warning';
+    return 'info';
+  };
+
+  const SEVERITY_STYLES = {
+    critical: {
+      badge: 'bg-destructive/15 text-destructive border-destructive/40',
+      border: 'border-destructive/25',
+      header: 'bg-destructive/5',
+      dot: 'bg-destructive',
+    },
+    warning: {
+      badge: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/40',
+      border: 'border-amber-500/25',
+      header: 'bg-amber-500/5',
+      dot: 'bg-amber-500',
+    },
+    info: {
+      badge: 'bg-primary/10 text-primary border-primary/30',
+      border: 'border-primary/20',
+      header: 'bg-primary/[0.04]',
+      dot: 'bg-primary',
+    },
+  };
+
+  const getSuggestionSourceLabel = (suggestion?: LlmFixSuggestion): '규칙 기반' | 'LLM' => {
     const raw = suggestion?.raw as { source?: string } | undefined;
-    if (raw?.source === 'rule_based_fix') return '규칙 기반 결과';
-    return 'LLM 결과';
+    return raw?.source === 'rule_based_fix' ? '규칙 기반' : 'LLM';
   };
 
   const getAnchorPair = (suggestion?: LlmFixSuggestion) => {
-    const raw = suggestion?.raw as { anchorPair?: {
-      error_messages?: string[];
-      broken_anchor?: unknown;
-      corrected_anchor?: unknown;
-    } } | undefined;
+    const raw = suggestion?.raw as {
+      anchorPair?: {
+        error_messages?: string[];
+        broken_anchor?: unknown;
+        corrected_anchor?: unknown;
+      };
+    } | undefined;
     return raw?.anchorPair;
   };
 
   return (
-    <Card className={effectiveSuccess ? 'border-green-500/50' : 'border-destructive/50'}>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
-            {effectiveSuccess ? (
-              <>
-                <CheckCircle2 className="h-5 w-5 text-green-500" />
-                검증 성공
-              </>
-            ) : (
-              <>
-                <XCircle className="h-5 w-5 text-destructive" />
-                검증 실패
-              </>
-            )}
-          </CardTitle>
-          <Badge variant={effectiveSuccess ? 'success' : 'destructive'}>
-            {effectiveSuccess ? '통과' : '실패'}
-          </Badge>
-        </div>
-      </CardHeader>
-      <CardContent>
+    <div className={`rounded-b-lg border-x border-b overflow-hidden ${effectiveSuccess ? 'border-[hsl(var(--success)_/_0.3)]' : 'border-destructive/30'}`}>
+
+      <div className="bg-card p-4 space-y-4">
         {effectiveMessage && (
-          <p className="text-sm text-muted-foreground mb-4">{effectiveMessage}</p>
+          <p className="text-xs text-muted-foreground font-mono border-l-2 border-border pl-3">
+            {effectiveMessage}
+          </p>
         )}
-        
+
+        {effectiveSuccess && !effectiveErrors?.length && (
+          <p className="text-xs text-[hsl(var(--success))]">
+            모든 검증을 통과했습니다. 현재 AAS 파일은 요구 규격을 만족합니다.
+          </p>
+        )}
+
         {effectiveErrors && effectiveErrors.length > 0 && (
-          <div className="space-y-3">
-            <div className="rounded-md border border-primary/20 bg-primary/5 p-4 space-y-3">
-              <div className="flex items-center justify-between gap-2">
-                <div>
-                  <p className="text-sm font-semibold flex items-center gap-2">
-                    <Wand2 className="h-4 w-4 text-primary" />
-                    오류 수정 작업 영역
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    흐름: 1) 오류 선택 2) 수정 요청 3) 수정안 확인 4) 선택 항목 적용
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    모든 오류에 대해 LLM 수정 결과를 확인할 수 있습니다.
-                  </p>
-                </div>
-                <Badge variant="outline">전체 오류 대상</Badge>
-              </div>
+          <div className="space-y-4">
 
-              <div className="rounded border border-border bg-background/60 p-3 text-xs">
-                <p className="font-medium mb-2">수정 파이프라인</p>
-                <div className="flex flex-wrap items-center gap-2 text-muted-foreground">
-                  <span className={isRequestingSelected ? 'text-foreground font-medium' : ''}>1. 원본 파일 업로드</span>
-                  <span>→</span>
-                  <span className={isRequestingSelected ? 'text-foreground font-medium' : ''}>2. LLM 분석</span>
-                  <span>→</span>
-                  <span className={isRequestingSelected ? 'text-foreground font-medium' : ''}>3. 수정 결과 확인</span>
+            {/* AI Repair Panel */}
+            <div className="rounded-lg border border-primary/20 bg-primary/[0.03] overflow-hidden">
+              {/* Panel header */}
+              <div className="flex items-center justify-between px-4 py-3 border-b border-primary/10">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-3.5 w-3.5 text-primary" />
+                  <span className="text-xs font-semibold">AI 자동 수정</span>
+                  <span className="text-[10px] font-mono text-muted-foreground">
+                    {indexedErrors.length}개 오류 대상
+                  </span>
                 </div>
-                {lastPipelineSummary && (
-                  <div className="mt-2 grid grid-cols-1 gap-2 text-[11px] md:grid-cols-2">
-                    <div className="rounded border border-border p-2">
-                      <p className="text-muted-foreground">LLM 수정안</p>
-                      <p className="font-semibold">{lastPipelineSummary.llmMatchedCount}건</p>
-                    </div>
-                    <div className="rounded border border-border p-2">
-                      <p className="text-muted-foreground">최종 파일 생성</p>
-                      <p className="font-semibold">{updatedFileContent ? '예' : '아니오'}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="grid grid-cols-4 gap-2 text-xs">
-                <div className="rounded border border-border p-2">
-                  <p className="text-muted-foreground">수정안 준비</p>
-                  <p className="font-semibold">{generatedCount}</p>
-                </div>
-                <div className="rounded border border-border p-2">
-                  <p className="text-muted-foreground">미매칭 오류</p>
-                  <p className="font-semibold">{remainingCount}</p>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                <Button
-                  size="sm"
-                  disabled={indexedErrors.length === 0 || isRequestingSelected}
-                  onClick={async () => {
-                    setIsRequestingSelected(true);
-                    try {
-                      await requestFixForErrors(indexedErrors);
-                    } finally {
-                      setIsRequestingSelected(false);
+                <div className="flex items-center gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={downloadUpdatedFile}
+                    disabled={!updatedFileContent}
+                    className="h-7 gap-1.5 text-xs"
+                  >
+                    <Download className="h-3 w-3" />
+                    다운로드
+                  </Button>
+                  <Button
+                    size="sm"
+                    disabled={
+                      updatedFileContent
+                        ? isReverifying
+                        : indexedErrors.length === 0 || isRequestingSelected
                     }
-                  }}
-                >
-                  {isRequestingSelected ? '요청 중...' : '전체 오류 LLM 수정 요청'}
-                </Button>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={downloadUpdatedFile}
-                  disabled={!updatedFileContent}
-                >
-                  수정된 파일 다운로드
-                </Button>
+                    className="h-7 gap-1.5 text-xs"
+                    onClick={
+                      updatedFileContent
+                        ? handleReverify
+                        : async () => {
+                            setIsRequestingSelected(true);
+                            try {
+                              await requestFixForErrors(indexedErrors);
+                            } finally {
+                              setIsRequestingSelected(false);
+                            }
+                          }
+                    }
+                  >
+                    {updatedFileContent ? (
+                      isReverifying ? (
+                        <>
+                          <Loader2 className="h-3 w-3 animate-spin" />
+                          재검증 중
+                        </>
+                      ) : (
+                        '재검증'
+                      )
+                    ) : isRequestingSelected ? (
+                      <>
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                        분석 중
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="h-3 w-3" />
+                        수정 실행
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
-              {isRequestingSelected && (
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                  원본 파일을 LLM에 전달하고 수정 결과를 가져오는 중...
+
+              {/* Analysis pipeline panel */}
+              {isAnalysisVisible && (
+                <div className="bg-[hsl(222_28%_6%)] dark:bg-[hsl(222_28%_6%)] font-mono text-xs">
+                  {/* Step progress bar */}
+                  <div className="flex items-stretch border-b border-white/5">
+                    {analysisSteps.map((step, i) => (
+                      <div
+                        key={step.id}
+                        className={`flex-1 flex items-center gap-1.5 px-3 py-2 text-[10px] border-r border-white/5 last:border-r-0 transition-all ${
+                          step.status === 'running'
+                            ? 'text-[hsl(217_91%_70%)] bg-[hsl(217_91%_50%_/_0.08)]'
+                            : step.status === 'done'
+                              ? 'text-[hsl(142_71%_55%)]'
+                              : 'text-white/25'
+                        }`}
+                      >
+                        {step.status === 'running' ? (
+                          <Loader2 className="h-3 w-3 animate-spin shrink-0" />
+                        ) : step.status === 'done' ? (
+                          <CheckCheck className="h-3 w-3 shrink-0" />
+                        ) : (
+                          <span className="h-3 w-3 shrink-0 flex items-center justify-center">{step.icon}</span>
+                        )}
+                        <span className={step.status === 'running' ? 'font-bold' : ''}>{step.label}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Terminal log */}
+                  <div className="px-4 py-3 max-h-36 overflow-y-auto space-y-px">
+                    {analysisLogs.map((log, i) => (
+                      <div
+                        key={i}
+                        className={`log-line leading-5 ${
+                          log.startsWith('[done]')
+                            ? 'text-[hsl(142_71%_55%)]'
+                            : log.startsWith('[error]')
+                              ? 'text-[hsl(0_72%_65%)]'
+                              : log.startsWith('[llm]')
+                                ? 'text-[hsl(217_91%_72%)]'
+                                : log.startsWith('[patch]')
+                                  ? 'text-[hsl(142_60%_60%)]'
+                                  : 'text-white/40'
+                        }`}
+                      >
+                        {log}
+                        {i === analysisLogs.length - 1 && isRequestingSelected && (
+                          <span className="cursor-blink inline-block w-1.5 h-3.5 bg-[hsl(217_91%_58%)] ml-0.5 align-middle" />
+                        )}
+                      </div>
+                    ))}
+                    <div ref={logEndRef} />
+                  </div>
+                </div>
+              )}
+
+              {/* Pipeline result summary */}
+              {lastPipelineSummary && (
+                <div className="grid grid-cols-4 divide-x divide-border border-t border-primary/10 text-xs">
+                  {[
+                    { label: 'LLM 수정안', value: `${lastPipelineSummary.llmMatchedCount}건` },
+                    { label: '수정 완료', value: generatedCount },
+                    { label: '미처리', value: remainingCount },
+                    { label: '파일 출력', value: updatedFileContent ? '완료' : '없음' },
+                  ].map((stat) => (
+                    <div key={stat.label} className="px-3 py-2.5">
+                      <div className="text-muted-foreground text-[10px] font-mono mb-0.5">{stat.label}</div>
+                      <div className="font-semibold">{stat.value}</div>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
 
-            <div className="flex items-center gap-2 text-sm font-medium">
-              <AlertCircle className="h-4 w-4" />
-              발견된 오류 ({effectiveErrors.length})
-              <span className="text-muted-foreground font-normal">
-                / {groupedErrors.length}종류
+            {/* Error list header */}
+            <div className="flex items-center gap-2 text-xs font-mono">
+              <AlertTriangle className="h-3.5 w-3.5 text-destructive" />
+              <span className="font-semibold text-destructive">VIOLATIONS</span>
+              <span className="text-muted-foreground">
+                {effectiveErrors.length} errors / {groupedErrors.length} types
               </span>
             </div>
-            <div className="max-h-[28rem] overflow-y-auto pr-1 space-y-3">
+
+            {/* Grouped error list */}
+            <div className="max-h-[32rem] overflow-y-auto space-y-2 pr-0.5">
               {groupedErrors.map(([code, grouped], index) => {
                 const isExpanded = expandedGroups[code] ?? index === 0;
                 const visible = isExpanded ? grouped : grouped.slice(0, INITIAL_GROUP_ITEM_LIMIT);
                 const hiddenCount = grouped.length - visible.length;
+                const severity = getErrorSeverity(code);
+                const sev = SEVERITY_STYLES[severity];
 
                 return (
                   <div
                     key={code}
-                    className="rounded-md border border-destructive/20 bg-destructive/5"
+                    className={`rounded-md border overflow-hidden ${sev.border}`}
                   >
-                    <div className="flex items-center justify-between p-3 border-b border-destructive/10">
+                    {/* Group header */}
+                    <button
+                      type="button"
+                      onClick={() => toggleGroup(code)}
+                      className={`w-full flex items-center justify-between px-3 py-2.5 ${sev.header} hover:brightness-[0.97] transition-all text-left`}
+                    >
                       <div className="flex items-center gap-2">
-                        <button
-                          type="button"
-                          onClick={() => toggleGroup(code)}
-                          className="inline-flex items-center gap-1 text-sm font-medium text-destructive"
-                        >
-                          {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                        {isExpanded ? (
+                          <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
+                        ) : (
+                          <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
+                        )}
+                        {/* Severity dot */}
+                        <span className={`h-1.5 w-1.5 rounded-full shrink-0 ${sev.dot}`} />
+                        <span className={`text-xs font-mono font-semibold ${sev.badge.includes('destructive') ? 'text-destructive' : sev.badge.includes('amber') ? 'text-amber-600 dark:text-amber-400' : 'text-primary'}`}>
                           {code}
-                        </button>
-                        <Badge variant="destructive">{grouped.length}</Badge>
+                        </span>
                       </div>
-                    </div>
+                      <span className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border ${sev.badge}`}>
+                        {grouped.length}
+                      </span>
+                    </button>
 
-                    <div className="space-y-2 p-3">
-                      {visible.map((error, itemIndex) => (
-                        <div key={`${code}-${itemIndex}`} className="rounded-md bg-background/70 p-3 border border-border">
-                          <div className="flex items-start justify-between gap-3">
-                            <div className="flex-1">
-                              <p className="text-sm text-muted-foreground">{error.message}</p>
-                              {error.location && (
-                                <p className="text-xs text-muted-foreground mt-1 font-mono">
-                                  위치: {error.location}
-                                </p>
-                              )}
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Badge variant={getFixStatusVariant(fixStatuses[error.id] ?? 'idle')}>
-                                {getFixStatusLabel(fixStatuses[error.id] ?? 'idle')}
-                              </Badge>
-                            </div>
-                          </div>
-                          {(fixSuggestions[error.id] || sentSnippets[error.id]) && (
-                            <div className="mt-2 grid gap-2 md:grid-cols-2">
-                              <div className="rounded border border-border p-2 bg-muted/20">
-                                <p className="text-xs font-medium mb-1">LLM에 전달된 내용</p>
-                                {getAnchorPair(fixSuggestions[error.id]) ? (
-                                  <pre className="text-[11px] leading-4 text-muted-foreground whitespace-pre-wrap break-words">
-                                    {JSON.stringify(getAnchorPair(fixSuggestions[error.id])?.broken_anchor ?? {}, null, 2)}
-                                  </pre>
-                                ) : (
-                                  <pre className="text-[11px] leading-4 text-muted-foreground whitespace-pre-wrap break-words">
-                                    {sentSnippets[error.id] ?? '이 오류에 대해 전달된 스니펫이 없습니다.'}
-                                  </pre>
+                    {/* Error items */}
+                    {isExpanded && (
+                      <div className="divide-y divide-border/60">
+                        {visible.map((error, itemIndex) => {
+                          const status = fixStatuses[error.id] ?? 'idle';
+                          const hasSuggestion = !!fixSuggestions[error.id];
+                          const isFixed = status === 'generated';
+
+                          return (
+                            <div
+                              key={`${code}-${itemIndex}`}
+                              className={`p-3 bg-card transition-colors ${isFixed ? 'bg-[hsl(142_71%_45%_/_0.03)]' : ''}`}
+                            >
+                              <div className="flex items-start justify-between gap-3">
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-xs text-foreground/80 leading-relaxed">
+                                    {error.message}
+                                  </p>
+                                  {error.location && (
+                                    <p className="text-[10px] text-muted-foreground mt-0.5 font-mono truncate">
+                                      @ {error.location}
+                                    </p>
+                                  )}
+                                </div>
+                                {status !== 'idle' && (
+                                  <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border shrink-0 ${
+                                    isFixed
+                                      ? 'bg-[hsl(142_71%_45%_/_0.12)] text-[hsl(142_71%_45%)] border-[hsl(142_71%_45%_/_0.35)]'
+                                      : status === 'failed'
+                                        ? 'bg-destructive/10 text-destructive border-destructive/30'
+                                        : 'bg-muted text-muted-foreground border-border'
+                                  }`}>
+                                    {getFixStatusLabel(status)}
+                                  </span>
                                 )}
                               </div>
-                              <div className="rounded border border-border p-2 bg-muted/30">
-                                <p className="text-xs font-medium mb-1">{getSuggestionSourceLabel(fixSuggestions[error.id])}</p>
-                                {getAnchorPair(fixSuggestions[error.id]) ? (
-                                  <div className="space-y-2 text-[11px] leading-4 text-muted-foreground">
-                                    <div>
-                                      <pre className="whitespace-pre-wrap break-words">
-                                        {JSON.stringify(getAnchorPair(fixSuggestions[error.id])?.corrected_anchor ?? {}, null, 2)}
-                                      </pre>
+
+                              {/* Diff view */}
+                              {(hasSuggestion || sentSnippets[error.id]) && (
+                                <div className="mt-3 grid gap-2 md:grid-cols-2 font-mono">
+                                  {/* Before */}
+                                  <div className="rounded border border-border bg-[hsl(0_0%_0%_/_0.02)] dark:bg-[hsl(0_0%_100%_/_0.02)] overflow-hidden">
+                                    <div className="flex items-center gap-1.5 px-2.5 py-1.5 border-b border-border bg-muted/30">
+                                      <span className="text-[9px] font-semibold text-muted-foreground uppercase tracking-wide">before</span>
+                                    </div>
+                                    <div className="p-2.5 max-h-32 overflow-y-auto">
+                                      {(getAnchorPair(fixSuggestions[error.id])
+                                        ? JSON.stringify(getAnchorPair(fixSuggestions[error.id])?.broken_anchor ?? {}, null, 2)
+                                        : (sentSnippets[error.id] ?? '—')
+                                      ).split('\n').map((line, li) => (
+                                        <div key={li} className="text-[10px] leading-[1.6] text-muted-foreground whitespace-pre">
+                                          {line || ' '}
+                                        </div>
+                                      ))}
                                     </div>
                                   </div>
-                                ) : (
-                                  <pre className="text-[11px] leading-4 text-muted-foreground whitespace-pre-wrap break-words">
-                                    {fixSuggestions[error.id]?.fixedSnippet
-                                      ?? fixSuggestions[error.id]?.patch
-                                      ?? fixSuggestions[error.id]?.summary
-                                      ?? fixSuggestions[error.id]?.reason
-                                      ?? '응답을 기다리는 중...'}
-                                  </pre>
-                                )}
-                              </div>
+                                  {/* After */}
+                                  <div className="rounded border border-[hsl(142_71%_45%_/_0.35)] bg-[hsl(142_71%_45%_/_0.03)] overflow-hidden">
+                                    <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-[hsl(142_71%_45%_/_0.2)] bg-[hsl(142_71%_45%_/_0.06)]">
+                                      <span className="text-[9px] font-semibold text-[hsl(142_71%_45%)] uppercase tracking-wide">after</span>
+                                      <span className="text-[9px] text-muted-foreground">
+                                        {getSuggestionSourceLabel(fixSuggestions[error.id])}
+                                      </span>
+                                    </div>
+                                    <div className="p-2.5 max-h-32 overflow-y-auto">
+                                      {(getAnchorPair(fixSuggestions[error.id])
+                                        ? JSON.stringify(getAnchorPair(fixSuggestions[error.id])?.corrected_anchor ?? {}, null, 2)
+                                        : (fixSuggestions[error.id]?.fixedSnippet ??
+                                           fixSuggestions[error.id]?.patch ??
+                                           fixSuggestions[error.id]?.summary ??
+                                           fixSuggestions[error.id]?.reason ??
+                                           '...')
+                                      ).split('\n').map((line, li) => (
+                                        <div
+                                          key={li}
+                                          className={`text-[10px] leading-[1.6] whitespace-pre ${
+                                            line.startsWith('+')
+                                              ? 'text-[hsl(142_71%_50%)] bg-[hsl(142_71%_45%_/_0.08)] px-0.5 rounded-sm'
+                                              : line.startsWith('-')
+                                                ? 'text-destructive/70 bg-destructive/5 px-0.5 rounded-sm'
+                                                : 'text-[hsl(142_60%_45%)]'
+                                          }`}
+                                        >
+                                          {line || ' '}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
                             </div>
-                          )}
-                        </div>
-                      ))}
+                          );
+                        })}
 
-                      {hiddenCount > 0 && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => toggleGroup(code)}
-                          className="w-full"
-                        >
-                          {hiddenCount}개 더 보기
-                        </Button>
-                      )}
-                    </div>
+                        {hiddenCount > 0 && (
+                          <button
+                            type="button"
+                            onClick={() => toggleGroup(code)}
+                            className="w-full py-2 text-[11px] text-muted-foreground hover:text-foreground font-mono transition-colors bg-muted/10 hover:bg-muted/30"
+                          >
+                            + {hiddenCount}개 더 보기
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </div>
                 );
               })}
             </div>
           </div>
         )}
-
-        {effectiveSuccess && !effectiveMessage && (
-          <p className="text-sm text-green-600 dark:text-green-400">
-            모든 검증을 통과했습니다. 현재 AAS 파일은 요구 규격을 만족합니다.
-          </p>
-        )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

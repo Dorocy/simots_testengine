@@ -141,6 +141,20 @@ function buildSuggestionsFromAnchorPairs(anchorPairs: RepairAnchorPair[]): LlmFi
   });
 }
 
+function normalizeAnchorPairs(value: unknown): RepairAnchorPair[] {
+  if (Array.isArray(value)) {
+    return value as RepairAnchorPair[];
+  }
+
+  if (value && typeof value === "object") {
+    return Object.values(value as Record<string, unknown>).map(
+      (pair) => pair as RepairAnchorPair,
+    );
+  }
+
+  return [];
+}
+
 function normalizeVerificationErrors(message: unknown): VerificationResult["errors"] {
   if (!message) return [];
 
@@ -278,8 +292,8 @@ async function parseFixResponse(response: Response): Promise<LlmFixResponse> {
     };
   }
 
-  if (payload?.status === "success" && Array.isArray(payload?.anchor_pairs)) {
-    const anchorPairs = payload.anchor_pairs as RepairAnchorPair[];
+  const anchorPairs = normalizeAnchorPairs(payload?.anchor_pairs);
+  if (payload?.status === "success" && anchorPairs.length > 0) {
     return {
       success: true,
       message:
@@ -290,8 +304,10 @@ async function parseFixResponse(response: Response): Promise<LlmFixResponse> {
             : "LLM repair completed.",
       suggestions: buildSuggestionsFromAnchorPairs(anchorPairs),
       updatedFile:
-        payload?.patched_json && typeof payload.patched_json === "object"
-          ? stringifyJson(payload.patched_json)
+        typeof payload?.patched_json === "string"
+          ? payload.patched_json
+          : payload?.patched_json && typeof payload.patched_json === "object"
+            ? stringifyJson(payload.patched_json)
           : undefined,
       raw: payload,
     };
