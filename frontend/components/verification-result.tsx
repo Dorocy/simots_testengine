@@ -569,12 +569,15 @@ export function VerificationResult({
             {/* Show model viewer + download when reverify succeeded with updated content */}
             {updatedFileContent && liveResult?.success && (
               <div className="rounded-lg border border-[hsl(142_71%_45%_/_0.3)] bg-[hsl(142_71%_45%_/_0.03)] overflow-hidden">
-                {/* Header */}
-                <div className="flex items-center justify-between px-4 py-3 border-b border-[hsl(142_71%_45%_/_0.15)] bg-[hsl(142_71%_45%_/_0.06)]">
-                  <div className="flex items-center gap-2">
-                    <CheckCheck className="h-3.5 w-3.5 text-[hsl(142_71%_45%)]" />
-                    <span className="text-xs font-semibold text-[hsl(142_71%_50%)]">수정된 모델</span>
-                    <span className="text-[10px] font-mono text-muted-foreground">
+                {/* Header row — fixed height, no overflow clipping */}
+                <div
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'nowrap' }}
+                  className="px-4 py-3 border-b border-[hsl(142_71%_45%_/_0.15)] bg-[hsl(142_71%_45%_/_0.06)]"
+                >
+                  <div className="flex items-center gap-2 min-w-0 mr-4">
+                    <CheckCheck className="h-3.5 w-3.5 text-[hsl(142_71%_45%)] shrink-0" />
+                    <span className="text-xs font-semibold text-[hsl(142_71%_50%)] shrink-0">수정된 모델</span>
+                    <span className="text-[10px] font-mono text-muted-foreground truncate">
                       {fileName ? `${fileName.replace(/\.json$/i, '')}.fixed.json` : '수정된-모델.fixed.json'}
                     </span>
                   </div>
@@ -582,7 +585,7 @@ export function VerificationResult({
                     size="sm"
                     variant="outline"
                     onClick={downloadUpdatedFile}
-                    className="h-7 gap-1.5 text-xs border-[hsl(142_71%_45%_/_0.4)] text-[hsl(142_71%_50%)] hover:bg-[hsl(142_71%_45%_/_0.08)]"
+                    className="shrink-0 h-7 gap-1.5 text-xs border-[hsl(142_71%_45%_/_0.4)] text-[hsl(142_71%_50%)] hover:bg-[hsl(142_71%_45%_/_0.08)]"
                   >
                     <Download className="h-3 w-3" />
                     파일 다운로드
