@@ -4,8 +4,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
-  CheckCircle2,
-  XCircle,
   ChevronDown,
   ChevronRight,
   Loader2,
@@ -434,32 +432,7 @@ export function VerificationResult({
   };
 
   return (
-    <div className={`rounded-lg border overflow-hidden ${effectiveSuccess ? 'border-[hsl(var(--success)_/_0.3)]' : 'border-destructive/30'}`}>
-
-      {/* Result header */}
-      <div className={`px-4 py-3 flex items-center justify-between ${effectiveSuccess ? 'bg-[hsl(var(--success)_/_0.06)]' : 'bg-destructive/5'}`}>
-        <div className="flex items-center gap-2.5">
-          {effectiveSuccess ? (
-            <CheckCircle2 className="h-4 w-4 text-[hsl(var(--success))]" />
-          ) : (
-            <XCircle className="h-4 w-4 text-destructive" />
-          )}
-          <span className="text-sm font-semibold">
-            {effectiveSuccess ? '검증 통과' : '검증 실패'}
-          </span>
-          {!effectiveSuccess && indexedErrors.length > 0 && (
-            <span className="text-xs font-mono text-muted-foreground">
-              {indexedErrors.length}개 위반
-            </span>
-          )}
-        </div>
-        <Badge
-          variant={effectiveSuccess ? 'outline' : 'destructive'}
-          className="font-mono text-[10px]"
-        >
-          {effectiveSuccess ? 'PASS' : 'FAIL'}
-        </Badge>
-      </div>
+    <div className={`rounded-b-lg border-x border-b overflow-hidden ${effectiveSuccess ? 'border-[hsl(var(--success)_/_0.3)]' : 'border-destructive/30'}`}>
 
       <div className="bg-card p-4 space-y-4">
         {effectiveMessage && (
