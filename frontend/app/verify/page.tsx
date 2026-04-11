@@ -282,42 +282,49 @@ export default function VerifyPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="border-b border-border bg-card sticky top-0 z-20">
-        <div className="max-w-screen-xl mx-auto px-6 h-13 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <Link href="/">
+      <header className="border-b border-border bg-card/95 backdrop-blur-sm sticky top-0 z-20">
+        <div className="max-w-screen-xl mx-auto px-6 h-14 flex items-center justify-between gap-4">
+          {/* Left — brand + tagline */}
+          <div className="flex items-center gap-4 min-w-0">
+            <Link href="/" className="shrink-0">
               <BrandLogo
-                title="ezAAS Verify"
-                imageClassName="h-7 w-auto"
-                titleClassName="text-base font-semibold tracking-tight"
+                title="ezAAS"
+                imageClassName="h-6 w-auto"
+                titleClassName="text-sm font-bold tracking-tight"
               />
             </Link>
-            <div className="hidden md:flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground">
-              <ShieldCheck className="h-3 w-3 text-primary" />
-              <span>AAS VERIFICATION ENGINE</span>
+            {/* divider */}
+            <span className="hidden md:block h-4 w-px bg-border" />
+            <div className="hidden md:flex items-center gap-1.5">
+              <ShieldCheck className="h-3 w-3 text-primary shrink-0" />
+              <span className="text-[11px] font-mono text-muted-foreground whitespace-nowrap">
+                AAS Verification &amp; AI Repair Engine
+              </span>
             </div>
           </div>
-          <nav className="flex items-center gap-1">
-            <Link href="/verify">
-              <Button variant="ghost" size="sm" className="text-xs font-medium text-primary">
-                검증
-              </Button>
-            </Link>
+
+          {/* Right — nav */}
+          <nav className="flex items-center gap-1 shrink-0">
             {user?.role === 'admin' && (
               <Link href="/admin">
-                <Button variant="ghost" size="sm" className="text-xs font-medium">
+                <Button variant="ghost" size="sm" className="text-xs text-muted-foreground hover:text-foreground h-8">
                   관리자
                 </Button>
               </Link>
             )}
             {user ? (
-              <Button variant="outline" size="sm" onClick={handleLogout} className="gap-1.5 text-xs ml-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleLogout}
+                className="gap-1.5 text-xs text-muted-foreground hover:text-foreground h-8"
+              >
                 <LogOut className="h-3.5 w-3.5" />
                 로그아웃
               </Button>
             ) : (
               <Link href="/login">
-                <Button size="sm" className="text-xs ml-2">로그인</Button>
+                <Button size="sm" className="text-xs h-8">로그인</Button>
               </Link>
             )}
           </nav>
@@ -467,14 +474,15 @@ export default function VerifyPage() {
                   <button
                     key={vt.id}
                     onClick={() => { setSelectedType(vt.id); setResult(null); }}
-                    className={`relative p-3 rounded-lg border text-left transition-all ${
+                    className={`relative p-3 rounded-lg border text-left transition-all overflow-hidden ${
                       selectedType === vt.id
                         ? 'border-primary bg-primary/5 shadow-sm'
                         : 'border-border bg-card hover:border-primary/40 hover:bg-muted/20'
                     }`}
                   >
+                    {/* Active indicator — left border accent via pseudo element */}
                     {selectedType === vt.id && (
-                      <div className="absolute top-0 left-0 right-0 h-0.5 bg-primary rounded-t-lg" />
+                      <span className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary rounded-l-lg" />
                     )}
                     <div className={`mb-1.5 ${selectedType === vt.id ? 'text-primary' : 'text-muted-foreground'}`}>
                       {vt.icon}
