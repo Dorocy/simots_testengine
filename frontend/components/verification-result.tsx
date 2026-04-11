@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   ChevronDown,
@@ -415,6 +414,35 @@ export function VerificationResult({
     return 'idle';
   };
 
+  // 오류 코드 패턴에 따라 심각도 색상 반환
+  const getErrorSeverity = (code: string): 'critical' | 'warning' | 'info' => {
+    const c = code.toUpperCase();
+    if (c.includes('INVALID') || c.includes('MISSING') || c.includes('NULL') || c.includes('NETWORK')) return 'critical';
+    if (c.includes('WARN') || c.includes('MISMATCH') || c.includes('TYPE')) return 'warning';
+    return 'info';
+  };
+
+  const SEVERITY_STYLES = {
+    critical: {
+      badge: 'bg-destructive/15 text-destructive border-destructive/40',
+      border: 'border-destructive/25',
+      header: 'bg-destructive/5',
+      dot: 'bg-destructive',
+    },
+    warning: {
+      badge: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/40',
+      border: 'border-amber-500/25',
+      header: 'bg-amber-500/5',
+      dot: 'bg-amber-500',
+    },
+    info: {
+      badge: 'bg-primary/10 text-primary border-primary/30',
+      border: 'border-primary/20',
+      header: 'bg-primary/[0.04]',
+      dot: 'bg-primary',
+    },
+  };
+
   const getSuggestionSourceLabel = (suggestion?: LlmFixSuggestion): '규칙 기반' | 'LLM' => {
     const raw = suggestion?.raw as { source?: string } | undefined;
     return raw?.source === 'rule_based_fix' ? '규칙 기반' : 'LLM';
@@ -529,23 +557,25 @@ export function VerificationResult({
                   </div>
 
                   {/* Terminal log */}
-                  <div className="px-4 py-3 max-h-32 overflow-y-auto space-y-0.5">
+                  <div className="px-4 py-3 max-h-36 overflow-y-auto space-y-px">
                     {analysisLogs.map((log, i) => (
                       <div
                         key={i}
-                        className={`leading-5 ${
+                        className={`log-line leading-5 ${
                           log.startsWith('[done]')
                             ? 'text-[hsl(142_71%_55%)]'
                             : log.startsWith('[error]')
                               ? 'text-[hsl(0_72%_65%)]'
                               : log.startsWith('[llm]')
-                                ? 'text-[hsl(217_91%_70%)]'
-                                : 'text-white/45'
+                                ? 'text-[hsl(217_91%_72%)]'
+                                : log.startsWith('[patch]')
+                                  ? 'text-[hsl(142_60%_60%)]'
+                                  : 'text-white/40'
                         }`}
                       >
                         {log}
                         {i === analysisLogs.length - 1 && isRequestingSelected && (
-                          <span className="inline-block w-1.5 h-3.5 bg-[hsl(217_91%_58%)] ml-0.5 animate-pulse align-middle" />
+                          <span className="cursor-blink inline-block w-1.5 h-3.5 bg-[hsl(217_91%_58%)] ml-0.5 align-middle" />
                         )}
                       </div>
                     ))}
@@ -587,17 +617,19 @@ export function VerificationResult({
                 const isExpanded = expandedGroups[code] ?? index === 0;
                 const visible = isExpanded ? grouped : grouped.slice(0, INITIAL_GROUP_ITEM_LIMIT);
                 const hiddenCount = grouped.length - visible.length;
+                const severity = getErrorSeverity(code);
+                const sev = SEVERITY_STYLES[severity];
 
                 return (
                   <div
                     key={code}
-                    className="rounded-md border border-border overflow-hidden"
+                    className={`rounded-md border overflow-hidden ${sev.border}`}
                   >
                     {/* Group header */}
                     <button
                       type="button"
                       onClick={() => toggleGroup(code)}
-                      className="w-full flex items-center justify-between px-3 py-2.5 bg-muted/30 hover:bg-muted/50 transition-colors text-left"
+                      className={`w-full flex items-center justify-between px-3 py-2.5 ${sev.header} hover:brightness-[0.97] transition-all text-left`}
                     >
                       <div className="flex items-center gap-2">
                         {isExpanded ? (
@@ -605,71 +637,104 @@ export function VerificationResult({
                         ) : (
                           <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
                         )}
-                        <span className="text-xs font-mono font-semibold text-destructive">{code}</span>
+                        {/* Severity dot */}
+                        <span className={`h-1.5 w-1.5 rounded-full shrink-0 ${sev.dot}`} />
+                        <span className={`text-xs font-mono font-semibold ${sev.badge.includes('destructive') ? 'text-destructive' : sev.badge.includes('amber') ? 'text-amber-600 dark:text-amber-400' : 'text-primary'}`}>
+                          {code}
+                        </span>
                       </div>
-                      <Badge variant="destructive" className="text-[10px] font-mono h-5">
+                      <span className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border ${sev.badge}`}>
                         {grouped.length}
-                      </Badge>
+                      </span>
                     </button>
 
                     {/* Error items */}
                     {isExpanded && (
-                      <div className="divide-y divide-border">
+                      <div className="divide-y divide-border/60">
                         {visible.map((error, itemIndex) => {
                           const status = fixStatuses[error.id] ?? 'idle';
                           const hasSuggestion = !!fixSuggestions[error.id];
+                          const isFixed = status === 'generated';
+
                           return (
-                            <div key={`${code}-${itemIndex}`} className="p-3 bg-card">
+                            <div
+                              key={`${code}-${itemIndex}`}
+                              className={`p-3 bg-card transition-colors ${isFixed ? 'bg-[hsl(142_71%_45%_/_0.03)]' : ''}`}
+                            >
                               <div className="flex items-start justify-between gap-3">
                                 <div className="flex-1 min-w-0">
                                   <p className="text-xs text-foreground/80 leading-relaxed">
                                     {error.message}
                                   </p>
                                   {error.location && (
-                                    <p className="text-[10px] text-muted-foreground mt-1 font-mono truncate">
+                                    <p className="text-[10px] text-muted-foreground mt-0.5 font-mono truncate">
                                       @ {error.location}
                                     </p>
                                   )}
                                 </div>
-                                <Badge
-                                  variant={getFixStatusVariant(status)}
-                                  className="text-[10px] font-mono shrink-0 h-5"
-                                >
-                                  {getFixStatusLabel(status)}
-                                </Badge>
+                                {status !== 'idle' && (
+                                  <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border shrink-0 ${
+                                    isFixed
+                                      ? 'bg-[hsl(142_71%_45%_/_0.12)] text-[hsl(142_71%_45%)] border-[hsl(142_71%_45%_/_0.35)]'
+                                      : status === 'failed'
+                                        ? 'bg-destructive/10 text-destructive border-destructive/30'
+                                        : 'bg-muted text-muted-foreground border-border'
+                                  }`}>
+                                    {getFixStatusLabel(status)}
+                                  </span>
+                                )}
                               </div>
 
-                              {/* Diff view for fix suggestion */}
+                              {/* Diff view */}
                               {(hasSuggestion || sentSnippets[error.id]) && (
-                                <div className="mt-3 grid gap-2 md:grid-cols-2">
-                                  <div className="rounded border border-border bg-muted/20 overflow-hidden">
-                                    <div className="flex items-center gap-1.5 px-2.5 py-1.5 border-b border-border bg-muted/40">
-                                      <span className="text-[10px] font-mono text-muted-foreground">before</span>
+                                <div className="mt-3 grid gap-2 md:grid-cols-2 font-mono">
+                                  {/* Before */}
+                                  <div className="rounded border border-border bg-[hsl(0_0%_0%_/_0.02)] dark:bg-[hsl(0_0%_100%_/_0.02)] overflow-hidden">
+                                    <div className="flex items-center gap-1.5 px-2.5 py-1.5 border-b border-border bg-muted/30">
+                                      <span className="text-[9px] font-semibold text-muted-foreground uppercase tracking-wide">before</span>
                                     </div>
-                                    <pre className="text-[10px] leading-4 text-muted-foreground whitespace-pre-wrap break-words p-2.5 max-h-28 overflow-y-auto">
-                                      {getAnchorPair(fixSuggestions[error.id])
+                                    <div className="p-2.5 max-h-32 overflow-y-auto">
+                                      {(getAnchorPair(fixSuggestions[error.id])
                                         ? JSON.stringify(getAnchorPair(fixSuggestions[error.id])?.broken_anchor ?? {}, null, 2)
-                                        : (sentSnippets[error.id] ?? '—')}
-                                    </pre>
+                                        : (sentSnippets[error.id] ?? '—')
+                                      ).split('\n').map((line, li) => (
+                                        <div key={li} className="text-[10px] leading-[1.6] text-muted-foreground whitespace-pre">
+                                          {line || ' '}
+                                        </div>
+                                      ))}
+                                    </div>
                                   </div>
-                                  <div className="rounded border border-[hsl(var(--success)_/_0.3)] bg-[hsl(var(--success)_/_0.04)] overflow-hidden">
-                                    <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-[hsl(var(--success)_/_0.2)] bg-[hsl(var(--success)_/_0.06)]">
-                                      <span className="text-[10px] font-mono text-[hsl(var(--success))]">after</span>
-                                      <span className="text-[9px] font-mono text-muted-foreground">
+                                  {/* After */}
+                                  <div className="rounded border border-[hsl(142_71%_45%_/_0.35)] bg-[hsl(142_71%_45%_/_0.03)] overflow-hidden">
+                                    <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-[hsl(142_71%_45%_/_0.2)] bg-[hsl(142_71%_45%_/_0.06)]">
+                                      <span className="text-[9px] font-semibold text-[hsl(142_71%_45%)] uppercase tracking-wide">after</span>
+                                      <span className="text-[9px] text-muted-foreground">
                                         {getSuggestionSourceLabel(fixSuggestions[error.id])}
                                       </span>
                                     </div>
-                                    <pre className="text-[10px] leading-4 text-muted-foreground whitespace-pre-wrap break-words p-2.5 max-h-28 overflow-y-auto">
-                                      {getAnchorPair(fixSuggestions[error.id]) ? (
-                                        JSON.stringify(getAnchorPair(fixSuggestions[error.id])?.corrected_anchor ?? {}, null, 2)
-                                      ) : (
-                                        fixSuggestions[error.id]?.fixedSnippet ??
-                                        fixSuggestions[error.id]?.patch ??
-                                        fixSuggestions[error.id]?.summary ??
-                                        fixSuggestions[error.id]?.reason ??
-                                        '...'
-                                      )}
-                                    </pre>
+                                    <div className="p-2.5 max-h-32 overflow-y-auto">
+                                      {(getAnchorPair(fixSuggestions[error.id])
+                                        ? JSON.stringify(getAnchorPair(fixSuggestions[error.id])?.corrected_anchor ?? {}, null, 2)
+                                        : (fixSuggestions[error.id]?.fixedSnippet ??
+                                           fixSuggestions[error.id]?.patch ??
+                                           fixSuggestions[error.id]?.summary ??
+                                           fixSuggestions[error.id]?.reason ??
+                                           '...')
+                                      ).split('\n').map((line, li) => (
+                                        <div
+                                          key={li}
+                                          className={`text-[10px] leading-[1.6] whitespace-pre ${
+                                            line.startsWith('+')
+                                              ? 'text-[hsl(142_71%_50%)] bg-[hsl(142_71%_45%_/_0.08)] px-0.5 rounded-sm'
+                                              : line.startsWith('-')
+                                                ? 'text-destructive/70 bg-destructive/5 px-0.5 rounded-sm'
+                                                : 'text-[hsl(142_60%_45%)]'
+                                          }`}
+                                        >
+                                          {line || ' '}
+                                        </div>
+                                      ))}
+                                    </div>
                                   </div>
                                 </div>
                               )}
@@ -681,7 +746,7 @@ export function VerificationResult({
                           <button
                             type="button"
                             onClick={() => toggleGroup(code)}
-                            className="w-full py-2 text-xs text-muted-foreground hover:text-foreground font-mono transition-colors bg-muted/20 hover:bg-muted/40"
+                            className="w-full py-2 text-[11px] text-muted-foreground hover:text-foreground font-mono transition-colors bg-muted/10 hover:bg-muted/30"
                           >
                             + {hiddenCount}개 더 보기
                           </button>
