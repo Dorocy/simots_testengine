@@ -210,17 +210,6 @@ export function VerificationResult({
     return result;
   };
 
-  const downloadUpdatedFile = () => {
-    if (!updatedFileContent) return;
-    const blob = new Blob([updatedFileContent], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName ? `${fileName.replace(/\.json$/i, '')}.fixed.json` : 'model.fixed.json';
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
   const effectiveSuccess = liveResult?.success ?? success;
   const effectiveMessage = liveResult?.message ?? message;
   const effectiveErrors = liveResult?.errors ?? errors;
