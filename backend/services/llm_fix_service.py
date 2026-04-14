@@ -12,12 +12,13 @@ from services.aas_normalize_service import build_updated_file_from_rules_and_nor
 
 REPAIR_API_URL = os.getenv(
     "REPAIR_API_URL",
-    "https://ireland-regulatory-somehow-possible.trycloudflare.com/repair",
+    "https://overhead-anticipated-carroll-rainbow.trycloudflare.com/repair",
 ).rstrip("/")
 REPAIR_TIMEOUT_SECONDS = float(os.getenv("REPAIR_TIMEOUT_SECONDS", "120"))
 REVERIFY_BASE_URL = os.getenv(
     "REVERIFY_BASE_URL",
-    os.getenv("VERIFICATION_PROXY_URL", "https://code-distribution-connectivity-lawyers.trycloudflare.com"),
+    os.getenv("VERIFICATION_PROXY_URL", "https://overhead-anticipated-carroll-rainbow.trycloudflare.com "),
+    
 ).rstrip("/")
 
 
