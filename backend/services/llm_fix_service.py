@@ -17,8 +17,7 @@ REPAIR_API_URL = os.getenv(
 REPAIR_TIMEOUT_SECONDS = float(os.getenv("REPAIR_TIMEOUT_SECONDS", "120"))
 REVERIFY_BASE_URL = os.getenv(
     "REVERIFY_BASE_URL",
-    os.getenv("VERIFICATION_PROXY_URL", "https://overhead-anticipated-carroll-rainbow.trycloudflare.com "),
-    
+    os.getenv("VERIFICATION_PROXY_URL", "https://overhead-anticipated-carroll-rainbow.trycloudflare.com"),
 ).rstrip("/")
 
 
