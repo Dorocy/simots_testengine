@@ -99,6 +99,7 @@ export function VerificationResult({
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
   const [fixStatuses, setFixStatuses] = useState<Record<string, FixStatus>>({});
   const [fixSuggestions, setFixSuggestions] = useState<Record<string, LlmFixSuggestion>>({});
+  const [latestRepairSuggestions, setLatestRepairSuggestions] = useState<LlmFixSuggestion[]>([]);
   const [sentSnippets, setSentSnippets] = useState<Record<string, string>>({});
   const [isRequestingSelected, setIsRequestingSelected] = useState(false);
   const [isReverifying, setIsReverifying] = useState(false);
@@ -114,6 +115,7 @@ export function VerificationResult({
     setLiveResult(null);
     setFixStatuses({});
     setFixSuggestions({});
+    setLatestRepairSuggestions([]);
     setSentSnippets({});
     setUpdatedFileContent(null);
     setExpandedGroups({});
@@ -226,6 +228,80 @@ export function VerificationResult({
     targets: Array<VerificationError & { id: string }>,
     suggestions: LlmFixSuggestion[],
   ): Record<string, LlmFixSuggestion> => {
+    const normalizeText = (value: string) =>
+      value
+        .toLowerCase()
+        .replace(/[`"'“”‘’]/g, '')
+        .replace(/[_-]/g, ' ')
+        .replace(/[()[\]{},.:;!?]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    const normalizeLocation = (value?: string) =>
+      normalizeText(value ?? '')
+        .replace(/\s*\/\s*/g, '/')
+        .replace(/\/+/g, '/')
+        .trim();
+
+    const getSuggestionErrorKeys = (suggestion: LlmFixSuggestion) => {
+      const raw = suggestion.raw as {
+        anchorPair?: { error_messages?: string[] };
+      } | undefined;
+      const anchorMessages = raw?.anchorPair?.error_messages ?? [];
+      return anchorMessages
+        .map((msg) => {
+          const fullText = String(msg ?? '').trim();
+          const atIndex = fullText.lastIndexOf(' @ /');
+          const messageKey = normalizeText(
+            atIndex >= 0 ? fullText.slice(0, atIndex).trim() : fullText,
+          );
+          const locationKey = normalizeLocation(
+            atIndex >= 0 ? fullText.slice(atIndex + 3).trim() : '',
+          );
+          return {
+            fullKey: `${messageKey}|${locationKey}`,
+            messageKey,
+            locationKey,
+          };
+        })
+        .filter((entry) => entry.messageKey || entry.locationKey);
+    };
+
+    const buildErrorKeys = (error: VerificationError & { id: string }) => {
+      const messageKey = normalizeText(error.message.trim());
+      const locationKey = normalizeLocation(error.location?.trim() ?? '');
+      const fullKey = `${messageKey}|${locationKey}`;
+      return { messageKey, locationKey, fullKey };
+    };
+
+    const scoreSuggestion = (
+      error: VerificationError & { id: string },
+      suggestion: LlmFixSuggestion,
+    ) => {
+      let score = 0;
+      const { messageKey: targetMessage, locationKey: targetLocation, fullKey } = buildErrorKeys(error);
+      const suggestionKeys = getSuggestionErrorKeys(suggestion);
+
+      for (const key of suggestionKeys) {
+        if (fullKey === key.fullKey) score += 100;
+        if (targetMessage && targetMessage === key.messageKey) score += 50;
+        if (targetLocation && targetLocation === key.locationKey) score += 35;
+        if (targetLocation && key.locationKey && (
+          targetLocation.endsWith(key.locationKey) || key.locationKey.endsWith(targetLocation)
+        )) score += 20;
+        if (targetMessage && key.messageKey && (
+          targetMessage.includes(key.messageKey) || key.messageKey.includes(targetMessage)
+        )) score += 15;
+      }
+
+      const summaryKey = normalizeText(suggestion.summary?.trim() ?? '');
+      if (summaryKey && targetMessage === summaryKey) score += 25;
+      else if (summaryKey && (targetMessage.includes(summaryKey) || summaryKey.includes(targetMessage))) {
+        score += 10;
+      }
+
+      return score;
+    };
+
     const byErrorId = new Map<string, LlmFixSuggestion>();
     const byExactMessageLocation = new Map<string, LlmFixSuggestion[]>();
     const byMessageLocation = new Map<string, LlmFixSuggestion[]>();
@@ -264,12 +340,12 @@ export function VerificationResult({
       anchorMessages.forEach((msg) => {
         const fullText = String(msg ?? '').trim();
         const atIndex = fullText.lastIndexOf(' @ /');
-        const normalizedMessage = atIndex >= 0
-          ? fullText.slice(0, atIndex).trim()
-          : fullText;
-        const normalizedLocation = atIndex >= 0
-          ? fullText.slice(atIndex + 3).trim()
-          : '';
+        const normalizedMessage = normalizeText(
+          atIndex >= 0 ? fullText.slice(0, atIndex).trim() : fullText,
+        );
+        const normalizedLocation = normalizeLocation(
+          atIndex >= 0 ? fullText.slice(atIndex + 3).trim() : '',
+        );
 
         if (normalizedMessage || normalizedLocation) {
           pushToQueue(
@@ -290,21 +366,54 @@ export function VerificationResult({
       });
 
       if (suggestion.summary?.trim()) {
-        pushToQueue(byMessage, suggestion.summary.trim(), suggestion);
+        pushToQueue(byMessage, normalizeText(suggestion.summary.trim()), suggestion);
       }
     }
 
     const mappedSuggestions: Record<string, LlmFixSuggestion> = {};
+    const remainingSuggestions = [...suggestions];
     targets.forEach((error) => {
-      const targetMessage = error.message.trim();
-      const targetLocation = error.location?.trim() ?? '';
-      const mapped =
+      const { messageKey: targetMessage, locationKey: targetLocation, fullKey } = buildErrorKeys(error);
+      let mapped =
         byErrorId.get(error.id) ??
-        consumeFromQueue(byExactMessageLocation, `${targetMessage}|${targetLocation}`) ??
+        consumeFromQueue(byExactMessageLocation, fullKey) ??
         consumeFromQueue(byMessageLocation, `${targetMessage}|${targetLocation}`) ??
         consumeFromQueue(byMessage, targetMessage);
+
+      if (!mapped && remainingSuggestions.length > 0) {
+        let bestIndex = -1;
+        let bestScore = 0;
+        remainingSuggestions.forEach((suggestion, index) => {
+          const score = scoreSuggestion(error, suggestion);
+          if (score > bestScore) {
+            bestScore = score;
+            bestIndex = index;
+          }
+        });
+        if (bestIndex >= 0 && bestScore > 0) {
+          mapped = remainingSuggestions.splice(bestIndex, 1)[0];
+        }
+      } else if (mapped) {
+        const matchedIndex = remainingSuggestions.indexOf(mapped);
+        if (matchedIndex >= 0) {
+          remainingSuggestions.splice(matchedIndex, 1);
+        }
+      }
+
+      if (!mapped && remainingSuggestions.length === 1) {
+        mapped = remainingSuggestions.shift();
+      }
+
       if (mapped) mappedSuggestions[error.id] = mapped;
     });
+
+    if (remainingSuggestions.length > 0) {
+      targets.forEach((error) => {
+        if (!mappedSuggestions[error.id] && remainingSuggestions.length > 0) {
+          mappedSuggestions[error.id] = remainingSuggestions.shift() as LlmFixSuggestion;
+        }
+      });
+    }
 
     return mappedSuggestions;
   };
@@ -390,6 +499,7 @@ export function VerificationResult({
     }
 
     const successResponse = llmResponse;
+    setLatestRepairSuggestions(successResponse.suggestions ?? []);
 
     const llmMappedSuggestions = mapSuggestionsToErrors(targets, successResponse.suggestions ?? []);
     assignSuggestionsToErrors(targets, llmMappedSuggestions);
@@ -524,6 +634,11 @@ export function VerificationResult({
     } | undefined;
     return raw?.anchorPair;
   };
+
+  const unmatchedRepairSuggestions = useMemo(() => {
+    const matched = new Set(Object.values(fixSuggestions));
+    return latestRepairSuggestions.filter((suggestion) => !matched.has(suggestion));
+  }, [fixSuggestions, latestRepairSuggestions]);
 
   return (
     <div className={`rounded-b-lg border-x border-b overflow-hidden ${effectiveSuccess ? 'border-[hsl(var(--success)_/_0.3)]' : 'border-destructive/30'}`}>
@@ -681,6 +796,33 @@ export function VerificationResult({
                       <div className="font-semibold">{stat.value}</div>
                     </div>
                   ))}
+                </div>
+              )}
+
+              {unmatchedRepairSuggestions.length > 0 && (
+                <div className="border-t border-primary/10 bg-background/40 px-4 py-3 space-y-2">
+                  <p className="text-[10px] font-mono text-muted-foreground">
+                    매칭되지 않은 LLM 응답 {unmatchedRepairSuggestions.length}건
+                  </p>
+                  {unmatchedRepairSuggestions.map((suggestion, index) => {
+                    const anchorPair = getAnchorPair(suggestion);
+                    return (
+                      <div key={`${suggestion.errorId ?? 'unmatched'}-${index}`} className="grid gap-2 md:grid-cols-2">
+                        <div className="rounded border border-border p-2">
+                          <div className="text-[9px] font-semibold uppercase tracking-wide text-muted-foreground mb-1">before</div>
+                          <pre className="text-[10px] leading-[1.5] whitespace-pre-wrap break-words text-muted-foreground">
+                            {JSON.stringify(anchorPair?.broken_anchor ?? {}, null, 2)}
+                          </pre>
+                        </div>
+                        <div className="rounded border border-[hsl(142_71%_45%_/_0.35)] bg-[hsl(142_71%_45%_/_0.03)] p-2">
+                          <div className="text-[9px] font-semibold uppercase tracking-wide text-[hsl(142_71%_45%)] mb-1">after</div>
+                          <pre className="text-[10px] leading-[1.5] whitespace-pre-wrap break-words text-[hsl(142_60%_45%)]">
+                            {JSON.stringify(anchorPair?.corrected_anchor ?? {}, null, 2)}
+                          </pre>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>

@@ -292,13 +292,17 @@ async function parseFixResponse(response: Response): Promise<LlmFixResponse> {
     };
   }
 
-  const anchorPairs = normalizeAnchorPairs(payload?.anchor_pairs);
-  if (payload?.status === "success" && anchorPairs.length > 0) {
+  const anchorPairs = normalizeAnchorPairs(
+    payload?.anchor_pairs ?? payload?.data?.anchor_pairs,
+  );
+  if (anchorPairs.length > 0) {
     return {
       success: true,
       message:
         typeof payload?.llm_summary?.message === "string"
           ? payload.llm_summary.message
+          : typeof payload?.data?.llm_summary?.message === "string"
+            ? payload.data.llm_summary.message
           : typeof payload?.status === "string"
             ? payload.status
             : "LLM repair completed.",
@@ -306,8 +310,12 @@ async function parseFixResponse(response: Response): Promise<LlmFixResponse> {
       updatedFile:
         typeof payload?.patched_json === "string"
           ? payload.patched_json
+          : typeof payload?.data?.patched_json === "string"
+            ? payload.data.patched_json
           : payload?.patched_json && typeof payload.patched_json === "object"
             ? stringifyJson(payload.patched_json)
+            : payload?.data?.patched_json && typeof payload.data.patched_json === "object"
+              ? stringifyJson(payload.data.patched_json)
           : undefined,
       raw: payload,
     };
