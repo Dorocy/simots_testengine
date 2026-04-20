@@ -4,13 +4,13 @@ const FIX_API_ENDPOINT =
 const RULE_FIX_API_ENDPOINT =
   process.env.NEXT_PUBLIC_RULE_FIX_ENDPOINT ?? `${API_BASE_URL}/verification/rule-fix`;
 const LLM_REPAIR_API_ENDPOINT =
-  process.env.NEXT_PUBLIC_REPAIR_FIX_ENDPOINT ?? "https://stranger-carbon-intervals-modes.trycloudflare.com/repair";
+  process.env.NEXT_PUBLIC_REPAIR_FIX_ENDPOINT ?? "https://amounts-current-saturn-courts.trycloudflare.com/repair";
 const DIRECT_FIX_ENDPOINT =
   process.env.NEXT_PUBLIC_DIRECT_FIX_ENDPOINT ?? "https://simotstestengine-production.up.railway.app/verification/fix";
 const DIRECT_RULE_FIX_ENDPOINT =
   process.env.NEXT_PUBLIC_DIRECT_RULE_FIX_ENDPOINT ?? "https://simotstestengine-production.up.railway.app/verification/rule-fix";
 const DIRECT_LLM_REPAIR_ENDPOINT =
-  process.env.NEXT_PUBLIC_DIRECT_LLM_REPAIR_ENDPOINT ?? "https://stranger-carbon-intervals-modes.trycloudflare.com/repair";
+  process.env.NEXT_PUBLIC_DIRECT_LLM_REPAIR_ENDPOINT ?? "https://amounts-current-saturn-courts.trycloudflare.com/repair";
 
 export interface VerificationResult {
   success: boolean;
